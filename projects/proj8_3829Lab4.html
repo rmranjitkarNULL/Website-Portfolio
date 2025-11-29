@@ -49,7 +49,12 @@
 
 					<!-- Section 1 -->
 					<section>
-						<img src="../assets/images/underConstruction.jpg" alt="" data-position="top center" />
+						<img 
+							src="../assets/images/under-construction-warning-sign-vector.jpg" 
+							alt="ba" 
+							data-position="top center"
+							onerror="this.onerror=null; this.src='../assets/images/under-construction-warning-sign-vector.jpg';"
+						/>
 						<div class="content">
 							<div class="inner">
 								<header class="major">
@@ -70,14 +75,19 @@
 
 					<!-- Section 2 -->
 					<section>
-						<img src="../assets/images/underConstruction.jpg" alt="" data-position="top center" />
+						<img 
+							src="../assets/images/underConstruction.jpg" 
+							alt="" 
+							data-position="top center"
+							onerror="this.onerror=null; this.src='../assets/images/under-construction-warning-sign-vector.jpg';"
+						/>
 						<div class="content">
 							<div class="inner">
 								<header class="major">
 									<h3>Module Development</h3>
 								</header>
 								<p>
-									The <strong>sensor_i-'/.0;9l,5mn7j6h vg54fcnterface</strong> module communicated with the PMOD ALS using SPI protocol. A 24-bit counter set the 1 Hz sampling period, while a 15-bit shift register captured data on each falling edge of <code>SCLK</code>. 
+									The <strong>sensor_interface</strong> module communicated with the PMOD ALS using SPI protocol. A 24-bit counter set the 1 Hz sampling period, while a 15-bit shift register captured data on each falling edge of <code>SCLK</code>. 
 									A finite-state machine handled the sequence: <em>IDLE → WAIT → READ → DONE</em>, ensuring chip-select timing and SPI alignment with a simulated 40 ns access delay (<em>T<sub>ACC</sub></em>). 
 									Each module—clock, interface, and display—was individually verified in Vivado simulations before integration.
 								</p>
@@ -90,7 +100,12 @@
 
 					<!-- NEW Section: Testbench -->
 					<section>
-						<img src="../assets/images/underConstruction.jpg" alt="" data-position="top center" />
+						<img 
+							src="../assets/images/underConstruction.jpg" 
+							alt="" 
+							data-position="top center"
+							onerror="this.onerror=null; this.src='../assets/images/under-construction-warning-sign-vector.jpg';"
+						/>
 						<div class="content">
 							<div class="inner">
 								<header class="major">
@@ -108,7 +123,7 @@
 								</p>
 								<p>
 									After all 16 bits were captured, bits [11:4] were extracted and compared to the expected value. 
-									Pass/fail messaWPIges were printed to the console in the form:
+									Pass/fail messages were printed to the console in the form:
 									<code>PASS: Expected = %h, Received = %h at time = %t ps</code>. 
 									All four iterations passed successfully, confirming correct SPI alignment, serial shifting, and timing behavior. 
 									The simulation waveforms clearly demonstrated the 40 ns delay between <code>SCLK</code> falling edges and valid <code>SDO</code> output, validating the BFM model and the design’s robustness.
@@ -119,10 +134,15 @@
 
 					<!-- Section 3 -->
 					<section>
-						<img src="../assets/images/underConstruction.jpg" alt="" data-position="top center" />
+						<img 
+							src="../assets/images/underConstruction.jpg" 
+							alt="" 
+							data-position="top center"
+							onerror="this.onerror=null; this.src='../assets/images/under-construction-warning-sign-vector.jpg';"
+						/>
 						<div class="content">	
 							<div class="inner">
-								<header class=WPI"major">
+								<header class="major">
 									<h3>Results &amp; Reflection</h3>
 								</header>
 								<p>
