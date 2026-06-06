@@ -12,13 +12,6 @@
       /* ── Page shell ── */
       body, #wrapper { background: #0f1210; }
 
-      #header {
-        background: transparent !important;
-        border-bottom: 1px solid rgba(200,200,210,0.07) !important;
-      }
-      #header a.logo strong { color: #fff; }
-      #header a.logo span   { color: rgba(200,200,210,0.5); }
-
       /* ── About hero ── */
       .about-hero {
         padding: 4em 3em 2.5em;
@@ -41,6 +34,7 @@
         transition: color 0.2s;
       }
       .about-back:hover { color: #7eb8b0; }
+      .about-back-bottom { margin-bottom: 0; margin-top: 2.5em; display: block; }
 
       .section-comment {
         font-family: ui-monospace, 'Cascadia Mono', 'Fira Code', 'Courier New', monospace;
@@ -184,13 +178,50 @@
         line-height: 1.5;
       }
 
-      /* ── Contact ── */
-      .split.contact-reveal {
+      /* ── Unified contact ── */
+      .unified-contact {
+        display: flex;
+        justify-content: center;
+        gap: 3em;
+        flex-wrap: wrap;
+        padding: 2.5em 1em 3em;
+        border-top: 1px solid rgba(200,200,210,0.07);
+        max-width: 65em;
+        margin: 0 auto;
+        width: calc(100% - 6em);
+        box-sizing: border-box;
         opacity: 0;
         transform: translateY(12px);
         transition: opacity 0.55s ease, transform 0.55s ease;
       }
-      .split.contact-reveal.visible { opacity: 1; transform: none; }
+      .unified-contact.visible { opacity: 1; transform: none; }
+      .unified-contact-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.35em;
+        text-align: center;
+      }
+      .unified-contact-item i { font-size: 1.1em; color: #7eb8b0; margin-bottom: 0.1em; }
+      .uc-label {
+        font-family: ui-monospace, 'Cascadia Mono', monospace;
+        font-size: 0.68em;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: rgba(200,200,210,0.3);
+        font-weight: 600;
+      }
+      .unified-contact-item a {
+        font-size: 0.88em;
+        color: rgba(200,200,210,0.6);
+        text-decoration: none;
+        border: 0;
+        transition: color 0.2s;
+      }
+      .unified-contact-item a:hover { color: #7eb8b0; }
+      @media (max-width: 736px) {
+        .unified-contact { gap: 2em; width: calc(100% - 3em); }
+      }
 
       /* ── Reveal ── */
       .reveal { opacity: 0; transform: translateY(14px); transition: opacity 0.55s ease, transform 0.55s ease; }
@@ -214,20 +245,9 @@
   <body class="is-preload">
     <div id="wrapper">
 
-      <header id="header">
-        <a href="index.html" class="logo"><strong>Ryan</strong> <span>Ranjitkar</span></a>
-        <nav><a href="#menu">Menu</a></nav>
-      </header>
-
-      <nav id="menu">
-        <ul class="links">
-          <li><a href="index.html">Home</a></li>
-        </ul>
-      </nav>
-
       <div class="about-hero">
 
-        <a href="index.html" class="about-back">← back to home</a>
+        <a href="#" class="about-back" onclick="history.back(); return false;">← go back</a>
 
         <p class="section-comment">// about me</p>
         <h1 class="about-name">ryan ranjitkar</h1>
@@ -300,29 +320,28 @@
           </div>
         </div>
 
+        <a href="#" class="about-back about-back-bottom" onclick="history.back(); return false;">← also go back</a>
+
       </div>
 
       <!-- Contact -->
-      <section class="split contact-reveal">
-        <section>
-          <div class="contact-method">
-            <h3><span class="icon solid alt fa-envelope"></span> email</h3>
-            <a href="mailto:rmranjitkar@wpi.edu">rmranjitkar@wpi.edu</a>
-          </div>
-        </section>
-        <section>
-          <div class="contact-method">
-            <h3><span class="icon brands alt fa-linkedin-in"></span> linkedin</h3>
-            <a href="https://www.linkedin.com/in/ryanranjitkar/">linkedin.com/in/ryanranjitkar</a>
-          </div>
-        </section>
-        <section>
-          <div class="contact-method">
-            <h3><span class="icon brands alt fa-github"></span> github</h3>
-            <a href="https://github.com/rmranjitkar">github.com/rmranjitkar</a>
-          </div>
-        </section>
-      </section>
+      <div class="unified-contact" id="contact">
+        <div class="unified-contact-item">
+          <i class="fas fa-envelope"></i>
+          <span class="uc-label">email</span>
+          <a href="mailto:rmranjitkar@wpi.edu">rmranjitkar@wpi.edu</a>
+        </div>
+        <div class="unified-contact-item">
+          <i class="fab fa-linkedin-in"></i>
+          <span class="uc-label">linkedin</span>
+          <a href="https://www.linkedin.com/in/ryanranjitkar/">linkedin.com/in/ryanranjitkar</a>
+        </div>
+        <div class="unified-contact-item">
+          <i class="fab fa-github"></i>
+          <span class="uc-label">github</span>
+          <a href="https://github.com/rmranjitkarNULL">github.com/rmranjitkarNULL</a>
+        </div>
+      </div>
 
     </div>
 
@@ -344,7 +363,7 @@
         const contactIo = new IntersectionObserver((entries) => {
           entries.forEach(e => { if (!e.isIntersecting) return; contactIo.unobserve(e.target); e.target.classList.add('visible'); });
         }, { threshold: 0.1 });
-        const contact = document.querySelector('.contact-reveal');
+        const contact = document.getElementById('contact');
         if (contact) contactIo.observe(contact);
       });
     </script>

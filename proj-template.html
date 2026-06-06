@@ -26,6 +26,11 @@
         </ul>
       </nav>
 
+      <!-- Back nav -->
+      <div style="padding: 1.5em 0 0; max-width: 65em; margin: 0 auto; width: calc(100% - 6em);">
+        <a href="#" onclick="history.back(); return false;" style="font-family: ui-monospace, 'Cascadia Mono', monospace; font-size: 0.82em; color: rgba(200,200,210,0.45); text-decoration: none; border: 0; transition: color 0.2s; letter-spacing: 0.02em;" onmouseover="this.style.color='#7eb8b0'" onmouseout="this.style.color='rgba(200,200,210,0.45)'">← go back</a>
+      </div>
+
       <!-- Overview Section -->
       <div id="main" class="alt">
         <section id="one">
@@ -133,13 +138,11 @@
         </section>
       </div>
 
-      <!-- View All Projects -->
+      <!-- Back button bottom -->
       <section id="three" class="view-all-centered">
         <div class="inner">
-          <header class="major"><h2>View All Projects</h2></header>
-          <p>Go back and explore my other robotics, automation, and embedded systems projects.</p>
           <ul class="actions">
-            <li><a href="projects.html" class="button next">View All</a></li>
+            <li><a href="#" onclick="history.back(); return false;" class="button">← also go back</a></li>
           </ul>
         </div>
       </section>
@@ -147,28 +150,23 @@
       <br />
 
       <!-- Contact -->
-      <section class="split">
-        <section>
-          <div class="contact-method">
-            <h3><span class="icon solid alt fa-envelope"></span>Email</h3>
-            <a href="mailto:rmranjitkar@wpi.edu">rmranjitkar@wpi.edu</a>
-          </div>
-        </section>
-
-        <section>
-          <div class="contact-method">
-            <h3><span class="icon brands alt fa-linkedin-in"></span>LinkedIn</h3>
-            <a href="https://www.linkedin.com/in/ryanranjitkar/">https://www.linkedin.com/in/ryanranjitkar/</a>
-          </div>
-        </section>
-
-        <section>
-          <div class="contact-method">
-            <h3><span class="icon brands alt fa-github"></span>GitHub</h3>
-            <a href="https://github.com/rmranjitkar">https://github.com/rmranjitkar</a>
-          </div>
-        </section>
-      </section>
+      <div style="display:flex; justify-content:center; gap:3em; flex-wrap:wrap; padding:2.5em 1em 3em; border-top:1px solid rgba(200,200,210,0.07); max-width:65em; margin:0 auto; width:calc(100% - 6em); box-sizing:border-box;">
+        <div style="display:flex; flex-direction:column; align-items:center; gap:0.35em; text-align:center;">
+          <span class="icon solid alt fa-envelope" style="color:#7eb8b0; font-size:1.1em; margin-bottom:0.1em;"></span>
+          <span style="font-family:ui-monospace,monospace; font-size:0.68em; letter-spacing:0.1em; text-transform:uppercase; color:rgba(200,200,210,0.3); font-weight:600;">email</span>
+          <a href="mailto:rmranjitkar@wpi.edu" style="font-size:0.88em; color:rgba(200,200,210,0.6); text-decoration:none; border:0;" onmouseover="this.style.color='#7eb8b0'" onmouseout="this.style.color='rgba(200,200,210,0.6)'">rmranjitkar@wpi.edu</a>
+        </div>
+        <div style="display:flex; flex-direction:column; align-items:center; gap:0.35em; text-align:center;">
+          <span class="icon brands alt fa-linkedin-in" style="color:#7eb8b0; font-size:1.1em; margin-bottom:0.1em;"></span>
+          <span style="font-family:ui-monospace,monospace; font-size:0.68em; letter-spacing:0.1em; text-transform:uppercase; color:rgba(200,200,210,0.3); font-weight:600;">linkedin</span>
+          <a href="https://www.linkedin.com/in/ryanranjitkar/" style="font-size:0.88em; color:rgba(200,200,210,0.6); text-decoration:none; border:0;" onmouseover="this.style.color='#7eb8b0'" onmouseout="this.style.color='rgba(200,200,210,0.6)'">linkedin.com/in/ryanranjitkar</a>
+        </div>
+        <div style="display:flex; flex-direction:column; align-items:center; gap:0.35em; text-align:center;">
+          <span class="icon brands alt fa-github" style="color:#7eb8b0; font-size:1.1em; margin-bottom:0.1em;"></span>
+          <span style="font-family:ui-monospace,monospace; font-size:0.68em; letter-spacing:0.1em; text-transform:uppercase; color:rgba(200,200,210,0.3); font-weight:600;">github</span>
+          <a href="https://github.com/rmranjitkarNULL" style="font-size:0.88em; color:rgba(200,200,210,0.6); text-decoration:none; border:0;" onmouseover="this.style.color='#7eb8b0'" onmouseout="this.style.color='rgba(200,200,210,0.6)'">github.com/rmranjitkarNULL</a>
+        </div>
+      </div>
 
     </div>
 

@@ -68,7 +68,7 @@
         transform: none !important;
         display: flex !important;
         flex-direction: row !important;
-        align-items: flex-start !important;
+        align-items: center !important;
         justify-content: space-between !important;
         gap: 3.5em;
         padding: 2.2em 3em 1.2em !important;
@@ -102,102 +102,256 @@
         margin: 0;
       }
 
-      /* Right column: activity */
-      .banner-right {
-        flex: 0 0 42%;
-        min-width: 0;
-        padding-top: 4em;
-        margin-left: -100em;
-      }
+      /* ── Banner right: 2×2 cards ───────────────── */
+      .banner-right { flex: 0 0 44%; min-width: 0; padding-top: 0.25em; }
+      .banner-cards-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.65em; }
 
-      /* 2×2 activity grid */
-      .banner-activity-grid {
-        display: grid !important;
-        grid-template-columns: 1fr 1fr;
-        column-gap: 1em;
-        row-gap: 0;
-        width: 100%;
-      }
-
-      /* Scoped act-item styles inside the banner grid only */
-      .banner-activity-grid .act-item {
-        display: flex !important;
-        align-items: baseline;
+      /* Base card */
+      .bc-card {
+        background: rgba(10,12,10,0.82);
+        border: 1px solid rgba(200,200,210,0.08);
+        border-left: 3px solid var(--bc-accent, #7eb8b0);
+        border-radius: 6px;
+        padding: 0.8em 0.9em;
+        font-size: 0.78em;
+        display: flex;
+        flex-direction: column;
         gap: 0.55em;
-        padding: 0.38em 0 !important;
-        border-bottom: 1px solid rgba(200,200,210,0.06) !important;
-        border-left: none !important;
-        border-right: none !important;
-        border-top: none !important;
-        background: transparent !important;
-        font-size: 0.82em;
+        overflow: hidden;
+        height: 148px;
       }
-      .banner-activity-grid .act-item:nth-child(3),
-      .banner-activity-grid .act-item:nth-child(4) { border-bottom: none !important; }
-      .banner-activity-grid .act-item:hover { background: transparent !important; }
-      .banner-activity-grid .act-icon {
-        font-size: 0.85em;
-        color: #7eb8b0;
-        flex-shrink: 0;
-        width: 1em;
-        text-align: center;
-        font-style: normal;
+      .bc-header { display: flex; align-items: center; justify-content: space-between; gap: 0.4em; flex-shrink: 0; }
+      .bc-label {
+        font-family: ui-monospace, 'Cascadia Mono', monospace;
+        font-size: 0.7em; letter-spacing: 0.09em; text-transform: uppercase;
+        color: rgba(200,200,210,0.28); font-weight: 600;
       }
-      .banner-activity-grid .act-type {
+      .bc-label-icon { font-size: 0.85em; color: var(--bc-accent, #7eb8b0); }
+
+      /* Card A: Now Playing */
+      .bc-now-playing { --bc-accent: #7eb8b0; }
+      .bc-music-body { display: flex; gap: 0.6em; align-items: flex-start; flex: 1; min-height: 0; }
+      .bc-album-art {
+        width: 52px; height: 56px; border-radius: 4px; background: rgba(200,200,210,0.05);
+        flex-shrink: 0; display: flex; align-items: center; justify-content: center; overflow: hidden;
+      }
+      .bc-album-art img { width: 100%; height: 100%; object-fit: cover; border-radius: 4px; display: block; }
+      .bc-art-placeholder { color: rgba(200,200,210,0.18); font-size: 1.3em; }
+      .bc-music-info { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 0.12em; justify-content: center; }
+      .bc-track  { font-size: 0.92em; font-weight: 500; color: rgba(200,200,210,0.85); margin: 0; line-height: 1.3; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+      .bc-artist { font-size: 0.80em; color: rgba(200,200,210,0.50); margin: 0; line-height: 1.3; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+      .bc-album  { font-size: 0.74em; color: rgba(200,200,210,0.28); margin: 0; line-height: 1.3; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+      .bc-progress-track { height: 3px; background: rgba(200,200,210,0.06); border-radius: 2px; overflow: hidden; flex-shrink: 0; }
+      .bc-progress-fill  { height: 100%; background: #7eb8b0; width: 0; border-radius: 2px; transition: width 0.5s ease; }
+      .bc-progress-scan  { animation: bc-scan 200s linear forwards; }
+      @keyframes bc-scan { 0%{width:0%} 100%{width:100%} }
+      .bc-eq { display: none; align-items: flex-end; gap: 2px; height: 13px; }
+      .bc-eq.active { display: flex; }
+      .bc-eq span { width: 3px; background: #7eb8b0; border-radius: 1px; animation: bc-bar 0.8s ease infinite; }
+      .bc-eq span:nth-child(1){animation-delay:0s;    animation-duration:0.70s}
+      .bc-eq span:nth-child(2){animation-delay:0.10s; animation-duration:0.90s}
+      .bc-eq span:nth-child(3){animation-delay:0.20s; animation-duration:0.75s}
+      .bc-eq span:nth-child(4){animation-delay:0.05s; animation-duration:0.85s}
+      .bc-eq span:nth-child(5){animation-delay:0.15s; animation-duration:0.65s}
+      @keyframes bc-bar { 0%,100%{height:4px} 50%{height:13px} }
+
+      /* Card B: Steam */
+      .bc-steam { --bc-accent: #b09070; }
+      .bc-stat-rows { display: flex; flex-direction: column; flex: 1; }
+      .bc-stat-row { display: flex; justify-content: space-between; align-items: center; padding: 0.28em 0; border-bottom: 1px solid rgba(200,200,210,0.05); font-size: 0.88em; }
+      .bc-stat-row:last-child { border-bottom: none; }
+      .bc-stat-label { color: rgba(200,200,210,0.28); font-size: 0.80em; letter-spacing: 0.04em; }
+      .bc-stat-val   { color: rgba(200,200,210,0.70); font-size: 0.86em; text-align: right; max-width: 65%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+      /* Card C: GitHub */
+      .bc-github { --bc-accent: #6a85c0; }
+      .bc-gh-header { display: flex; align-items: flex-start; gap: 0.6em; flex-shrink: 0; }
+      .bc-gh-avatar  { width: 34px; height: 34px; border-radius: 50%; background: rgba(200,200,210,0.08); flex-shrink: 0; display: block; }
+      .bc-gh-info    { flex: 1; min-width: 0; }
+      .bc-gh-name    { font-size: 0.90em; color: rgba(200,200,210,0.85); font-weight: 600; margin: 0; line-height: 1.25; }
+      .bc-gh-handle  { font-family: ui-monospace,monospace; font-size: 0.76em; color: rgba(200,200,210,0.32); margin: 0 0 0.2em; }
+      .bc-gh-stats   { display: flex; gap: 0.5em; flex-wrap: wrap; }
+      .bc-gh-stats span { font-family: ui-monospace,monospace; font-size: 0.73em; color: rgba(200,200,210,0.42); }
+      .bc-pulse      { width: 7px; height: 7px; border-radius: 50%; background: rgba(200,200,210,0.18); flex-shrink: 0; margin-top: 0.25em; }
+      .bc-pulse.active { background: #7eb8b0; animation: bc-pulse 1.8s ease infinite; }
+      @keyframes bc-pulse { 0%{box-shadow:0 0 0 0 rgba(126,184,176,0.4)} 70%{box-shadow:0 0 0 5px rgba(126,184,176,0)} 100%{box-shadow:0 0 0 0 rgba(126,184,176,0)} }
+      .bc-gh-commit  { display: flex; flex-direction: column; gap: 0.12em; padding: 0.28em 0; border-top: 1px solid rgba(200,200,210,0.05); flex-shrink: 0; }
+      .bc-gh-repo-name  { font-family: ui-monospace,monospace; font-size: 0.78em; color: #6a85c0; }
+      .bc-gh-commit-msg { font-size: 0.82em; color: rgba(200,200,210,0.52); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+      .bc-heatmap { display: flex; gap: 2px; overflow: hidden; flex-shrink: 0; }
+      .bc-heat-cell { width: 8px; height: 8px; border-radius: 1.5px; background: rgba(106,133,192,0.08); flex-shrink: 0; }
+      .bc-heat-cell.l1 { background: rgba(106,133,192,0.22); }
+      .bc-heat-cell.l2 { background: rgba(106,133,192,0.48); }
+      .bc-heat-cell.l3 { background: rgba(106,133,192,0.78); }
+
+      /* Card D: RISC-V */
+      .bc-riscv { --bc-accent: #6b6898; }
+      .bc-planning-badge { font-family: ui-monospace,monospace; font-size: 0.70em; color: rgba(200,200,210,0.28); letter-spacing: 0.06em; }
+      .bc-terminal {
+        background: rgba(3,6,3,0.92); border: 1px solid rgba(80,160,80,0.12); border-radius: 4px;
+        padding: 0.45em 0.6em; font-family: ui-monospace,'Cascadia Mono',monospace;
+        display: flex; flex-direction: column; gap: 0.05em; flex-shrink: 0;
+      }
+      .bc-term-line { font-size: 0.76em; color: rgba(90,210,90,0.72); line-height: 1.5; }
+      .bc-term-reg  { color: rgba(90,210,90,0.38); display: inline-block; width: 3.5em; }
+      .bc-cursor { animation: bc-blink 0.7s steps(1) infinite; }
+      @keyframes bc-blink { 0%,100%{opacity:1} 50%{opacity:0} }
+      .bc-wip { display: flex; flex-direction: column; gap: 0.35em; padding-top: 0.4em; border-top: 1px solid rgba(200,200,210,0.05); }
+      .bc-wip-hdr { display: flex; justify-content: space-between; align-items: center; }
+      .bc-wip-name { font-size: 0.80em; color: rgba(200,200,210,0.65); font-weight: 500; }
+      .bc-wip-pct  { font-family: ui-monospace,monospace; font-size: 0.88em; font-weight: 700; color: #6b6898; }
+      .bc-wip-track { height: 5px; border-radius: 3px; background: rgba(200,200,210,0.06); overflow: hidden; }
+      .bc-wip-fill  { height: 100%; background: linear-gradient(90deg,#3b3868,#6b6898); border-radius: 3px; width: 0; transition: width 1.1s cubic-bezier(0.16,1,0.3,1); position: relative; overflow: hidden; }
+      .bc-wip-fill::after { content:''; position:absolute; top:0; left:-100%; width:100%; height:100%; background:linear-gradient(90deg,transparent,rgba(255,255,255,0.18),transparent); animation: bc-shimmer 2.2s infinite; }
+      @keyframes bc-shimmer { 0%{left:-100%} 100%{left:100%} }
+      .bc-wip-tasks { display: grid; grid-template-columns: 1fr 1fr; gap: 0.4em 0.8em; }
+      .bc-task-label { font-size: 0.64em; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(200,200,210,0.22); font-weight: 600; margin-bottom: 0.25em; }
+      .bc-wip-done ul, .bc-wip-next ul { list-style: none; padding: 0; margin: 0; }
+      .bc-wip-done li, .bc-wip-next li { font-size: 0.79em; color: rgba(200,200,210,0.58); padding: 0.1em 0; display: flex; align-items: flex-start; gap: 0.3em; line-height: 1.35; }
+      .bc-wip-done li::before { content:'✓'; color:#7eb8b0; flex-shrink:0; }
+      .bc-wip-next li::before { content:'→'; color:#b09070; flex-shrink:0; }
+
+      /* ── Activity Ticker ────────────────────────── */
+      .activity-ticker {
+        width: 100%;
+        background: rgba(10,12,10,0.98);
+        border-bottom: 1px solid rgba(200,200,210,0.07);
+        overflow: hidden;
+        position: sticky;
+        top: 0;
+        z-index: 500;
+        height: 2.4em;
+        display: flex;
+        align-items: center;
+      }
+      .ticker-track {
+        display: flex;
+        white-space: nowrap;
+        will-change: transform;
+        animation: ticker-scroll 40s linear infinite;
+      }
+      .ticker-track:hover { animation-play-state: paused; }
+      @keyframes ticker-scroll {
+        from { transform: translateX(0); }
+        to   { transform: translateX(-50%); }
+      }
+      .ticker-copy { display: inline-flex; align-items: center; }
+      .tick-seg {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.42em;
         font-family: ui-monospace, 'Cascadia Mono', 'Courier New', monospace;
         font-size: 0.78em;
-        color: rgba(200,200,210,0.3);
-        flex-shrink: 0;
-        width: 3.8em;
-        letter-spacing: 0.04em;
+        padding: 0 2em;
       }
-      .banner-activity-grid .act-body {
-        flex: 1;
-        display: flex;
-        gap: 0.35em;
-        align-items: baseline;
-        min-width: 0;
-        overflow: hidden;
-      }
-      .banner-activity-grid .act-msg {
-        color: rgba(200,200,210,0.65);
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        min-width: 0;
-      }
-      .banner-activity-grid .act-time {
-        font-family: ui-monospace, 'Cascadia Mono', monospace;
-        font-size: 0.76em;
-        color: rgba(200,200,210,0.22);
-        flex-shrink: 0;
-        margin-left: auto;
-        padding-left: 0.5em;
-      }
-      .banner-activity-grid .act-repo {
-        font-family: ui-monospace, 'Cascadia Mono', monospace;
-        font-size: 0.88em;
-        color: rgba(200,200,210,0.55);
+      .tick-icon { color: #7eb8b0; font-style: normal; flex-shrink: 0; }
+      .tick-type { color: rgba(200,200,210,0.28); letter-spacing: 0.04em; font-size: 0.95em; flex-shrink: 0; }
+      .tick-repo { color: rgba(200,200,210,0.55); text-decoration: none; border: 0; transition: color 0.15s; flex-shrink: 0; }
+      .tick-repo:hover { color: #7eb8b0; }
+      .tick-msg { color: rgba(200,200,210,0.65); }
+      .tick-time { color: rgba(200,200,210,0.22); font-size: 0.9em; flex-shrink: 0; }
+      .tick-sep { color: rgba(200,200,210,0.15); font-family: ui-monospace, monospace; font-size: 0.75em; padding: 0 0.3em; }
+      .tick-nowplaying .tick-icon { color: #6a9e85; animation: act-pulse 2s ease infinite; }
+      @keyframes act-pulse { 0%,100%{opacity:1} 50%{opacity:0.35} }
+
+      /* ── Banner name link ───────────────────────── */
+      .banner-name-link {
+        color: inherit;
         text-decoration: none;
         border: 0;
-        flex-shrink: 0;
-        transition: color 0.15s;
+        transition: color 0.2s;
+        position: relative;
+        display: inline-block;
+        cursor: pointer;
       }
-      .banner-activity-grid .act-repo:hover { color: #7eb8b0; }
-      .banner-activity-grid .act-item.act-loading .act-msg { color: rgba(200,200,210,0.25); }
-      .banner-activity-grid .act-item.act-nowplaying .act-icon { color: #6a9e85; animation: act-pulse 2s ease infinite; }
+      .banner-name-link:hover { color: #7eb8b0; }
+      .banner-name-link .name-tooltip {
+        position: absolute;
+        bottom: calc(100% + 0.55em);
+        left: 0;
+        font-family: ui-monospace, 'Cascadia Mono', monospace;
+        font-size: 0.3em;
+        font-weight: 400;
+        letter-spacing: 0.08em;
+        color: rgba(200,200,210,0.45);
+        white-space: nowrap;
+        opacity: 0;
+        transition: opacity 0.2s;
+        pointer-events: none;
+        background: rgba(12,14,12,0.92);
+        padding: 0.45em 0.9em;
+        border-radius: 4px;
+        border: 1px solid rgba(200,200,210,0.09);
+      }
+      .banner-name-link .name-tooltip::after {
+        content: '';
+        position: absolute;
+        top: 100%;
+        left: 1.4em;
+        border: 5px solid transparent;
+        border-top-color: rgba(200,200,210,0.09);
+      }
+      .banner-name-link:hover .name-tooltip { opacity: 1; }
 
-      @keyframes act-pulse { 0%,100%{opacity:1} 50%{opacity:0.35} }
+      /* ── Unified contact ────────────────────────── */
+      .unified-contact {
+        display: flex;
+        justify-content: center;
+        gap: 3em;
+        flex-wrap: wrap;
+        padding: 2.5em 1em 3em;
+        border-top: 1px solid rgba(200,200,210,0.07);
+        max-width: 65em;
+        margin: 0 auto;
+        width: calc(100% - 6em);
+        box-sizing: border-box;
+        opacity: 0;
+        transform: translateY(12px);
+        transition: opacity 0.55s ease, transform 0.55s ease;
+      }
+      .unified-contact.visible { opacity: 1; transform: none; }
+      .unified-contact-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.35em;
+        text-align: center;
+      }
+      .unified-contact-item i {
+        font-size: 1.1em;
+        color: #7eb8b0;
+        margin-bottom: 0.1em;
+      }
+      .uc-label {
+        font-family: ui-monospace, 'Cascadia Mono', monospace;
+        font-size: 0.68em;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: rgba(200,200,210,0.3);
+        font-weight: 600;
+      }
+      .unified-contact-item a {
+        font-size: 0.88em;
+        color: rgba(200,200,210,0.6);
+        text-decoration: none;
+        border: 0;
+        transition: color 0.2s;
+      }
+      .unified-contact-item a:hover { color: #7eb8b0; }
 
       /* ── Responsive ─────────────────────────────── */
       @media (max-width: 900px) {
         #banner > .inner { flex-direction: column !important; gap: 1.5em; padding: 1.8em 2em !important; }
-        .banner-right { flex: none; width: 100%; }
-        .banner-activity-grid { grid-template-columns: 1fr 1fr; }
+        .banner-right { flex: none !important; width: 100%; }
+      }
+      @media (max-width: 736px) {
+        .unified-contact { gap: 2em; width: calc(100% - 3em); }
+      }
+      @media (max-width: 600px) {
+        .banner-cards-grid { grid-template-columns: 1fr; }
       }
       @media (max-width: 500px) {
         .banner-name { font-size: 2em; }
-        .banner-activity-grid { grid-template-columns: 1fr; }
         #banner > .inner { padding: 1.5em 1.25em !important; }
       }
 
@@ -368,13 +522,19 @@
         border-bottom: 1px solid rgba(200,200,210,0.08);
       }
       .filter-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
         background: transparent;
         border: 1px solid rgba(200,200,210,0.15);
         color: rgba(200,200,210,0.6);
         font-family: "Space Grotesk", system-ui, sans-serif;
         font-size: 0.8em;
         font-weight: 500;
-        padding: 0.4em 1em;
+        padding: 0.35em 0.9em;
+        line-height: 1;
+        height: auto;
+        min-height: 0;
         border-radius: 2em;
         cursor: pointer;
         transition: background 0.2s, border-color 0.2s, color 0.2s, transform 0.12s;
@@ -408,86 +568,6 @@
       }
       .card-preview.preview-visible { opacity: 1; }
 
-      /* ── Activity feed (standalone section, not banner) ── */
-      .activity-feed {
-        border: 1px solid rgba(200,200,210,0.08);
-        border-radius: 8px;
-        overflow: hidden;
-        max-width: 52em;
-      }
-      .act-item {
-        display: flex;
-        align-items: baseline;
-        gap: 0.75em;
-        padding: 0.72em 1.1em;
-        border-bottom: 1px solid rgba(200,200,210,0.05);
-        font-size: 0.85em;
-        transition: background 0.15s;
-      }
-      .act-item:last-child { border-bottom: 0; }
-      .act-item:hover { background: rgba(255,255,255,0.02); }
-      .act-item.act-hidden { display: none; }
-      .act-icon {
-        font-size: 0.9em;
-        color: #7eb8b0;
-        flex-shrink: 0;
-        width: 1.1em;
-        text-align: center;
-        font-style: normal;
-      }
-      .act-type {
-        font-family: ui-monospace, 'Cascadia Mono', 'Courier New', monospace;
-        font-size: 0.78em;
-        color: rgba(200,200,210,0.3);
-        flex-shrink: 0;
-        width: 4.2em;
-        letter-spacing: 0.04em;
-      }
-      .act-body {
-        flex: 1;
-        display: flex;
-        gap: 0.45em;
-        align-items: baseline;
-        min-width: 0;
-        flex-wrap: nowrap;
-        overflow: hidden;
-      }
-      .act-repo {
-        font-family: ui-monospace, 'Cascadia Mono', monospace;
-        font-size: 0.88em;
-        color: rgba(200,200,210,0.55);
-        text-decoration: none;
-        border: 0;
-        flex-shrink: 0;
-        transition: color 0.15s;
-      }
-      .act-repo:hover { color: #7eb8b0; }
-      .act-msg {
-        color: rgba(200,200,210,0.65);
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        min-width: 0;
-      }
-      .act-time {
-        font-family: ui-monospace, 'Cascadia Mono', monospace;
-        font-size: 0.76em;
-        color: rgba(200,200,210,0.22);
-        flex-shrink: 0;
-        margin-left: auto;
-        padding-left: 0.8em;
-      }
-      .act-item.act-nowplaying .act-icon { color: #6a9e85; animation: act-pulse 2s ease infinite; }
-      .act-item.act-loading .act-msg { color: rgba(200,200,210,0.2); }
-
-      /* ── Contact reveal ─────────────────────────── */
-      .split.contact-reveal {
-        opacity: 0;
-        transform: translateY(12px);
-        transition: opacity 0.55s ease, transform 0.55s ease;
-      }
-      .split.contact-reveal.visible { opacity: 1; transform: none; }
-
       @media (max-width: 736px) {
         .projects-section { width: calc(100% - 3em); padding: 2em 0; }
       }
@@ -497,58 +577,111 @@
 
     <div id="wrapper">
 
+      <!-- Activity Ticker -->
+      <div class="activity-ticker">
+        <div class="ticker-track" id="ticker-track"></div>
+      </div>
+
       <!-- Banner -->
       <section id="banner" class="major" style="background-image: url('assets/images/pics/banner_photo.jpg'); background-size: cover; background-position: center;">
         <div class="inner">
 
           <!-- LEFT: name + subtitle + bio -->
           <div class="banner-left">
-            <h1 class="banner-name">ryan ranjitkar</h1>
+            <h1 class="banner-name"><a href="aboutme.html" class="banner-name-link">ryan ranjitkar<span class="name-tooltip">about me →</span></a></h1>
             <p class="banner-sub">electrical &amp; robotics engineer</p>
             <p class="banner-bio">ECE and Robotics at Worcester Polytechnic Institute.
             <p class="banner-bio">I really like <span class="type-target"></span></p>
           </div>
 
-          <!-- RIGHT: activity 2×2 grid -->
+          <!-- RIGHT: 2×2 activity cards -->
           <div class="banner-right">
-            <p class="section-comment" style="margin-bottom:0.55em;">// activity</p>
-            <div class="banner-activity-grid">
+            <div class="banner-cards-grid">
 
-              <div class="act-item act-loading" id="act-github">
-                <i class="act-icon">⊙</i>
-                <span class="act-type">github</span>
-                <span class="act-body">
-                  <a class="act-repo" id="act-gh-repo" href="https://github.com/rmranjitkar" target="_blank"></a>
-                  <span class="act-msg" id="act-gh-msg">loading…</span>
-                </span>
-                <span class="act-time" id="act-gh-time"></span>
+              <!-- Card A: Now Playing -->
+              <div class="bc-card bc-now-playing">
+                <div class="bc-header">
+                  <span class="bc-label">now playing</span>
+                  <span class="bc-eq" id="bc-eq"><span></span><span></span><span></span><span></span><span></span></span>
+                  <span class="bc-label-icon" id="bc-music-icon">♫</span>
+                </div>
+                <div class="bc-music-body">
+                  <div class="bc-album-art" id="bc-album-art">
+                    <span class="bc-art-placeholder">♫</span>
+                  </div>
+                  <div class="bc-music-info">
+                    <p class="bc-track"  id="bc-track">—</p>
+                    <p class="bc-artist" id="bc-artist">—</p>
+                    <p class="bc-album"  id="bc-album">—</p>
+                  </div>
+                </div>
+                <div class="bc-progress-track">
+                  <div class="bc-progress-fill" id="bc-progress"></div>
+                </div>
               </div>
 
-              <div class="act-item act-loading" id="act-music">
-                <i class="act-icon">♫</i>
-                <span class="act-type">music</span>
-                <span class="act-body">
-                  <span class="act-msg" id="act-lfm-msg">loading…</span>
-                </span>
-                <span class="act-time" id="act-lfm-time"></span>
+              <!-- Card B: Steam -->
+              <div class="bc-card bc-steam">
+                <div class="bc-header">
+                  <span class="bc-label">steam</span>
+                  <span class="bc-label-icon">⬡</span>
+                </div>
+                <div class="bc-stat-rows">
+                  <div class="bc-stat-row">
+                    <span class="bc-stat-label">game</span>
+                    <span class="bc-stat-val" id="bc-steam-game">loading…</span>
+                  </div>
+                  <div class="bc-stat-row">
+                    <span class="bc-stat-label">last 2 weeks</span>
+                    <span class="bc-stat-val" id="bc-steam-hrs">—</span>
+                  </div>
+                  <div class="bc-stat-row">
+                    <span class="bc-stat-label">status</span>
+                    <span class="bc-stat-val" id="bc-steam-status">—</span>
+                  </div>
+                </div>
               </div>
 
-              <div class="act-item act-loading" id="act-steam">
-                <i class="act-icon">⬡</i>
-                <span class="act-type">steam</span>
-                <span class="act-body">
-                  <span class="act-msg" id="act-steam-msg">loading…</span>
-                </span>
-                <span class="act-time" id="act-steam-time"></span>
+              <!-- Card C: GitHub -->
+              <div class="bc-card bc-github">
+                <div class="bc-gh-header">
+                  <img src="https://github.com/rmranjitkarNULL.png" class="bc-gh-avatar" alt="avatar" onerror="this.style.display='none'">
+                  <div class="bc-gh-info">
+                    <p class="bc-gh-name">ryan ranjitkar</p>
+                    <p class="bc-gh-handle">@rmranjitkarNULL</p>
+                    <div class="bc-gh-stats">
+                      <span id="bc-gh-repos">—</span>
+                      <span id="bc-gh-followers">—</span>
+                    </div>
+                  </div>
+                  <span class="bc-pulse" id="bc-pulse"></span>
+                </div>
+                <div class="bc-gh-commit">
+                  <span class="bc-gh-repo-name"  id="bc-gh-cmt-repo">—</span>
+                  <span class="bc-gh-commit-msg" id="bc-gh-cmt-msg">—</span>
+                </div>
               </div>
 
-              <div class="act-item act-loading" id="act-stats">
-                <i class="act-icon">◈</i>
-                <span class="act-type">repos</span>
-                <span class="act-body">
-                  <span class="act-msg" id="act-stats-msg">loading…</span>
-                </span>
-                <span class="act-time" id="act-stats-time"></span>
+              <!-- Card D: RISC-V Emulator -->
+              <div class="bc-card bc-riscv">
+                <div class="bc-header">
+                  <span class="bc-label">risc-v emulator</span>
+                  <span class="bc-planning-badge">◌ planning</span>
+                </div>
+                <div class="bc-terminal">
+                  <span class="bc-term-line"><span class="bc-term-reg">PC  </span>0x00000000</span>
+                  <span class="bc-term-line"><span class="bc-term-reg">INST</span>nop</span>
+                  <span class="bc-term-line"><span class="bc-term-reg">x1  </span>0x00000000<span class="bc-cursor">_</span></span>
+                </div>
+                <div class="bc-wip">
+                  <div class="bc-wip-hdr">
+                    <span class="bc-wip-name">32-bit RISC-V Processor</span>
+                    <span class="bc-wip-pct" id="bc-rv-pct">0%</span>
+                  </div>
+                  <div class="bc-wip-track">
+                    <div class="bc-wip-fill" id="bc-rv-fill" data-pct="70"></div>
+                  </div>
+                </div>
               </div>
 
             </div>
@@ -788,26 +921,23 @@
       </div>
 
       <!-- Contact -->
-      <section class="split contact-reveal">
-        <section>
-          <div class="contact-method">
-            <h3><span class="icon solid alt fa-envelope"></span> email</h3>
-            <a href="mailto:rmranjitkar@wpi.edu">rmranjitkar@wpi.edu</a>
-          </div>
-        </section>
-        <section>
-          <div class="contact-method">
-            <h3><span class="icon brands alt fa-linkedin-in"></span> linkedin</h3>
-            <a href="https://www.linkedin.com/in/ryanranjitkar/">linkedin.com/in/ryanranjitkar</a>
-          </div>
-        </section>
-        <section>
-          <div class="contact-method">
-            <h3><span class="icon brands alt fa-github"></span> github</h3>
-            <a href="https://github.com/rmranjitkar">github.com/rmranjitkar</a>
-          </div>
-        </section>
-      </section>
+      <div class="unified-contact" id="contact">
+        <div class="unified-contact-item">
+          <i class="fas fa-envelope"></i>
+          <span class="uc-label">email</span>
+          <a href="mailto:rmranjitkar@wpi.edu">rmranjitkar@wpi.edu</a>
+        </div>
+        <div class="unified-contact-item">
+          <i class="fab fa-linkedin-in"></i>
+          <span class="uc-label">linkedin</span>
+          <a href="https://www.linkedin.com/in/ryanranjitkar/">linkedin.com/in/ryanranjitkar</a>
+        </div>
+        <div class="unified-contact-item">
+          <i class="fab fa-github"></i>
+          <span class="uc-label">github</span>
+          <a href="https://github.com/rmranjitkarNULL">github.com/rmranjitkarNULL</a>
+        </div>
+      </div>
 
     </div>
 
@@ -837,46 +967,71 @@
         }
 
         async function loadGitHub() {
-          const el = document.getElementById('act-github');
           try {
             const data = await cache('act_gh', 5*60*1000, async () => {
-              const r = await fetch('https://api.github.com/users/rmranjitkar/events/public');
+              const r = await fetch('https://api.github.com/users/rmranjitkarNULL/events/public');
               if (!r.ok) return null;
               const events = await r.json();
               const push = events.find(e => e.type === 'PushEvent');
-              if (!push) return null;
+
+              const now = Date.now(), dayMs = 86400000;
+              const heatmap = Array(21).fill(0);
+              let pulse = false;
+              events.forEach(ev => {
+                const age = (now - new Date(ev.created_at)) / dayMs;
+                if (age < 21) heatmap[Math.min(20, Math.floor(age))]++;
+                if (age < 1) pulse = true;
+              });
+
               return {
-                repo: push.repo.name.split('/')[1],
-                url:  `https://github.com/${push.repo.name}`,
-                msg:  (push.payload.commits?.[0]?.message || 'pushed code').split('\n')[0],
-                time: push.created_at,
+                repo:    push ? push.repo.name.split('/')[1] : null,
+                url:     push ? `https://github.com/${push.repo.name}` : 'https://github.com/rmranjitkarNULL',
+                msg:     push ? (push.payload.commits?.[0]?.message || 'pushed code').split('\n')[0] : null,
+                time:    push ? push.created_at : null,
+                heatmap: [...heatmap].reverse(),
+                pulse,
               };
             });
-            el.classList.remove('act-loading');
             if (data) {
-              const repoEl = document.getElementById('act-gh-repo');
-              repoEl.textContent = data.repo;
-              repoEl.href = data.url;
-              document.getElementById('act-gh-msg').textContent = `— ${data.msg}`;
-              document.getElementById('act-gh-time').textContent = timeAgo(data.time);
+              tickerState.github = {
+                repo: data.repo || '', url: data.url,
+                msg:  data.repo ? `— ${data.msg}` : 'no recent events',
+                time: data.time ? timeAgo(data.time) : '',
+              };
+              // Card C — commit
+              const cRepoEl = document.getElementById('bc-gh-cmt-repo');
+              const cMsgEl  = document.getElementById('bc-gh-cmt-msg');
+              if (cRepoEl) cRepoEl.textContent = data.repo || '—';
+              if (cMsgEl)  cMsgEl.textContent  = data.msg  || '—';
+              // Card C — heatmap
+              const hmEl = document.getElementById('bc-heatmap');
+              if (hmEl && data.heatmap) {
+                const mx = Math.max(1, ...data.heatmap);
+                hmEl.innerHTML = data.heatmap.map(n => {
+                  const l = n === 0 ? '' : n/mx < 0.33 ? 'l1' : n/mx < 0.66 ? 'l2' : 'l3';
+                  return `<span class="bc-heat-cell${l ? ' '+l : ''}"></span>`;
+                }).join('');
+              }
+              // Card C — pulse dot
+              const pulseEl = document.getElementById('bc-pulse');
+              if (pulseEl) pulseEl.classList.toggle('active', !!data.pulse);
             } else {
-              document.getElementById('act-gh-msg').textContent = 'no recent events';
+              tickerState.github.msg = 'no recent events';
             }
           } catch {
-            el.classList.remove('act-loading');
-            document.getElementById('act-gh-msg').textContent = '—';
+            tickerState.github.msg = '—';
           }
+          renderTicker();
         }
 
         async function loadLastFm() {
-          const el = document.getElementById('act-music');
           if (!LASTFM_USER || !LASTFM_KEY) {
-            el.classList.remove('act-loading');
-            document.getElementById('act-lfm-msg').textContent = 'not configured';
+            tickerState.music.msg = 'not configured';
+            renderTicker();
             return;
           }
           try {
-            const data = await cache('act_lfm', 90*1000, async () => {
+            const data = await cache('act_lfm2', 90*1000, async () => {
               const url = `https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=${LASTFM_USER}&api_key=${LASTFM_KEY}&format=json&limit=1`;
               const r = await fetch(url);
               const j = await r.json();
@@ -885,29 +1040,57 @@
               return {
                 name:       t.name,
                 artist:     t.artist['#text'],
+                album:      t.album?.['#text'] || '',
+                image:      t.image?.[3]?.['#text'] || t.image?.[2]?.['#text'] || '',
                 nowplaying: !!t['@attr']?.nowplaying,
                 time:       t.date ? new Date(t.date.uts * 1000).toISOString() : null,
               };
             });
-            el.classList.remove('act-loading');
             if (data) {
-              if (data.nowplaying) el.classList.add('act-nowplaying');
-              document.getElementById('act-lfm-msg').textContent = `${data.name} — ${data.artist}`;
-              document.getElementById('act-lfm-time').textContent = data.nowplaying ? 'now ♫' : (data.time ? timeAgo(data.time) : '');
+              tickerState.music = {
+                msg: `${data.name} — ${data.artist}`,
+                time: data.nowplaying ? 'now ♫' : (data.time ? timeAgo(data.time) : ''),
+                nowplaying: data.nowplaying,
+              };
+              // Card A
+              const trackEl  = document.getElementById('bc-track');
+              const artistEl = document.getElementById('bc-artist');
+              const albumEl  = document.getElementById('bc-album');
+              const artEl    = document.getElementById('bc-album-art');
+              const eqEl     = document.getElementById('bc-eq');
+              const iconEl   = document.getElementById('bc-music-icon');
+              const progEl   = document.getElementById('bc-progress');
+              if (trackEl)  trackEl.textContent  = data.name;
+              if (artistEl) artistEl.textContent = data.artist;
+              if (albumEl)  albumEl.textContent  = data.album;
+              if (artEl && data.image) {
+                artEl.innerHTML = `<img src="${data.image}" alt="" onerror="this.parentElement.innerHTML='<span class=bc-art-placeholder>♫</span>'">`;
+              }
+              if (eqEl)   eqEl.classList.toggle('active', !!data.nowplaying);
+              if (iconEl) iconEl.style.display = data.nowplaying ? 'none' : '';
+              if (progEl) {
+                if (data.nowplaying) {
+                  progEl.classList.add('bc-progress-scan');
+                } else {
+                  progEl.classList.remove('bc-progress-scan');
+                  progEl.style.width = '0';
+                }
+              }
             } else {
-              document.getElementById('act-lfm-msg').textContent = 'no recent scrobbles';
+              tickerState.music.msg = 'no recent scrobbles';
+              const trackEl = document.getElementById('bc-track');
+              if (trackEl) trackEl.textContent = 'not playing';
             }
           } catch {
-            el.classList.remove('act-loading');
-            document.getElementById('act-lfm-msg').textContent = '—';
+            tickerState.music.msg = '—';
           }
+          renderTicker();
         }
 
         async function loadSteam() {
-          const el = document.getElementById('act-steam');
           if (!STEAM_PROXY_URL) {
-            el.classList.remove('act-loading');
-            document.getElementById('act-steam-msg').textContent = 'not configured';
+            tickerState.steam.msg = 'not configured';
+            renderTicker();
             return;
           }
           try {
@@ -918,41 +1101,88 @@
               if (!game) return null;
               return { name: game.name, hrs: (game.playtime_2weeks / 60).toFixed(1) };
             });
-            el.classList.remove('act-loading');
             if (data) {
-              document.getElementById('act-steam-msg').textContent = data.name;
-              document.getElementById('act-steam-time').textContent = `${data.hrs}h / 2wk`;
+              tickerState.steam = { msg: data.name, time: `${data.hrs}h / 2wk` };
+              // Card B
+              const gameEl   = document.getElementById('bc-steam-game');
+              const hrsEl    = document.getElementById('bc-steam-hrs');
+              const statusEl = document.getElementById('bc-steam-status');
+              if (gameEl)   gameEl.textContent   = data.name;
+              if (hrsEl)    hrsEl.textContent    = `${data.hrs}h`;
+              if (statusEl) statusEl.textContent = 'recently played';
             } else {
-              document.getElementById('act-steam-msg').textContent = 'no recent games';
+              tickerState.steam.msg = 'no recent games';
+              const gameEl = document.getElementById('bc-steam-game');
+              if (gameEl) gameEl.textContent = 'no recent games';
             }
           } catch {
-            el.classList.remove('act-loading');
-            document.getElementById('act-steam-msg').textContent = '—';
+            tickerState.steam.msg = '—';
           }
+          renderTicker();
         }
 
         async function loadGitHubStats() {
-          const el = document.getElementById('act-stats');
           try {
             const data = await cache('act_gh_user', 30*60*1000, async () => {
-              const r = await fetch('https://api.github.com/users/rmranjitkar');
+              const r = await fetch('https://api.github.com/users/rmranjitkarNULL');
               if (!r.ok) return null;
               const u = await r.json();
               return { repos: u.public_repos, followers: u.followers };
             });
-            el.classList.remove('act-loading');
             if (data) {
-              document.getElementById('act-stats-msg').textContent =
-                `${data.repos} repos · ${data.followers} followers`;
+              tickerState.repos.msg = `${data.repos} repos · ${data.followers} followers`;
+              // Card C
+              const reposEl = document.getElementById('bc-gh-repos');
+              const follEl  = document.getElementById('bc-gh-followers');
+              if (reposEl) reposEl.textContent = `${data.repos} repos`;
+              if (follEl)  follEl.textContent  = `${data.followers} followers`;
             } else {
-              document.getElementById('act-stats-msg').textContent = '—';
+              tickerState.repos.msg = '—';
             }
           } catch {
-            el.classList.remove('act-loading');
-            document.getElementById('act-stats-msg').textContent = '—';
+            tickerState.repos.msg = '—';
           }
+          renderTicker();
         }
 
+        // ── Ticker ────────────────────────────────────────────────
+        const tickerState = {
+          github: { repo: '', msg: 'loading…', time: '', url: 'https://github.com/rmranjitkarNULL' },
+          music:  { msg: 'loading…', time: '', nowplaying: false },
+          steam:  { msg: 'loading…', time: '' },
+          repos:  { msg: 'loading…' },
+        };
+
+        function buildTickerHTML() {
+          const g = tickerState.github, m = tickerState.music, s = tickerState.steam, r = tickerState.repos;
+          const sep = '<span class="tick-sep"> · </span>';
+          const seg = (icon, type, content, cls) =>
+            `<span class="tick-seg${cls ? ' ' + cls : ''}"><i class="tick-icon">${icon}</i><span class="tick-type">${type}</span> ${content}</span>`;
+
+          const ghBody = (g.repo ? `<a class="tick-repo" href="${g.url}" target="_blank">${g.repo}</a> ` : '') +
+            `<span class="tick-msg">${g.msg}</span>` + (g.time ? ` <span class="tick-time">${g.time}</span>` : '');
+          const muBody = `<span class="tick-msg">${m.msg}</span>` + (m.time ? ` <span class="tick-time">${m.time}</span>` : '');
+          const stBody = `<span class="tick-msg">${s.msg}</span>` + (s.time ? ` <span class="tick-time">${s.time}</span>` : '');
+          const reBody = `<span class="tick-msg">${r.msg}</span>`;
+
+          const inner = seg('⊙','github',ghBody) + sep +
+                        seg('♫','music',muBody, m.nowplaying ? 'tick-nowplaying' : '') + sep +
+                        seg('⬡','steam',stBody) + sep +
+                        seg('◈','repos',reBody) + sep;
+          return `<span class="ticker-copy">${inner}</span>`;
+        }
+
+        function renderTicker() {
+          const track = document.getElementById('ticker-track');
+          if (!track) return;
+          const content = buildTickerHTML();
+          track.innerHTML = content + content;
+          track.style.animation = 'none';
+          void track.offsetWidth;
+          track.style.animation = '';
+        }
+
+        renderTicker();
         loadGitHub();
         loadLastFm();
         loadSteam();
@@ -1001,13 +1231,42 @@
         const cards   = Array.from(document.querySelectorAll('.project-card'));
         const buttons = Array.from(document.querySelectorAll('.filter-btn'));
         let filtering = false;
+        const activeFilters = new Set();
 
+        // Counts: total per category (not filtered)
         buttons.forEach(btn => {
           const f = btn.dataset.filter;
           const n = f === 'all' ? cards.length
             : cards.filter(c => c.dataset.category.split(' ').includes(f)).length;
           btn.querySelector('.filter-count').textContent = n;
         });
+
+        function cardVisible(card) {
+          if (activeFilters.size === 0) return true;
+          return [...activeFilters].some(f => card.dataset.category.split(' ').includes(f));
+        }
+
+        function syncAllBtn() {
+          const allBtn = buttons.find(b => b.dataset.filter === 'all');
+          if (allBtn) allBtn.classList.toggle('active', activeFilters.size === 0);
+        }
+
+        function applyFilters() {
+          if (filtering) return;
+          const leaving  = cards.filter(c => !cardVisible(c) && !c.classList.contains('hidden'));
+          const entering = cards.filter(c =>  cardVisible(c) &&  c.classList.contains('hidden'));
+          if (leaving.length === 0 && entering.length === 0) return;
+          filtering = true;
+          leaving.forEach(c => c.classList.add('exiting'));
+          setTimeout(() => {
+            leaving.forEach(c => { c.classList.remove('exiting', 'visible'); c.classList.add('hidden'); });
+            entering.forEach((c, i) => {
+              c.classList.remove('hidden');
+              requestAnimationFrame(() => setTimeout(() => c.classList.add('visible'), i * 55));
+            });
+            filtering = false;
+          }, 180);
+        }
 
         // ── Typewriter ────────────────────────────────────────────
         const interests = [
@@ -1075,6 +1334,36 @@
           barIo.observe(card);
         });
 
+        // ── Card D: sync with first RISC-V wip-card ──────────────────
+        (() => {
+          const src = document.querySelector('.wip-card');
+          const rvFill   = document.getElementById('bc-rv-fill');
+          const rvPct    = document.getElementById('bc-rv-pct');
+          const rvDone   = document.getElementById('bc-rv-done');
+          const rvNext   = document.getElementById('bc-rv-next');
+          if (!src || !rvFill) return;
+
+          const pct  = parseInt(src.querySelector('.wip-fill')?.dataset.pct, 10) || 70;
+          const done = Array.from(src.querySelectorAll('.wip-done li')).map(li => li.textContent.trim());
+          const next = Array.from(src.querySelectorAll('.wip-next li')).map(li => li.textContent.trim());
+          rvFill.dataset.pct = pct;
+          if (rvDone) rvDone.innerHTML = done.map(t => `<li>${t}</li>`).join('');
+          if (rvNext) rvNext.innerHTML = next.map(t => `<li>${t}</li>`).join('');
+
+          const rvIo = new IntersectionObserver(([e]) => {
+            if (!e.isIntersecting) return;
+            rvIo.disconnect();
+            rvFill.style.width = pct + '%';
+            if (pct > 0 && rvPct) {
+              let cur = 0;
+              const step = () => { cur = Math.min(cur + 1, pct); rvPct.textContent = cur + '%'; if (cur < pct) requestAnimationFrame(step); };
+              requestAnimationFrame(step);
+            }
+          }, { threshold: 0.25 });
+          const rvCard = document.querySelector('.bc-riscv');
+          if (rvCard) rvIo.observe(rvCard);
+        })();
+
         // ── Contact reveal ────────────────────────────────────────
         const contactIo = new IntersectionObserver((entries) => {
           entries.forEach(e => {
@@ -1083,47 +1372,27 @@
             e.target.classList.add('visible');
           });
         }, { threshold: 0.1 });
-        const contact = document.querySelector('.contact-reveal');
+        const contact = document.getElementById('contact');
         if (contact) contactIo.observe(contact);
 
-        // ── Filter with animation ─────────────────────────────────
-        function matches(card, filter) {
-          return filter === 'all' || card.dataset.category.split(' ').includes(filter);
-        }
-
+        // ── Filter with animation (multi-select) ─────────────────
         buttons.forEach(btn => {
           btn.addEventListener('click', () => {
-            if (filtering) return;
             const filter = btn.dataset.filter;
-            if (btn.classList.contains('active')) return;
-
-            buttons.forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-
-            const leaving  = cards.filter(c => !matches(c, filter) && !c.classList.contains('hidden'));
-            const entering = cards.filter(c =>  matches(c, filter) &&  c.classList.contains('hidden'));
-
-            if (leaving.length === 0 && entering.length === 0) return;
-
-            filtering = true;
-
-            leaving.forEach(c => c.classList.add('exiting'));
-
-            setTimeout(() => {
-              leaving.forEach(c => {
-                c.classList.remove('exiting', 'visible');
-                c.classList.add('hidden');
-              });
-
-              entering.forEach((c, i) => {
-                c.classList.remove('hidden');
-                requestAnimationFrame(() => {
-                  setTimeout(() => c.classList.add('visible'), i * 55);
-                });
-              });
-
-              filtering = false;
-            }, 180);
+            if (filter === 'all') {
+              activeFilters.clear();
+              buttons.forEach(b => b.classList.remove('active'));
+            } else {
+              if (activeFilters.has(filter)) {
+                activeFilters.delete(filter);
+                btn.classList.remove('active');
+              } else {
+                activeFilters.add(filter);
+                btn.classList.add('active');
+              }
+            }
+            syncAllBtn();
+            applyFilters();
           });
         });
 

@@ -41,11 +41,12 @@
       .proj-footer-nav { display: flex; justify-content: space-between; align-items: center; padding: 2em 0; border-top: 1px solid rgba(200,200,210,0.07); margin-top: 1em; }
       .proj-footer-nav a { font-size: 0.85em; color: rgba(200,200,210,0.45); text-decoration: none; border: 0; transition: color 0.2s; }
       .proj-footer-nav a:hover { color: #7eb8b0; }
-      .proj-contact { display: flex; gap: 2.5em; flex-wrap: wrap; padding: 2em 0 3em; border-top: 1px solid rgba(200,200,210,0.07); }
-      .proj-contact-item { display: flex; flex-direction: column; gap: 0.3em; }
+      .proj-contact { display: flex; justify-content: center; gap: 2.5em; flex-wrap: wrap; padding: 2em 0 3em; border-top: 1px solid rgba(200,200,210,0.07); }
+      .proj-contact-item { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 0.3em; }
       .proj-contact-item .label { font-size: 0.72em; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(200,200,210,0.3); font-weight: 600; }
       .proj-contact-item a { font-size: 0.88em; color: rgba(200,200,210,0.6); text-decoration: none; border: 0; transition: color 0.2s; }
       .proj-contact-item a:hover { color: #7eb8b0; }
+      .proj-contact-icon { font-size: 1.1em; color: #7eb8b0; margin-bottom: 0.1em; }
       .reveal { opacity: 0; transform: translateY(14px); transition: opacity 0.5s ease, transform 0.5s ease; }
       .reveal.visible { opacity: 1; transform: none; }
       @media (max-width: 768px) {
@@ -62,7 +63,7 @@
   <div class="proj-page">
 
     <div class="proj-topbar reveal">
-      <a href="../index.html" class="proj-back">← projects</a>
+      <a href="#" class="proj-back" onclick="history.back(); return false;">go back</a>
       <a href="https://github.com/rmranjitkarNULL/FishShocker9000" target="_blank" class="proj-github">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
         GitHub
@@ -158,14 +159,14 @@
     </div>
 
     <div class="proj-footer-nav reveal">
-      <a href="../index.html">← all projects</a>
+      <a href="#" onclick="history.back(); return false;">also go back</a>
       <a href="#overview">↑ back to top</a>
     </div>
 
     <div class="proj-contact reveal">
-      <div class="proj-contact-item"><span class="label">Email</span><a href="mailto:rmranjitkar@wpi.edu">rmranjitkar@wpi.edu</a></div>
-      <div class="proj-contact-item"><span class="label">LinkedIn</span><a href="https://www.linkedin.com/in/ryanranjitkar/">linkedin.com/in/ryanranjitkar</a></div>
-      <div class="proj-contact-item"><span class="label">GitHub</span><a href="https://github.com/rmranjitkar">github.com/rmranjitkar</a></div>
+      <div class="proj-contact-item"><i class="fas fa-envelope proj-contact-icon"></i><span class="label">email</span><a href="mailto:rmranjitkar@wpi.edu">rmranjitkar@wpi.edu</a></div>
+      <div class="proj-contact-item"><i class="fab fa-linkedin-in proj-contact-icon"></i><span class="label">linkedin</span><a href="https://www.linkedin.com/in/ryanranjitkar/">linkedin.com/in/ryanranjitkar</a></div>
+      <div class="proj-contact-item"><i class="fab fa-github proj-contact-icon"></i><span class="label">github</span><a href="https://github.com/rmranjitkarNULL">github.com/rmranjitkarNULL</a></div>
     </div>
 
   </div>
