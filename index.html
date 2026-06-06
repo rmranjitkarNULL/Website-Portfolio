@@ -211,48 +211,6 @@
       .bc-wip-done li::before { content:'✓'; color:#7eb8b0; flex-shrink:0; }
       .bc-wip-next li::before { content:'→'; color:#b09070; flex-shrink:0; }
 
-      /* ── Activity Ticker ────────────────────────── */
-      .activity-ticker {
-        width: 100%;
-        background: rgba(10,12,10,0.98);
-        border-bottom: 1px solid rgba(200,200,210,0.07);
-        overflow: hidden;
-        position: sticky;
-        top: 0;
-        z-index: 500;
-        height: 2.4em;
-        display: flex;
-        align-items: center;
-      }
-      .ticker-track {
-        display: flex;
-        white-space: nowrap;
-        will-change: transform;
-        animation: ticker-scroll 40s linear infinite;
-      }
-      .ticker-track:hover { animation-play-state: paused; }
-      @keyframes ticker-scroll {
-        from { transform: translateX(0); }
-        to   { transform: translateX(-50%); }
-      }
-      .ticker-copy { display: inline-flex; align-items: center; }
-      .tick-seg {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.42em;
-        font-family: ui-monospace, 'Cascadia Mono', 'Courier New', monospace;
-        font-size: 0.78em;
-        padding: 0 2em;
-      }
-      .tick-icon { color: #7eb8b0; font-style: normal; flex-shrink: 0; }
-      .tick-type { color: rgba(200,200,210,0.28); letter-spacing: 0.04em; font-size: 0.95em; flex-shrink: 0; }
-      .tick-repo { color: rgba(200,200,210,0.55); text-decoration: none; border: 0; transition: color 0.15s; flex-shrink: 0; }
-      .tick-repo:hover { color: #7eb8b0; }
-      .tick-msg { color: rgba(200,200,210,0.65); }
-      .tick-time { color: rgba(200,200,210,0.22); font-size: 0.9em; flex-shrink: 0; }
-      .tick-sep { color: rgba(200,200,210,0.15); font-family: ui-monospace, monospace; font-size: 0.75em; padding: 0 0.3em; }
-      .tick-nowplaying .tick-icon { color: #6a9e85; animation: act-pulse 2s ease infinite; }
-      @keyframes act-pulse { 0%,100%{opacity:1} 50%{opacity:0.35} }
 
       /* ── Banner name link ───────────────────────── */
       .banner-name-link {
@@ -267,29 +225,17 @@
       .banner-name-link:hover { color: #7eb8b0; }
       .banner-name-link .name-tooltip {
         position: absolute;
-        bottom: calc(100% + 0.55em);
-        left: 0;
+        bottom: calc(100% + 0.15em);
+        left: 0.05em;
         font-family: ui-monospace, 'Cascadia Mono', monospace;
-        font-size: 0.3em;
+        font-size: 0.27em;
         font-weight: 400;
-        letter-spacing: 0.08em;
-        color: rgba(200,200,210,0.45);
+        letter-spacing: 0.06em;
+        color: rgba(200,200,210,0.3);
         white-space: nowrap;
         opacity: 0;
-        transition: opacity 0.2s;
+        transition: opacity 0.25s;
         pointer-events: none;
-        background: rgba(12,14,12,0.92);
-        padding: 0.45em 0.9em;
-        border-radius: 4px;
-        border: 1px solid rgba(200,200,210,0.09);
-      }
-      .banner-name-link .name-tooltip::after {
-        content: '';
-        position: absolute;
-        top: 100%;
-        left: 1.4em;
-        border: 5px solid transparent;
-        border-top-color: rgba(200,200,210,0.09);
       }
       .banner-name-link:hover .name-tooltip { opacity: 1; }
 
@@ -576,11 +522,6 @@
   <body class="is-preload">
 
     <div id="wrapper">
-
-      <!-- Activity Ticker -->
-      <div class="activity-ticker">
-        <div class="ticker-track" id="ticker-track"></div>
-      </div>
 
       <!-- Banner -->
       <section id="banner" class="major" style="background-image: url('assets/images/pics/banner_photo.jpg'); background-size: cover; background-position: center;">
@@ -993,11 +934,6 @@
               };
             });
             if (data) {
-              tickerState.github = {
-                repo: data.repo || '', url: data.url,
-                msg:  data.repo ? `— ${data.msg}` : 'no recent events',
-                time: data.time ? timeAgo(data.time) : '',
-              };
               // Card C — commit
               const cRepoEl = document.getElementById('bc-gh-cmt-repo');
               const cMsgEl  = document.getElementById('bc-gh-cmt-msg');
@@ -1015,21 +951,12 @@
               // Card C — pulse dot
               const pulseEl = document.getElementById('bc-pulse');
               if (pulseEl) pulseEl.classList.toggle('active', !!data.pulse);
-            } else {
-              tickerState.github.msg = 'no recent events';
             }
-          } catch {
-            tickerState.github.msg = '—';
-          }
-          renderTicker();
+          } catch { /* noop */ }
         }
 
         async function loadLastFm() {
-          if (!LASTFM_USER || !LASTFM_KEY) {
-            tickerState.music.msg = 'not configured';
-            renderTicker();
-            return;
-          }
+          if (!LASTFM_USER || !LASTFM_KEY) return;
           try {
             const data = await cache('act_lfm2', 90*1000, async () => {
               const url = `https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=${LASTFM_USER}&api_key=${LASTFM_KEY}&format=json&limit=1`;
@@ -1047,11 +974,6 @@
               };
             });
             if (data) {
-              tickerState.music = {
-                msg: `${data.name} — ${data.artist}`,
-                time: data.nowplaying ? 'now ♫' : (data.time ? timeAgo(data.time) : ''),
-                nowplaying: data.nowplaying,
-              };
               // Card A
               const trackEl  = document.getElementById('bc-track');
               const artistEl = document.getElementById('bc-artist');
@@ -1077,22 +999,14 @@
                 }
               }
             } else {
-              tickerState.music.msg = 'no recent scrobbles';
               const trackEl = document.getElementById('bc-track');
               if (trackEl) trackEl.textContent = 'not playing';
             }
-          } catch {
-            tickerState.music.msg = '—';
-          }
-          renderTicker();
+          } catch { /* noop */ }
         }
 
         async function loadSteam() {
-          if (!STEAM_PROXY_URL) {
-            tickerState.steam.msg = 'not configured';
-            renderTicker();
-            return;
-          }
+          if (!STEAM_PROXY_URL) return;
           try {
             const data = await cache('act_steam', 5*60*1000, async () => {
               const r = await fetch(STEAM_PROXY_URL);
@@ -1102,7 +1016,6 @@
               return { name: game.name, hrs: (game.playtime_2weeks / 60).toFixed(1) };
             });
             if (data) {
-              tickerState.steam = { msg: data.name, time: `${data.hrs}h / 2wk` };
               // Card B
               const gameEl   = document.getElementById('bc-steam-game');
               const hrsEl    = document.getElementById('bc-steam-hrs');
@@ -1111,14 +1024,10 @@
               if (hrsEl)    hrsEl.textContent    = `${data.hrs}h`;
               if (statusEl) statusEl.textContent = 'recently played';
             } else {
-              tickerState.steam.msg = 'no recent games';
               const gameEl = document.getElementById('bc-steam-game');
               if (gameEl) gameEl.textContent = 'no recent games';
             }
-          } catch {
-            tickerState.steam.msg = '—';
-          }
-          renderTicker();
+          } catch { /* noop */ }
         }
 
         async function loadGitHubStats() {
@@ -1130,59 +1039,15 @@
               return { repos: u.public_repos, followers: u.followers };
             });
             if (data) {
-              tickerState.repos.msg = `${data.repos} repos · ${data.followers} followers`;
               // Card C
               const reposEl = document.getElementById('bc-gh-repos');
               const follEl  = document.getElementById('bc-gh-followers');
               if (reposEl) reposEl.textContent = `${data.repos} repos`;
               if (follEl)  follEl.textContent  = `${data.followers} followers`;
-            } else {
-              tickerState.repos.msg = '—';
             }
-          } catch {
-            tickerState.repos.msg = '—';
-          }
-          renderTicker();
+          } catch { /* noop */ }
         }
 
-        // ── Ticker ────────────────────────────────────────────────
-        const tickerState = {
-          github: { repo: '', msg: 'loading…', time: '', url: 'https://github.com/rmranjitkarNULL' },
-          music:  { msg: 'loading…', time: '', nowplaying: false },
-          steam:  { msg: 'loading…', time: '' },
-          repos:  { msg: 'loading…' },
-        };
-
-        function buildTickerHTML() {
-          const g = tickerState.github, m = tickerState.music, s = tickerState.steam, r = tickerState.repos;
-          const sep = '<span class="tick-sep"> · </span>';
-          const seg = (icon, type, content, cls) =>
-            `<span class="tick-seg${cls ? ' ' + cls : ''}"><i class="tick-icon">${icon}</i><span class="tick-type">${type}</span> ${content}</span>`;
-
-          const ghBody = (g.repo ? `<a class="tick-repo" href="${g.url}" target="_blank">${g.repo}</a> ` : '') +
-            `<span class="tick-msg">${g.msg}</span>` + (g.time ? ` <span class="tick-time">${g.time}</span>` : '');
-          const muBody = `<span class="tick-msg">${m.msg}</span>` + (m.time ? ` <span class="tick-time">${m.time}</span>` : '');
-          const stBody = `<span class="tick-msg">${s.msg}</span>` + (s.time ? ` <span class="tick-time">${s.time}</span>` : '');
-          const reBody = `<span class="tick-msg">${r.msg}</span>`;
-
-          const inner = seg('⊙','github',ghBody) + sep +
-                        seg('♫','music',muBody, m.nowplaying ? 'tick-nowplaying' : '') + sep +
-                        seg('⬡','steam',stBody) + sep +
-                        seg('◈','repos',reBody) + sep;
-          return `<span class="ticker-copy">${inner}</span>`;
-        }
-
-        function renderTicker() {
-          const track = document.getElementById('ticker-track');
-          if (!track) return;
-          const content = buildTickerHTML();
-          track.innerHTML = content + content;
-          track.style.animation = 'none';
-          void track.offsetWidth;
-          track.style.animation = '';
-        }
-
-        renderTicker();
         loadGitHub();
         loadLastFm();
         loadSteam();
