@@ -1,1 +1,1 @@
-[# rmranjitkarNULL-github-io]([url](https://rmranjitkarnull.github.io/Website-Portfolio/))
+[# rmranjitkarNULL-github-io](https://rmranjitkarnull.github.io/Website-Portfolio/)
