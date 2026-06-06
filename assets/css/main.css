@@ -99,7 +99,7 @@ input, select, textarea {
 	}
 
 	body {
-		background: #0f0f12;
+		background: #0f1210;
 	}
 
 		body.is-preload *, body.is-preload *:before, body.is-preload *:after {
@@ -1957,7 +1957,7 @@ input, select, textarea {
 
 		select option {
 			color: #ffffff;
-			background: #0f0f12;
+			background: #0f1210;
 		}
 
 		select:focus::-ms-value {
@@ -3412,7 +3412,7 @@ input, select, textarea {
 			-ms-transition-delay: 0.75s;
 			transition-delay: 0.75s;
 			pointer-events: none;
-			background-color: #0f0f12;
+			background-color: #0f1210;
 			content: '';
 			display: block;
 			height: 100%;
