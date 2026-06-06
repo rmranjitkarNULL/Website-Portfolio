@@ -1,189 +1,185 @@
 <!DOCTYPE HTML>
 <html>
-	<head>
-		<title>Light Sensor Interface on Basys3 Board</title>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-		<link rel="stylesheet" href="../assets/css/main.css" />
-		<noscript><link rel="stylesheet" href="../assets/css/noscript.css" /></noscript>
-	</head>
-	<body class="is-preload">
+  <head>
+    <title>FPGA Light Sensor Interface — Ryan Ranjitkar</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="../assets/css/main.css" />
+    <style>
+      *, *::before, *::after { box-sizing: border-box; }
+      .proj-page { max-width: 65em; margin: 0 auto; width: calc(100% - 6em); padding-bottom: 4em; }
+      .proj-topbar { display: flex; justify-content: space-between; align-items: center; padding: 2em 0 1.8em; }
+      .proj-back { font-size: 0.85em; color: rgba(200,200,210,0.45); text-decoration: none; border: 0; transition: color 0.2s; }
+      .proj-back:hover { color: #7eb8b0; }
+      .proj-github { display: inline-flex; align-items: center; gap: 0.45em; font-size: 0.82em; font-weight: 500; color: rgba(200,200,210,0.55); text-decoration: none; border: 1px solid rgba(200,200,210,0.15); padding: 0.35em 0.85em; border-radius: 2em; transition: color 0.2s, border-color 0.2s; }
+      .proj-github:hover { color: #fff; border-color: rgba(200,200,210,0.4); }
+      .proj-header { margin-bottom: 2em; }
+      .proj-header h1 { font-size: 2.1em; font-weight: 600; line-height: 1.2; margin-bottom: 0.5em; color: #fff; }
+      .proj-tags { display: flex; flex-wrap: wrap; gap: 0.4em; }
+      .proj-tag { font-size: 0.75em; font-weight: 500; padding: 0.3em 0.8em; border-radius: 2em; background: rgba(126,184,176,0.1); border: 1px solid rgba(126,184,176,0.25); color: #7eb8b0; }
+      .proj-nav { position: sticky; top: 0; z-index: 100; background: rgba(15,15,18,0.88); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid rgba(200,200,210,0.07); margin: 0 calc(-1 * (100vw - 65em) / 2 - 3em); padding: 0 calc((100vw - 65em) / 2 + 3em); display: flex; gap: 0; overflow-x: auto; }
+      .proj-nav a { font-size: 0.8em; font-weight: 500; color: rgba(200,200,210,0.45); text-decoration: none; border: 0; padding: 0.85em 1.2em; white-space: nowrap; border-bottom: 2px solid transparent; transition: color 0.2s, border-color 0.2s; }
+      .proj-nav a:hover { color: rgba(200,200,210,0.85); }
+      .proj-nav a.active { color: #7eb8b0; border-bottom-color: #7eb8b0; }
+      .proj-divider { border: 0; border-top: 1px solid rgba(200,200,210,0.07); margin: 3em 0; }
+      .proj-section { display: grid; grid-template-columns: 5fr 8fr; gap: 3em; align-items: start; scroll-margin-top: 3em; padding: 3em 0; }
+      .proj-section.flip .proj-visual { order: 2; }
+      .proj-section.flip .proj-text   { order: 1; }
+      .proj-overview { scroll-margin-top: 3em; padding: 2.5em 0 0; }
+      .section-tag { font-family: ui-monospace, 'Cascadia Mono', 'Courier New', monospace; font-size: 0.72em; color: #7eb8b0; letter-spacing: 0.08em; display: block; margin-bottom: 0.5em; }
+      .proj-section h2, .proj-overview h2 { font-size: 1.55em; font-weight: 600; color: #fff; margin-bottom: 1em; line-height: 1.25; }
+      .proj-text p { font-size: 0.93em; color: rgba(200,200,210,0.7); line-height: 1.8; margin-bottom: 1em; }
+      .proj-text p:last-child { margin-bottom: 0; }
+      .proj-text strong { color: rgba(200,200,210,0.9); font-weight: 600; }
+      .proj-text code { font-family: ui-monospace, 'Courier New', monospace; font-size: 0.85em; background: rgba(200,200,210,0.07); padding: 0.1em 0.4em; border-radius: 3px; }
+      .proj-visual { border-radius: 8px; overflow: hidden; background: rgba(255,255,255,0.03); border: 1px solid rgba(200,200,210,0.08); }
+      .proj-visual img, .proj-visual video { width: 100%; display: block; height: auto; }
+      .proj-overview-img { margin-top: 2em; border-radius: 8px; overflow: hidden; border: 1px solid rgba(200,200,210,0.08); }
+      .proj-overview-img img { width: 100%; display: block; object-fit: cover; }
+      .proj-footer-nav { display: flex; justify-content: space-between; align-items: center; padding: 2em 0; border-top: 1px solid rgba(200,200,210,0.07); margin-top: 1em; }
+      .proj-footer-nav a { font-size: 0.85em; color: rgba(200,200,210,0.45); text-decoration: none; border: 0; transition: color 0.2s; }
+      .proj-footer-nav a:hover { color: #7eb8b0; }
+      .proj-contact { display: flex; gap: 2.5em; flex-wrap: wrap; padding: 2em 0 3em; border-top: 1px solid rgba(200,200,210,0.07); }
+      .proj-contact-item { display: flex; flex-direction: column; gap: 0.3em; }
+      .proj-contact-item .label { font-size: 0.72em; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(200,200,210,0.3); font-weight: 600; }
+      .proj-contact-item a { font-size: 0.88em; color: rgba(200,200,210,0.6); text-decoration: none; border: 0; transition: color 0.2s; }
+      .proj-contact-item a:hover { color: #7eb8b0; }
+      .reveal { opacity: 0; transform: translateY(14px); transition: opacity 0.5s ease, transform 0.5s ease; }
+      .reveal.visible { opacity: 1; transform: none; }
+      @media (max-width: 768px) {
+        .proj-page { width: calc(100% - 3em); }
+        .proj-section { grid-template-columns: 1fr; gap: 1.5em; }
+        .proj-section.flip .proj-visual, .proj-section.flip .proj-text { order: 0; }
+        .proj-nav { margin: 0 -1.5em; padding: 0 1.5em; }
+        .proj-header h1 { font-size: 1.6em; }
+      }
+    </style>
+  </head>
+  <body class="is-preload">
+  <div id="wrapper">
+  <div class="proj-page">
 
-		<!-- Wrapper -->
-		<div id="wrapper">
+    <div class="proj-topbar reveal">
+      <a href="../index.html" class="proj-back">← projects</a>
+      <a href="https://github.com/rmranjitkarNULL/ECE3829" target="_blank" class="proj-github">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+        GitHub
+      </a>
+    </div>
 
-			<!-- Header -->
-			<header id="header">
-				<a href="../index.html" class="logo"><strong>Ryan</strong> <span>Ranjitkar</span></a>
-				<nav><a href="#menu">Menu</a></nav>
-			</header>
+    <header class="proj-header reveal">
+      <h1>FPGA Light Sensor Interface</h1>
+      <div class="proj-tags">
+        <span class="proj-tag">Verilog</span>
+        <span class="proj-tag">FPGA</span>
+        <span class="proj-tag">SPI</span>
+        <span class="proj-tag">Basys3</span>
+        <span class="proj-tag">Vivado</span>
+        <span class="proj-tag">FSM</span>
+      </div>
+    </header>
 
-			<!-- Menu -->
-			<nav id="menu">
-				<ul class="links">
-					<li><a href="../index.html">Home</a></li>
-					<li><a href="../aboutme.html">About Me</a></li>
-					<li><a href="projects.html">Projects</a></li>
-				</ul>
-			</nav>
+    <nav class="proj-nav" id="proj-nav">
+      <a href="#overview" class="active">Overview</a>
+      <a href="#architecture">Architecture</a>
+      <a href="#modules">Modules</a>
+      <a href="#testbench">Testbench</a>
+      <a href="#results">Results</a>
+    </nav>
 
-			<!-- Main -->
-			<div id="main" class="alt">
-				<section id="one">
-					<div class="inner">
-						<header class="major">
-							<h1>Light Sensor Interface on Basys3 Board</h1>
-						</header>
-						<p>
-							This FPGA-based project implemented a complete light-sensing system on the Digilent Basys3 board using Verilog HDL. 
-							The design interfaced the PMOD ALS (Analog Light Sensor) module—which contains an ADC081S021 SPI ADC—using a custom-built SPI master and finite state machine. 
-							A 10 MHz clock generated by an MMCM drove all sequential logic, while sampled data was displayed in real time on a four-digit seven-segment display. 
-							To verify correctness, a behavioral model (BFM) of the sensor and a Verilog testbench were written to simulate realistic SPI behavior, ensuring proper data capture timing and serial protocol compliance.
-						</p>
-					</div>
-				</section>
-			</div>
+    <div class="proj-overview reveal" id="overview">
+      <span class="section-tag">// 01</span>
+      <h2>Overview</h2>
+      <div class="proj-text">
+        <p>An FPGA-based light-sensing system on the <strong>Digilent Basys3</strong> board using <strong>Verilog HDL</strong>. The design interfaces the <strong>PMOD ALS</strong> module (ADC081S021 SPI ADC) using a custom-built <strong>SPI master</strong> and <strong>finite state machine</strong>.</p>
+        <p>A <strong>10 MHz clock</strong> generated by an MMCM drives all sequential logic, while sampled data is displayed in real time on a <strong>four-digit seven-segment display</strong>. A behavioral BFM and Verilog testbench verified correct SPI behavior before hardware deployment.</p>
+      </div>
+      <div class="proj-overview-img">
+        <img src="../assets/images/projects/proj2_LightSensor/final_display.png" alt="Seven-Segment Display Output" />
+      </div>
+    </div>
 
-			<div id="main">
-				<section id="two" class="spotlights">
+    <hr class="proj-divider">
 
-					<!-- Section 1 -->
-					<section>
-						<img src="../assets/images/underConstruction.jpg" alt="" data-position="top center" />
-						<div class="content">
-							<div class="inner">
-								<header class="major">
-									<h3>System Architecture</h3>
-								</header>
-								<p>
-									The top-level system integrated three key modules:
-									<ul>
-										<li><strong>Clock Generator (clk_gen):</strong> Used the Basys3 MMCM to derive a 10 MHz clock and synchronized the <code>locked</code> signal with a two-stage flip-flop to prevent metastability.</li>
-										<li><strong>Sensor Interface (pmod_als):</strong> Implemented a 2.5 MHz SPI master and a four-state FSM controlling chip select, serial clock, and data capture once per second.</li>
-										<li><strong>Seven-Segment Display Controller:</strong> Split the 8-bit light value into two hexadecimal nibbles, multiplexed four displays, and appended the last two digits of the WPI ID.</li>
-									</ul>
-									The SPI interface read 16-bit sensor frames, extracted bits [11:4] as light intensity data, and passed the value to the display controller for real-time visualization.
-								</p>
-							</div>
-						</div>
-					</section>
+    <div class="proj-section reveal" id="architecture">
+      <div class="proj-visual">
+        <img src="../assets/images/under-construction-warning-sign-vector.jpg" alt="System Architecture" />
+      </div>
+      <div class="proj-text">
+        <span class="section-tag">// 02</span>
+        <h2>System Architecture</h2>
+        <p>The top-level design integrates three key modules: a <strong>Clock Generator</strong> using the Basys3 MMCM to derive a 10 MHz clock (with a two-stage flip-flop to prevent metastability), a <strong>Sensor Interface</strong> implementing a 2.5 MHz SPI master and four-state FSM, and a <strong>Seven-Segment Display Controller</strong> multiplexing four displays.</p>
+        <p>The SPI interface reads 16-bit sensor frames, extracts bits [11:4] as light intensity data, and passes the value to the display controller. The design achieved <strong>57 LUTs and 108 registers</strong> with all timing constraints met (WNS = 95 ns, TNS = 0).</p>
+      </div>
+    </div>
 
-					<!-- Section 2 -->
-					<section>
-						<img src="../assets/images/underConstruction.jpg" alt="" data-position="top center" />
-						<div class="content">
-							<div class="inner">
-								<header class="major">
-									<h3>Module Development</h3>
-								</header>
-								<p>
-									The <strong>sensor_interface</strong> module communicated with the PMOD ALS using SPI protocol. A 24-bit counter set the 1 Hz sampling period, while a 15-bit shift register captured data on each falling edge of <code>SCLK</code>. 
-									A finite-state machine handled the sequence: <em>IDLE → WAIT → READ → DONE</em>, ensuring chip-select timing and SPI alignment with a simulated 40 ns access delay (<em>T<sub>ACC</sub></em>). 
-									Each module—clock, interface, and display—was individually verified in Vivado simulations before integration.
-								</p>
-								<p>
-									<strong>Resource Utilization:</strong> 57 LUTs and 108 registers total, dominated by the SPI logic. All setup and hold constraints were met (WNS = 95 ns, TNS = 0).
-								</p>
-							</div>
-						</div>
-					</section>
+    <hr class="proj-divider">
 
-					<!-- NEW Section: Testbench -->
-					<section>
-						<img src="../assets/images/projects/proj2_LightSensor/testbench_waveforms.png" alt="" data-position="top center" />
-						<div class="content">
-							<div class="inner">
-								<header class="major">
-									<h3>Testbench Development &amp; Verification</h3>
-								</header>
-								<p>
-									To verify the SPI logic before hardware deployment, a dedicated <strong>Behavioral Functional Model (BFM)</strong> and testbench were developed in Verilog. 
-									The BFM (<code>ALS_PMOD_BFM</code>) emulated the PMOD ALS sensor’s behavior, including its 15-bit data frame format (3 zero padding bits + 8-bit data + 4 trailing zeros) and a 40 ns data-access delay.
-								</p>
-								<p>
-									The <strong>testbench (<code>test_ALS_PMOD_BFM</code>)</strong> instantiated the BFM and automatically generated all SPI timing signals. 
-									A 1 MHz serial clock toggled every 500 ns, while <code>CS_N</code> was pulsed low to initiate transfers. 
-									In each iteration, the testbench loaded a new 8-bit <code>data_in</code> pattern, multiplied by an incremental factor to simulate four distinct light-intensity cases. 
-									On each falling edge of <code>SCLK</code>, the BFM shifted bits serially into <code>SDO</code>, and the testbench reconstructed the 15-bit output in <code>data_receive</code>.
-								</p>
-								<p>
-									After all 16 bits were captured, bits [11:4] were extracted and compared to the expected value. 
-									Pass/fail messaWPIges were printed to the console in the form:
-									<code>PASS: Expected = %h, Received = %h at time = %t ps</code>. 
-									All four iterations passed successfully, confirming correct SPI alignment, serial shifting, and timing behavior. 
-									The simulation waveforms clearly demonstrated the 40 ns delay between <code>SCLK</code> falling edges and valid <code>SDO</code> output, validating the BFM model and the design’s robustness.
-								</p>
-							</div>
-						</div>
-					</section>
+    <div class="proj-section flip reveal" id="modules">
+      <div class="proj-text">
+        <span class="section-tag">// 03</span>
+        <h2>Module Development</h2>
+        <p>The <strong>sensor_interface</strong> module communicates with the PMOD ALS using SPI. A 24-bit counter sets the 1 Hz sampling period, while a 15-bit shift register captures data on each falling edge of <code>SCLK</code>.</p>
+        <p>The FSM sequences: <em>IDLE → WAIT → READ → DONE</em>, ensuring chip-select timing and SPI alignment with a simulated <strong>40 ns access delay (T<sub>ACC</sub>)</strong>. Each module — clock, interface, and display — was individually verified in <strong>Vivado simulations</strong> before integration.</p>
+      </div>
+      <div class="proj-visual">
+        <img src="../assets/images/under-construction-warning-sign-vector.jpg" alt="Module Development" />
+      </div>
+    </div>
 
-					<!-- Section 3 -->
-					<section>
-						<img src="../assets/images/projects/proj2_LightSensor/final_display.png" alt="" data-position="top center" />
-						<div class="content">	
-							<div class="inner">
-								<header class=WPI"major">
-									<h3>Results &amp; Reflection</h3>
-								</header>
-								<p>
-									The final FPGA implementation successfully integrated the clocking, SPI interface, and display modules into a cohesive real-time system. 
-									The seven-segment display updated at 1 Hz without flicker, and SPI communication remained stable across all hardware trials. 
-									This project deepened understanding of synchronous digital design, SPI protocols, MMCM clocking, and simulation-driven verification. 
-									By developing both the functional module and a rigorous testbench, the design process mirrored industry-grade validation methods for embedded and FPGA-based sensor systems.
-								</p>
-							</div>
-						</div>
-					</section>
-				</section>
+    <hr class="proj-divider">
 
-				<!-- View All Projects -->
-				<section id="three" class="view-all-centered">
-					<div class="inner">
-						<header class="major">
-							<h2>View All Projects</h2>
-						</header>
-						<p>Go back and check out my other FPGA and embedded system projects!</p>
-						<ul class="actions">
-							<li><a href="projects.html" class="button next">View All</a></li>
-							<li><a href="https://github.com/rmranjitkar" class="button">GitHub Repository</a></li>
-						</ul>
-					</div>
-				</section>
-			</div>
+    <div class="proj-section reveal" id="testbench">
+      <div class="proj-visual">
+        <img src="../assets/images/projects/proj2_LightSensor/testbench_waveforms.png" alt="Testbench Waveforms" />
+      </div>
+      <div class="proj-text">
+        <span class="section-tag">// 04</span>
+        <h2>Testbench &amp; Verification</h2>
+        <p>A dedicated <strong>Behavioral Functional Model (BFM)</strong> emulated the PMOD ALS sensor's behavior including its 15-bit data frame format and 40 ns data-access delay. The testbench automatically generated all SPI timing signals and swept four distinct light-intensity cases.</p>
+        <p>After all 16 bits were captured, bits [11:4] were extracted and compared against expected values. All four test iterations passed, confirming correct <strong>SPI alignment</strong>, <strong>serial shifting</strong>, and <strong>timing behavior</strong>.</p>
+      </div>
+    </div>
 
-			<br>
+    <hr class="proj-divider">
 
-			<!-- Contact -->
-			<section class="split">
-				<section>
-					<div class="contact-method">
-						<h3><span class="icon solid alt fa-envelope"></span> Email</h3>
-						<a href="mailto:rmranjitkar@wpi.edu">rmranjitkar@wpi.edu</a>
-					</div>
-				</section>
-				<section>
-					<div class="contact-method">
-						<h3><span class="icon brands alt fa-linkedin-in"></span> LinkedIn</h3>
-						<a href="https://www.linkedin.com/in/ryanranjitkar/">https://www.linkedin.com/in/ryanranjitkar/</a>
-					</div>
-				</section>
-				<section>
-					<div class="contact-method">
-						<h3><span class="icon brands alt fa-github"></span> GitHub</h3>
-						<a href="https://github.com/rmranjitkar">https://github.com/rmranjitkar</a>
-					</div>
-				</section>
-			</section>
-		</div>
+    <div class="proj-section flip reveal" id="results">
+      <div class="proj-text">
+        <span class="section-tag">// 05</span>
+        <h2>Results &amp; Reflection</h2>
+        <p>The final FPGA implementation successfully integrated clocking, SPI interface, and display modules into a cohesive real-time system. The seven-segment display updated at <strong>1 Hz without flicker</strong>, and SPI communication remained stable across all hardware trials.</p>
+        <p>This project deepened understanding of <strong>synchronous digital design</strong>, <strong>SPI protocols</strong>, <strong>MMCM clocking</strong>, and simulation-driven verification — mirroring industry-grade validation methods for FPGA-based sensor systems.</p>
+      </div>
+      <div class="proj-visual">
+        <img src="../assets/images/projects/proj2_LightSensor/final_display.png" alt="Final Display Output" />
+      </div>
+    </div>
 
-		<!-- Scripts -->
-		<script src="../assets/js/jquery.min.js"></script>
-		<script src="../assets/js/jquery.scrolly.min.js"></script>
-		<script src="../assets/js/jquery.scrollex.min.js"></script>
-		<script src="../assets/js/browser.min.js"></script>
-		<script src="../assets/js/breakpoints.min.js"></script>
-		<script src="../assets/js/util.js"></script>
-		<script src="../assets/js/main.js"></script>
+    <div class="proj-footer-nav reveal">
+      <a href="../index.html">← all projects</a>
+      <a href="#overview">↑ back to top</a>
+    </div>
 
-	</body>
+    <div class="proj-contact reveal">
+      <div class="proj-contact-item"><span class="label">Email</span><a href="mailto:rmranjitkar@wpi.edu">rmranjitkar@wpi.edu</a></div>
+      <div class="proj-contact-item"><span class="label">LinkedIn</span><a href="https://www.linkedin.com/in/ryanranjitkar/">linkedin.com/in/ryanranjitkar</a></div>
+      <div class="proj-contact-item"><span class="label">GitHub</span><a href="https://github.com/rmranjitkar">github.com/rmranjitkar</a></div>
+    </div>
+
+  </div>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      document.body.classList.remove('is-preload');
+      const io = new IntersectionObserver((entries) => { entries.forEach(e => { if (!e.isIntersecting) return; io.unobserve(e.target); e.target.classList.add('visible'); }); }, { threshold: 0.07, rootMargin: '0px 0px -30px 0px' });
+      document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+      const sections = ['overview','architecture','modules','testbench','results'].map(id => document.getElementById(id));
+      const navLinks = Array.from(document.querySelectorAll('.proj-nav a'));
+      const navIo = new IntersectionObserver((entries) => { entries.forEach(entry => { if (!entry.isIntersecting) return; navLinks.forEach(a => a.classList.remove('active')); const link = document.querySelector(`.proj-nav a[href="#${entry.target.id}"]`); if (link) link.classList.add('active'); }); }, { threshold: 0.35 });
+      sections.forEach(s => { if (s) navIo.observe(s); });
+    });
+  </script>
+  </body>
 </html>

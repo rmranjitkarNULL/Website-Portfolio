@@ -1,104 +1,352 @@
 <!DOCTYPE HTML>
-<!--
-	Forty by HTML5 UP
-	html5up.net | @ajlkn
-	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
--->
 <html>
-	<head>
-		<title>Generic - Forty by HTML5 UP</title>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-		<link rel="stylesheet" href="assets/css/main.css" />
-		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
-	</head>
-	<body class="is-preload">
+  <head>
+    <title>About — Ryan Ranjitkar</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <style>
+      /* ── Page shell ── */
+      body, #wrapper { background: #0f1210; }
 
-		<!-- Wrapper -->
-			<div id="wrapper">
+      #header {
+        background: transparent !important;
+        border-bottom: 1px solid rgba(200,200,210,0.07) !important;
+      }
+      #header a.logo strong { color: #fff; }
+      #header a.logo span   { color: rgba(200,200,210,0.5); }
 
-				<!-- Header -->
-					<header id="header">
-						<a href="index.html" class="logo"><strong>Ryan</strong> <span>Ranjitkar</span></a>
-						<nav>
-							<a href="#menu">Menu</a>
-						</nav>
-					</header>
+      /* ── About hero ── */
+      .about-hero {
+        padding: 4em 3em 2.5em;
+        max-width: 65em;
+        margin: 0 auto;
+        width: calc(100% - 6em);
+        box-sizing: border-box;
+      }
+      .about-back {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4em;
+        font-family: ui-monospace, 'Cascadia Mono', 'Courier New', monospace;
+        font-size: 0.78em;
+        color: rgba(200,200,210,0.35);
+        text-decoration: none;
+        border: none;
+        letter-spacing: 0.04em;
+        margin-bottom: 2em;
+        transition: color 0.2s;
+      }
+      .about-back:hover { color: #7eb8b0; }
 
-				<!-- Menu -->
-					<nav id="menu">
-						<ul class="links">
-							<li><a href="index.html">Home</a></li>
-							<li><a href="aboutme.html">About Me</a></li>
-							<li><a href="projects/projects.html">Projects</a></li>
-						</ul>
-					</nav>
+      .section-comment {
+        font-family: ui-monospace, 'Cascadia Mono', 'Fira Code', 'Courier New', monospace;
+        font-size: 0.78em;
+        color: #6a9e85;
+        letter-spacing: 0.02em;
+        margin-bottom: 0.5em;
+      }
+      .about-name {
+        font-size: 3em;
+        font-weight: 700;
+        color: #fff;
+        margin: 0 0 0.1em;
+        letter-spacing: -0.02em;
+        line-height: 1.1;
+      }
+      .about-sub {
+        font-size: 0.9em;
+        color: rgba(200,200,210,0.45);
+        letter-spacing: 0.04em;
+        margin: 0 0 2.5em;
+      }
 
+      /* ── Photo + intro row ── */
+      .about-intro {
+        display: grid;
+        grid-template-columns: 260px 1fr;
+        gap: 3em;
+        align-items: start;
+        margin-bottom: 3em;
+      }
+      .about-photo {
+        width: 100%;
+        aspect-ratio: 3/4;
+        object-fit: cover;
+        border-radius: 10px;
+        border: 1px solid rgba(200,200,210,0.1);
+        display: block;
+        background: rgba(255,255,255,0.04);
+      }
+      .about-photo-placeholder {
+        width: 100%;
+        aspect-ratio: 3/4;
+        border-radius: 10px;
+        border: 1px solid rgba(200,200,210,0.1);
+        background: rgba(255,255,255,0.04);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: rgba(200,200,210,0.2);
+        font-size: 0.8em;
+        font-family: ui-monospace, monospace;
+        letter-spacing: 0.05em;
+      }
+      .about-text p {
+        font-size: 0.95em;
+        color: rgba(200,200,210,0.7);
+        line-height: 1.8;
+        margin: 0 0 1.2em;
+      }
+      .about-text p:last-child { margin: 0; }
 
-				<!-- Main -->
-					<div id="main" class="alt">
+      /* ── Interest tags ── */
+      .about-interests {
+        margin-bottom: 3em;
+      }
+      .tag-grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5em;
+        margin-top: 0.75em;
+      }
+      .tag {
+        font-family: ui-monospace, 'Cascadia Mono', monospace;
+        font-size: 0.75em;
+        color: #7eb8b0;
+        border: 1px solid rgba(126,184,176,0.3);
+        border-radius: 3px;
+        padding: 0.3em 0.7em;
+        letter-spacing: 0.04em;
+        background: rgba(126,184,176,0.06);
+      }
 
-						<!-- One -->
-							<section id="one">
-								<div class="inner">
-									<header class="major">
-										<h1>About Me</h1>
-									</header>
-									<span class="image main"><img src="images/pic11.jpg" alt="" /></span>
-									<p>I’m an embedded systems engineer studying ECE/RBE at WPI with a passion for building things from the ground up. I love designing and bringing up PCBs, programming MCUs, and exploring the possibilities of FPGAs. My goal is to work in the robotics field with a focus on embedded systems, while also continuing to grow my interests in computer vision, biomedical devices, and chip design.</p>
-									<p>Outside of work and academics, I like to stay active and creative in different ways. In the gym, I enjoy lifting weights and practicing karate as both a workout and a discipline. I also love cooking and experimenting with food from around the world—whether it’s making momos, a plate of katsu curry, or a fresh batch of snickerdoodles. When it’s time to relax, I boot up my PC, switching between favorites like Pokémon, Ultrakill, and 2XKO depending on what I’m into that week.</p>
-							</section>
+      /* ── Stat cards ── */
+      .about-stats {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1em;
+        margin-bottom: 3em;
+      }
+      .stat-card {
+        background: rgba(255,255,255,0.04);
+        border: 1px solid rgba(200,200,210,0.09);
+        border-left: 3px solid #7eb8b0;
+        border-radius: 8px;
+        padding: 1.2em 1.4em;
+      }
+      .stat-label {
+        font-family: ui-monospace, 'Cascadia Mono', monospace;
+        font-size: 0.68em;
+        color: rgba(200,200,210,0.3);
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        margin-bottom: 0.35em;
+      }
+      .stat-value {
+        font-size: 1em;
+        font-weight: 600;
+        color: #fff;
+      }
 
-					</div>
+      /* ── Outside work section ── */
+      .about-life {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 1em;
+        margin-bottom: 3em;
+      }
+      .life-card {
+        background: rgba(255,255,255,0.03);
+        border: 1px solid rgba(200,200,210,0.08);
+        border-radius: 8px;
+        padding: 1.3em 1.5em;
+      }
+      .life-icon {
+        font-size: 1.1em;
+        color: #7eb8b0;
+        margin-bottom: 0.6em;
+        display: block;
+      }
+      .life-title {
+        font-size: 0.82em;
+        font-weight: 600;
+        color: rgba(200,200,210,0.7);
+        margin-bottom: 0.4em;
+        letter-spacing: 0.02em;
+      }
+      .life-detail {
+        font-size: 0.78em;
+        color: rgba(200,200,210,0.38);
+        line-height: 1.5;
+      }
 
-				<br>
+      /* ── Contact ── */
+      .split.contact-reveal {
+        opacity: 0;
+        transform: translateY(12px);
+        transition: opacity 0.55s ease, transform 0.55s ease;
+      }
+      .split.contact-reveal.visible { opacity: 1; transform: none; }
 
-				<!-- Contact -->
-					<section class="split">
-						<!-- Email -->
-						<section>
-							<div class="contact-method">
-							<h3>
-								<span class="icon solid alt fa-envelope"></span>
-								Email
-							</h3>
-							<a href="mailto:rmranjitkar@wpi.edu">rmranjitkar@wpi.edu</a>
-							</div>
-						</section>
+      /* ── Reveal ── */
+      .reveal { opacity: 0; transform: translateY(14px); transition: opacity 0.55s ease, transform 0.55s ease; }
+      .reveal.visible { opacity: 1; transform: none; }
 
-						<!-- LinkedIn -->
-						<section>
-							<div class="contact-method">
-							<h3>
-								<span class="icon brands alt fa-linkedin-in"></span>
-								LinkedIn
-							</h3>
-							<a href="https://www.linkedin.com/in/ryanranjitkar/">https://www.linkedin.com/in/ryanranjitkar/</a>
-							</div>
-						</section>
+      @media (max-width: 900px) {
+        .about-intro { grid-template-columns: 1fr; }
+        .about-photo, .about-photo-placeholder { max-width: 260px; aspect-ratio: 1/1; }
+        .about-stats { grid-template-columns: 1fr 1fr; }
+        .about-life  { grid-template-columns: 1fr 1fr; }
+        .about-hero  { padding: 2.5em 2em 2em; width: calc(100% - 4em); }
+      }
+      @media (max-width: 600px) {
+        .about-name  { font-size: 2.2em; }
+        .about-stats { grid-template-columns: 1fr; }
+        .about-life  { grid-template-columns: 1fr; }
+        .about-hero  { padding: 2em 1.5em; width: calc(100% - 3em); }
+      }
+    </style>
+  </head>
+  <body class="is-preload">
+    <div id="wrapper">
 
-						<!-- GitHub -->
-						<section>
-							<div class="contact-method">
-							<h3>
-								<span class="icon brands alt fa-github"></span>
-								GitHub
-							</h3>
-							<a href="https://github.com/rmranjitkar">https://github.com/rmranjitkar</a>
-							</div>
-						</section>
-					</section>
+      <header id="header">
+        <a href="index.html" class="logo"><strong>Ryan</strong> <span>Ranjitkar</span></a>
+        <nav><a href="#menu">Menu</a></nav>
+      </header>
 
-			</div>
+      <nav id="menu">
+        <ul class="links">
+          <li><a href="index.html">Home</a></li>
+        </ul>
+      </nav>
 
-		<!-- Scripts -->
-			<script src="assets/js/jquery.min.js"></script>
-			<script src="assets/js/jquery.scrolly.min.js"></script>
-			<script src="assets/js/jquery.scrollex.min.js"></script>
-			<script src="assets/js/browser.min.js"></script>
-			<script src="assets/js/breakpoints.min.js"></script>
-			<script src="assets/js/util.js"></script>
-			<script src="assets/js/main.js"></script>
+      <div class="about-hero">
 
-	</body>
+        <a href="index.html" class="about-back">← back to home</a>
+
+        <p class="section-comment">// about me</p>
+        <h1 class="about-name">ryan ranjitkar</h1>
+        <p class="about-sub">electrical &amp; robotics engineer · WPI</p>
+
+        <!-- Intro -->
+        <div class="about-intro reveal">
+          <div class="about-photo-placeholder">photo.jpg</div>
+          <div class="about-text">
+            <p>I'm an embedded systems engineer studying ECE/RBE at WPI with a passion for building things from the ground up. I love designing and bringing up PCBs, programming MCUs, and exploring the possibilities of FPGAs.</p>
+            <p>My goal is to work in the robotics field with a focus on embedded systems, while also continuing to grow my interests in computer vision, biomedical devices, and chip design.</p>
+            <p>Outside of work and academics, I like to stay active and creative in different ways. In the gym, I enjoy lifting weights and practicing karate as both a workout and a discipline. I also love cooking and experimenting with food from around the world — whether it's making momos, a plate of katsu curry, or a fresh batch of snickerdoodles.</p>
+            <p>When it's time to relax, I boot up my PC, switching between favorites like Pokémon, Ultrakill, and 2XKO depending on what I'm into that week.</p>
+          </div>
+        </div>
+
+        <!-- Stats -->
+        <p class="section-comment reveal">// quick facts</p>
+        <div class="about-stats reveal">
+          <div class="stat-card">
+            <p class="stat-label">School</p>
+            <p class="stat-value">Worcester Polytechnic Institute</p>
+          </div>
+          <div class="stat-card" style="border-left-color:#b09070;">
+            <p class="stat-label">Degree</p>
+            <p class="stat-value">ECE &amp; Robotics Engineering</p>
+          </div>
+          <div class="stat-card" style="border-left-color:#6a85c0;">
+            <p class="stat-label">Focus</p>
+            <p class="stat-value">Embedded Systems · FPGA · PCB Design</p>
+          </div>
+        </div>
+
+        <!-- Technical Interests -->
+        <div class="about-interests reveal">
+          <p class="section-comment">// technical interests</p>
+          <div class="tag-grid">
+            <span class="tag">Real Time Embedded Systems</span>
+            <span class="tag">FPGA / RTL Design</span>
+            <span class="tag">PCB Design</span>
+            <span class="tag">Chip Design</span>
+            <span class="tag">Computer Vision</span>
+            <span class="tag">Digital Signal Processing</span>
+            <span class="tag">Robotics</span>
+            <span class="tag">Biomedical Devices</span>
+            <span class="tag">C / C++</span>
+            <span class="tag">Verilog</span>
+            <span class="tag">MATLAB</span>
+            <span class="tag">Python</span>
+          </div>
+        </div>
+
+        <!-- Outside of work -->
+        <p class="section-comment reveal">// outside of work</p>
+        <div class="about-life reveal">
+          <div class="life-card">
+            <span class="life-icon">⚔</span>
+            <p class="life-title">Fitness</p>
+            <p class="life-detail">Weightlifting &amp; karate — discipline in and out of the lab.</p>
+          </div>
+          <div class="life-card">
+            <span class="life-icon">◈</span>
+            <p class="life-title">Cooking</p>
+            <p class="life-detail">Momos, katsu curry, snickerdoodles — always experimenting with something new.</p>
+          </div>
+          <div class="life-card">
+            <span class="life-icon">⬡</span>
+            <p class="life-title">Gaming</p>
+            <p class="life-detail">Pokémon, Ultrakill, 2XKO — rotating favorites depending on the week.</p>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Contact -->
+      <section class="split contact-reveal">
+        <section>
+          <div class="contact-method">
+            <h3><span class="icon solid alt fa-envelope"></span> email</h3>
+            <a href="mailto:rmranjitkar@wpi.edu">rmranjitkar@wpi.edu</a>
+          </div>
+        </section>
+        <section>
+          <div class="contact-method">
+            <h3><span class="icon brands alt fa-linkedin-in"></span> linkedin</h3>
+            <a href="https://www.linkedin.com/in/ryanranjitkar/">linkedin.com/in/ryanranjitkar</a>
+          </div>
+        </section>
+        <section>
+          <div class="contact-method">
+            <h3><span class="icon brands alt fa-github"></span> github</h3>
+            <a href="https://github.com/rmranjitkar">github.com/rmranjitkar</a>
+          </div>
+        </section>
+      </section>
+
+    </div>
+
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/jquery.scrolly.min.js"></script>
+    <script src="assets/js/jquery.scrollex.min.js"></script>
+    <script src="assets/js/browser.min.js"></script>
+    <script src="assets/js/breakpoints.min.js"></script>
+    <script src="assets/js/util.js"></script>
+    <script src="assets/js/main.js"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        document.body.classList.remove('is-preload');
+        const io = new IntersectionObserver((entries) => {
+          entries.forEach(e => { if (!e.isIntersecting) return; io.unobserve(e.target); e.target.classList.add('visible'); });
+        }, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
+        document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+        const contactIo = new IntersectionObserver((entries) => {
+          entries.forEach(e => { if (!e.isIntersecting) return; contactIo.unobserve(e.target); e.target.classList.add('visible'); });
+        }, { threshold: 0.1 });
+        const contact = document.querySelector('.contact-reveal');
+        if (contact) contactIo.observe(contact);
+      });
+    </script>
+  </body>
 </html>

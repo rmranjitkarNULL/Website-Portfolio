@@ -1,183 +1,185 @@
 <!DOCTYPE HTML>
 <html>
   <head>
-    <title>FishShocker9000</title>
+    <title>FishShocker9000 — Ryan Ranjitkar</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="../assets/css/main.css" />
-    <noscript><link rel="stylesheet" href="../assets/css/noscript.css" /></noscript>
+    <style>
+      *, *::before, *::after { box-sizing: border-box; }
+      .proj-page { max-width: 65em; margin: 0 auto; width: calc(100% - 6em); padding-bottom: 4em; }
+      .proj-topbar { display: flex; justify-content: space-between; align-items: center; padding: 2em 0 1.8em; }
+      .proj-back { font-size: 0.85em; color: rgba(200,200,210,0.45); text-decoration: none; border: 0; transition: color 0.2s; }
+      .proj-back:hover { color: #7eb8b0; }
+      .proj-github { display: inline-flex; align-items: center; gap: 0.45em; font-size: 0.82em; font-weight: 500; color: rgba(200,200,210,0.55); text-decoration: none; border: 1px solid rgba(200,200,210,0.15); padding: 0.35em 0.85em; border-radius: 2em; transition: color 0.2s, border-color 0.2s; }
+      .proj-github:hover { color: #fff; border-color: rgba(200,200,210,0.4); }
+      .proj-header { margin-bottom: 2em; }
+      .proj-header h1 { font-size: 2.1em; font-weight: 600; line-height: 1.2; margin-bottom: 0.5em; color: #fff; }
+      .proj-tags { display: flex; flex-wrap: wrap; gap: 0.4em; }
+      .proj-tag { font-size: 0.75em; font-weight: 500; padding: 0.3em 0.8em; border-radius: 2em; background: rgba(126,184,176,0.1); border: 1px solid rgba(126,184,176,0.25); color: #7eb8b0; }
+      .proj-nav { position: sticky; top: 0; z-index: 100; background: rgba(15,15,18,0.88); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid rgba(200,200,210,0.07); margin: 0 calc(-1 * (100vw - 65em) / 2 - 3em); padding: 0 calc((100vw - 65em) / 2 + 3em); display: flex; gap: 0; overflow-x: auto; }
+      .proj-nav a { font-size: 0.8em; font-weight: 500; color: rgba(200,200,210,0.45); text-decoration: none; border: 0; padding: 0.85em 1.2em; white-space: nowrap; border-bottom: 2px solid transparent; transition: color 0.2s, border-color 0.2s; }
+      .proj-nav a:hover { color: rgba(200,200,210,0.85); }
+      .proj-nav a.active { color: #7eb8b0; border-bottom-color: #7eb8b0; }
+      .proj-divider { border: 0; border-top: 1px solid rgba(200,200,210,0.07); margin: 3em 0; }
+      .proj-section { display: grid; grid-template-columns: 5fr 8fr; gap: 3em; align-items: start; scroll-margin-top: 3em; padding: 3em 0; }
+      .proj-section.flip .proj-visual { order: 2; }
+      .proj-section.flip .proj-text   { order: 1; }
+      .proj-overview { scroll-margin-top: 3em; padding: 2.5em 0 0; }
+      .section-tag { font-family: ui-monospace, 'Cascadia Mono', 'Courier New', monospace; font-size: 0.72em; color: #7eb8b0; letter-spacing: 0.08em; display: block; margin-bottom: 0.5em; }
+      .proj-section h2, .proj-overview h2 { font-size: 1.55em; font-weight: 600; color: #fff; margin-bottom: 1em; line-height: 1.25; }
+      .proj-text p { font-size: 0.93em; color: rgba(200,200,210,0.7); line-height: 1.8; margin-bottom: 1em; }
+      .proj-text p:last-child { margin-bottom: 0; }
+      .proj-text strong { color: rgba(200,200,210,0.9); font-weight: 600; }
+      .proj-text code { font-family: ui-monospace, 'Courier New', monospace; font-size: 0.85em; background: rgba(200,200,210,0.07); padding: 0.1em 0.4em; border-radius: 3px; }
+      .proj-visual { border-radius: 8px; overflow: hidden; background: rgba(255,255,255,0.03); border: 1px solid rgba(200,200,210,0.08); }
+      .proj-visual img, .proj-visual video { width: 100%; display: block; height: auto; }
+      .proj-overview-img { margin-top: 2em; border-radius: 8px; overflow: hidden; border: 1px solid rgba(200,200,210,0.08); }
+      .proj-overview-img img { width: 100%; display: block; object-fit: cover; }
+      .proj-footer-nav { display: flex; justify-content: space-between; align-items: center; padding: 2em 0; border-top: 1px solid rgba(200,200,210,0.07); margin-top: 1em; }
+      .proj-footer-nav a { font-size: 0.85em; color: rgba(200,200,210,0.45); text-decoration: none; border: 0; transition: color 0.2s; }
+      .proj-footer-nav a:hover { color: #7eb8b0; }
+      .proj-contact { display: flex; gap: 2.5em; flex-wrap: wrap; padding: 2em 0 3em; border-top: 1px solid rgba(200,200,210,0.07); }
+      .proj-contact-item { display: flex; flex-direction: column; gap: 0.3em; }
+      .proj-contact-item .label { font-size: 0.72em; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(200,200,210,0.3); font-weight: 600; }
+      .proj-contact-item a { font-size: 0.88em; color: rgba(200,200,210,0.6); text-decoration: none; border: 0; transition: color 0.2s; }
+      .proj-contact-item a:hover { color: #7eb8b0; }
+      .reveal { opacity: 0; transform: translateY(14px); transition: opacity 0.5s ease, transform 0.5s ease; }
+      .reveal.visible { opacity: 1; transform: none; }
+      @media (max-width: 768px) {
+        .proj-page { width: calc(100% - 3em); }
+        .proj-section { grid-template-columns: 1fr; gap: 1.5em; }
+        .proj-section.flip .proj-visual, .proj-section.flip .proj-text { order: 0; }
+        .proj-nav { margin: 0 -1.5em; padding: 0 1.5em; }
+        .proj-header h1 { font-size: 1.6em; }
+      }
+    </style>
   </head>
   <body class="is-preload">
+  <div id="wrapper">
+  <div class="proj-page">
 
-    <!-- Wrapper -->
-    <div id="wrapper">
-
-      <!-- Header -->
-      <header id="header">
-        <a href="../index.html" class="logo"><strong>Ryan</strong> <span>Ranjitkar</span></a>
-        <nav><a href="#menu">Menu</a></nav>
-      </header>
-
-      <!-- Menu -->
-      <nav id="menu">
-        <ul class="links">
-          <li><a href="../index.html">Home</a></li>
-          <li><a href="../aboutme.html">About Me</a></li>
-          <li><a href="projects.html">Projects</a></li>
-        </ul>
-      </nav>
-
-      <!-- Overview -->
-      <div id="main" class="alt">
-        <section id="one">
-          <div class="inner">
-            <header class="major">
-              <h1>FishShocker9000</h1>
-            </header>
-            <p>
-              The <strong>FishShocker9000</strong> is a custom <strong>embedded bioengineering system</strong> developed for 
-              <strong>UMass Chan Thyme Labs</strong> to assist biological research on zebrafish behavior and response analysis.
-              Designed to deliver <strong>precisely timed high-voltage stimulation pulses</strong>, the system provides researchers
-              with fine-grained control over experimental parameters while maintaining user and animal safety. 
-              The project integrates <strong>custom PCB hardware</strong>, <strong>embedded C/C++ firmware</strong>, and 
-              <strong>Python-based automation scripts</strong> into a modular platform for repeatable, high-throughput testing.
-              Future iterations will incorporate <strong>computer vision (CV)</strong> for real-time fish detection and 
-              automated stimulus triggering, enabling closed-loop experimental control and reducing manual intervention.
-            </p>
-          </div>
-        </section>
-      </div>
-
-      <!-- Main Content -->
-      <section id="two" class="spotlights">
-
-        <!-- Circuit -->
-        <section>
-          <img class="spotlight-arch" src="../assets/images/projects/proj3_FSH9K/schm.png" alt="Circuit Schematic" data-position="top center" />
-          <div class="content">
-            <div class="inner">
-              <header class="major"><h3>Electrical Circuit Design</h3></header>
-              <p>
-                The <strong>FishShocker9000 circuit</strong> is built around a <strong>Teensy 4.1 microcontroller</strong>, chosen for its
-                high-speed clock and precise timing control. The Teensy generates programmable digital control signals, which are converted
-                into analog outputs via a <strong>digital-to-analog converter (DAC)</strong> and then amplified through a 
-                <strong>precision operational amplifier</strong> stage. To safely deliver biphasic stimulation in aqueous environments,
-                the amplified waveform passes through <strong>H-bridges</strong> that dynamically reverse polarity between pulses—eliminating
-                DC offset and minimizing electrolysis in the fish tank. 
-                A <strong>buck converter</strong> regulates input power, stepping down wall voltage to stable logic and drive rails.
-                Output current is routed through <strong>stainless-steel electrode plates</strong> that transmit the stimulation pulses
-                within the zebrafish testing chamber. The circuit emphasizes electrical isolation, safety, and reproducibility.
-              </p>
-            </div>
-          </div>
-        </section>
-
-        <!-- PCB -->
-        <section>
-          <img src="../assets/images/projects/proj3_FSH9K/routing.png" alt="PCB Layout" data-position="top center" />
-          <div class="content">
-            <div class="inner">
-              <header class="major"><h3>PCB Design and Integration</h3></header>
-              <p>
-                To consolidate and ruggedize the prototype, we designed a <strong>two-layer PCB</strong> in <strong>KiCad</strong> integrating
-                all power, logic, and signal-conditioning circuitry. The layout includes <strong>pogo-pin connectors</strong> for secure,
-                low-resistance contacts with the electrode array and <strong>mounting holes</strong> for stable enclosure placement.
-                The board’s routing strategy isolates high-voltage and logic domains, ensuring noise immunity and operator safety.
-                By embedding the <strong>microcontroller</strong>, <strong>H-bridge drivers</strong>, and <strong>power management</strong> on
-                one board, the final system achieves a compact, maintainable, and easily reproducible platform for lab deployment.
-              </p>
-            </div>
-          </div>
-        </section>
-
-        <!-- Firmware -->
-        <section>
-          <img src="../assets/images/projects/proj3_FSH9K/codeblock.png" alt="Firmware Structure" data-position="top center" />
-          <div class="content">
-            <div class="inner">
-              <header class="major"><h3>Embedded Firmware</h3></header>
-              <p>
-                Firmware was implemented in <strong>C/C++</strong> using the <strong>PlatformIO</strong> development environment to ensure 
-                deterministic, low-latency control over <strong>pulse generation</strong> and <strong>timing accuracy</strong>. 
-                The modular directory structure (<code>include/</code>, <code>src/</code>, <code>lib/</code>) supports scalability
-                and maintainability for future features. 
-                The firmware governs <strong>DAC output sequences</strong>, <strong>pulse width modulation</strong>,
-                and <strong>safety interlocks</strong> for high-voltage operation, while providing routines for 
-                <strong>amplitude and duration calibration</strong>. 
-                Future firmware revisions will expand to include <strong>serial communication</strong> with a vision module,
-                enabling real-time closed-loop stimulation triggered by fish detection algorithms.
-              </p>
-            </div>
-          </div>
-        </section>
-
-        <!-- Software Testing -->
-        <section>
-          <img src="../assets/images/projects/proj3_FSH9K/FishShocker9000.png" alt="Software Testing and Validation" data-position="top center" />
-          <div class="content">
-            <div class="inner">
-              <header class="major"><h3>Software Testing and Validation</h3></header>
-              <p>
-                System validation combined <strong>Python-based automation scripts</strong> with oscilloscope measurements to
-                evaluate <strong>pulse amplitude</strong>, <strong>timing stability</strong>, and <strong>repetition accuracy</strong> 
-                under varying conditions. Automated parameter sweeps ensured repeatable tests and rapid calibration across 
-                experimental setups. The testing framework verified microsecond-level timing precision and reliable high-voltage switching.
-                These scripts will later serve as the foundation for the project’s <strong>computer vision module</strong>, which will
-                employ real-time image analysis to identify zebrafish positions and trigger electrical stimuli automatically. 
-                This upgrade will transform FishShocker9000 into an <strong>intelligent, closed-loop biological instrumentation system</strong>,
-                reducing researcher workload and improving experimental consistency.
-              </p>
-            </div>
-          </div>
-        </section>
-
-      </section>
-
-      <!-- View All Projects -->
-      <section id="three" class="view-all-centered">
-        <div class="inner">
-          <header class="major"><h2>View All Projects</h2></header>
-          <p>Explore my other projects in robotics, embedded systems, and biomedical instrumentation.</p>
-          <ul class="actions">
-            <li><a href="projects.html" class="button next">View All</a></li>
-          </ul>
-        </div>
-      </section>
-
-      <br />
-
-      <!-- Contact -->
-      <section class="split">
-        <section>
-          <div class="contact-method">
-            <h3><span class="icon solid alt fa-envelope"></span>Email</h3>
-            <a href="mailto:rmranjitkar@wpi.edu">rmranjitkar@wpi.edu</a>
-          </div>
-        </section>
-        <section>
-          <div class="contact-method">
-            <h3><span class="icon brands alt fa-linkedin-in"></span>LinkedIn</h3>
-            <a href="https://www.linkedin.com/in/ryanranjitkar/">https://www.linkedin.com/in/ryanranjitkar/</a>
-          </div>
-        </section>
-        <section>
-          <div class="contact-method">
-            <h3><span class="icon brands alt fa-github"></span>GitHub</h3>
-            <a href="https://github.com/rmranjitkar">https://github.com/rmranjitkar</a>
-          </div>
-        </section>
-      </section>
-
+    <div class="proj-topbar reveal">
+      <a href="../index.html" class="proj-back">← projects</a>
+      <a href="https://github.com/rmranjitkarNULL/FishShocker9000" target="_blank" class="proj-github">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+        GitHub
+      </a>
     </div>
 
-    <!-- Scripts -->
-    <script src="../assets/js/jquery.min.js"></script>
-    <script src="../assets/js/jquery.scrolly.min.js"></script>
-    <script src="../assets/js/jquery.scrollex.min.js"></script>
-    <script src="../assets/js/browser.min.js"></script>
-    <script src="../assets/js/breakpoints.min.js"></script>
-    <script src="../assets/js/util.js"></script>
-    <script src="../assets/js/main.js"></script>
+    <header class="proj-header reveal">
+      <h1>FishShocker9000</h1>
+      <div class="proj-tags">
+        <span class="proj-tag">C/C++</span>
+        <span class="proj-tag">PCB Design</span>
+        <span class="proj-tag">Python</span>
+        <span class="proj-tag">Embedded</span>
+        <span class="proj-tag">KiCad</span>
+        <span class="proj-tag">Teensy 4.1</span>
+      </div>
+    </header>
 
+    <nav class="proj-nav" id="proj-nav">
+      <a href="#overview" class="active">Overview</a>
+      <a href="#circuit">Circuit Design</a>
+      <a href="#pcb">PCB</a>
+      <a href="#firmware">Firmware</a>
+      <a href="#testing">Testing</a>
+    </nav>
+
+    <div class="proj-overview reveal" id="overview">
+      <span class="section-tag">// 01</span>
+      <h2>Overview</h2>
+      <div class="proj-text">
+        <p>A custom <strong>embedded bioengineering system</strong> developed for <strong>UMass Chan Thyme Labs</strong> to assist biological research on zebrafish behavior. Designed to deliver <strong>precisely timed high-voltage stimulation pulses</strong>, the system gives researchers fine-grained control over experimental parameters while maintaining user and animal safety.</p>
+        <p>The project integrates <strong>custom PCB hardware</strong>, <strong>embedded C/C++ firmware</strong>, and <strong>Python-based automation scripts</strong> into a modular platform for repeatable, high-throughput testing. Future iterations will incorporate <strong>computer vision</strong> for real-time fish detection and automated stimulus triggering.</p>
+      </div>
+      <div class="proj-overview-img">
+        <img src="../assets/images/projects/proj3_FSH9K/FishShocker9000.png" alt="FishShocker9000 PCB" />
+      </div>
+    </div>
+
+    <hr class="proj-divider">
+
+    <div class="proj-section reveal" id="circuit">
+      <div class="proj-visual">
+        <img src="../assets/images/projects/proj3_FSH9K/schm.png" alt="Circuit Schematic" />
+      </div>
+      <div class="proj-text">
+        <span class="section-tag">// 02</span>
+        <h2>Electrical Circuit Design</h2>
+        <p>The circuit is built around a <strong>Teensy 4.1 microcontroller</strong>, chosen for its high-speed clock and precise timing. The Teensy generates programmable digital control signals, converted to analog outputs via a <strong>DAC</strong> and amplified through a <strong>precision op-amp</strong> stage.</p>
+        <p>To safely deliver biphasic stimulation in aqueous environments, the signal passes through <strong>H-bridges</strong> that dynamically reverse polarity between pulses — eliminating DC offset and minimizing electrolysis. A <strong>buck converter</strong> regulates input power, and output current routes through <strong>stainless-steel electrode plates</strong> in the zebrafish testing chamber.</p>
+      </div>
+    </div>
+
+    <hr class="proj-divider">
+
+    <div class="proj-section flip reveal" id="pcb">
+      <div class="proj-text">
+        <span class="section-tag">// 03</span>
+        <h2>PCB Design &amp; Integration</h2>
+        <p>A <strong>two-layer PCB</strong> designed in <strong>KiCad</strong> consolidates all power, logic, and signal-conditioning circuitry. The layout includes <strong>pogo-pin connectors</strong> for low-resistance contacts with the electrode array and <strong>mounting holes</strong> for stable enclosure placement.</p>
+        <p>The routing strategy isolates <strong>high-voltage and logic domains</strong>, ensuring noise immunity and operator safety. Embedding the microcontroller, H-bridge drivers, and power management on one board achieves a compact, maintainable, and reproducible platform for lab deployment.</p>
+      </div>
+      <div class="proj-visual">
+        <img src="../assets/images/projects/proj3_FSH9K/routing.png" alt="PCB Layout" />
+      </div>
+    </div>
+
+    <hr class="proj-divider">
+
+    <div class="proj-section reveal" id="firmware">
+      <div class="proj-visual">
+        <img src="../assets/images/projects/proj3_FSH9K/codeblock.png" alt="Firmware" />
+      </div>
+      <div class="proj-text">
+        <span class="section-tag">// 04</span>
+        <h2>Embedded Firmware</h2>
+        <p>Firmware implemented in <strong>C/C++</strong> using <strong>PlatformIO</strong> ensures deterministic, low-latency control over pulse generation and timing. The modular directory structure (<code>include/</code>, <code>src/</code>, <code>lib/</code>) supports scalability for future features.</p>
+        <p>The firmware governs <strong>DAC output sequences</strong>, <strong>pulse width modulation</strong>, and <strong>safety interlocks</strong> for high-voltage operation, while providing routines for <strong>amplitude and duration calibration</strong>. Future revisions will add serial communication with a vision module for closed-loop stimulation.</p>
+      </div>
+    </div>
+
+    <hr class="proj-divider">
+
+    <div class="proj-section flip reveal" id="testing">
+      <div class="proj-text">
+        <span class="section-tag">// 05</span>
+        <h2>Software Testing &amp; Validation</h2>
+        <p>System validation combined <strong>Python-based automation scripts</strong> with oscilloscope measurements to evaluate <strong>pulse amplitude</strong>, <strong>timing stability</strong>, and <strong>repetition accuracy</strong> under varying conditions. Automated parameter sweeps ensured repeatable tests and rapid calibration.</p>
+        <p>The testing framework verified <strong>microsecond-level timing precision</strong> and reliable high-voltage switching. These scripts will serve as the foundation for the future <strong>computer vision module</strong>, transforming FishShocker9000 into an intelligent, closed-loop biological instrumentation system.</p>
+      </div>
+      <div class="proj-visual">
+        <img src="../assets/images/projects/proj3_FSH9K/FishShocker9000.png" alt="Testing and Validation" />
+      </div>
+    </div>
+
+    <div class="proj-footer-nav reveal">
+      <a href="../index.html">← all projects</a>
+      <a href="#overview">↑ back to top</a>
+    </div>
+
+    <div class="proj-contact reveal">
+      <div class="proj-contact-item"><span class="label">Email</span><a href="mailto:rmranjitkar@wpi.edu">rmranjitkar@wpi.edu</a></div>
+      <div class="proj-contact-item"><span class="label">LinkedIn</span><a href="https://www.linkedin.com/in/ryanranjitkar/">linkedin.com/in/ryanranjitkar</a></div>
+      <div class="proj-contact-item"><span class="label">GitHub</span><a href="https://github.com/rmranjitkar">github.com/rmranjitkar</a></div>
+    </div>
+
+  </div>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      document.body.classList.remove('is-preload');
+      const io = new IntersectionObserver((entries) => { entries.forEach(e => { if (!e.isIntersecting) return; io.unobserve(e.target); e.target.classList.add('visible'); }); }, { threshold: 0.07, rootMargin: '0px 0px -30px 0px' });
+      document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+      const sections = ['overview','circuit','pcb','firmware','testing'].map(id => document.getElementById(id));
+      const navLinks = Array.from(document.querySelectorAll('.proj-nav a'));
+      const navIo = new IntersectionObserver((entries) => { entries.forEach(entry => { if (!entry.isIntersecting) return; navLinks.forEach(a => a.classList.remove('active')); const link = document.querySelector(`.proj-nav a[href="#${entry.target.id}"]`); if (link) link.classList.add('active'); }); }, { threshold: 0.35 });
+      sections.forEach(s => { if (s) navIo.observe(s); });
+    });
+  </script>
   </body>
 </html>

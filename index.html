@@ -1,122 +1,1138 @@
 <!DOCTYPE HTML>
-<!--
-	Forty by HTML5 UP
-	html5up.net | @ajlkn
-	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
--->
 <html>
-	<head>
-		<title>Ryan Ranjitkar</title>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-		<link rel="stylesheet" href="assets/css/main.css" />
-		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
-	</head>
-	<body class="is-preload">
+  <head>
+    <title>Ryan Ranjitkar</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <link rel="stylesheet" href="assets/css/project_list.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <style>
+      /* ── Keyframes ─────────────────────────────── */
+      @keyframes heroFade {
+        from { opacity: 0; transform: translateY(22px); }
+        to   { opacity: 1; transform: translateY(0);    }
+      }
 
-		<!-- Wrapper -->
-			<div id="wrapper">
+      /* ── Hero banner animations ─────────────────── */
+      body:not(.is-preload) #banner h1 {
+        animation: heroFade 0.75s cubic-bezier(0.16, 1, 0.3, 1) both;
+      }
+      body:not(.is-preload) #banner .content p {
+        animation: heroFade 0.75s 0.14s cubic-bezier(0.16, 1, 0.3, 1) both;
+      }
 
-				<!-- Header -->
-					<header id="header">
-						<a href="index.html" class="logo"><strong>Ryan</strong> <span>Ranjitkar</span></a>
-						<nav>
-							<a href="#menu">Menu</a>
-						</nav>
-					</header>
+      /* ── Scroll-reveal base ─────────────────────── */
+      .reveal {
+        opacity: 0;
+        transform: translateY(14px);
+        transition: opacity 0.55s ease, transform 0.55s ease;
+      }
+      .reveal.visible { opacity: 1; transform: none; }
+      .reveal.visible.delay-1 { transition-delay: 0.09s; }
 
-				<!-- Menu -->
-					<nav id="menu">
-						<ul class="links">
-							<li><a href="index.html">Home</a></li>
-							<li><a href="aboutme.html">About Me</a></li>
-							<li><a href="projects/projects.html">Projects</a></li>
-						</ul>
-					</nav>
+      /* ── Project cards ──────────────────────────── */
+      .project-card {
+        opacity: 0;
+        transform: translateY(16px);
+        transition: opacity 0.4s ease, transform 0.35s ease, box-shadow 0.25s ease;
+      }
+      .project-card.visible { opacity: 1; transform: none; }
+      .project-card.hidden  { display: none !important; }
 
-				<!-- Banner -->
-					<section id="banner" class="major" style="background-image: url('assets/images/pics/banner_photo.jpg'); background-size: cover; background-position: center;">
-						<div class="inner">
-							<header class="major">
-							<h1>Hi, my name is Ryan Ranjitkar</h1>
-							</header>
-							<div class="content">
-							<p>Electrical and Robotics Engineer</p>
-							</div>
-						</div>
-					</section>
+      .project-card.exiting {
+        opacity: 0 !important;
+        transform: scale(0.93) translateY(6px) !important;
+        transition: opacity 0.16s ease, transform 0.16s ease !important;
+        pointer-events: none;
+      }
 
+      /* ── BANNER FIX: override HTML5UP Forty's absolute-positioned .inner ── */
+      #banner {
+        display: block !important;
+        height: auto !important;
+        min-height: 0 !important;
+        max-height: none !important;
+        padding: 0 !important;
+        overflow: visible !important;
+      }
+      /* Forty theme sets .inner to position:absolute — undo that */
+      #banner > .inner {
+        position: relative !important;
+        top: auto !important;
+        left: auto !important;
+        right: auto !important;
+        bottom: auto !important;
+        transform: none !important;
+        display: flex !important;
+        flex-direction: row !important;
+        align-items: flex-start !important;
+        justify-content: space-between !important;
+        gap: 3.5em;
+        padding: 2.2em 3em 1.2em !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+        max-width: none !important;
+      }
 
-				<!-- Main -->
-					<div id="main">
+      /* Left column: name + subtitle + bio */
+      .banner-left { flex: 1; min-width: 0; }
+      .banner-name {
+        font-size: 2.8em;
+        font-weight: 600;
+        color: #fff;
+        line-height: 1.15;
+        margin: 0 0 0.1em;
+        letter-spacing: -0.01em;
+        /* override any template h1 inside #banner */
+        border: none !important;
+      }
+      .banner-sub {
+        font-size: 0.88em;
+        color: rgba(200,200,210,0.55);
+        letter-spacing: 0.03em;
+        margin: 0 0 0.75em;
+      }
+      .banner-bio {
+        font-size: 0.88em;
+        color: rgba(200,200,210,0.6);
+        line-height: 1.65;
+        margin: 0;
+      }
 
-					<!-- One -->
-						<section id="one" class="tiles">
-							<article class="profile-tile">
-								<span class="image">
-									<img src="assets/images/pics/prof_photo.jpg" alt="" />
-								</span>
-								<header class="major">
-									<h3><a href="aboutme.html" class="link">About me</a></h3>
-								</header>
-							</article>
+      /* Right column: activity */
+      .banner-right {
+        flex: 0 0 42%;
+        min-width: 0;
+        padding-top: 4em;
+        margin-left: -100em;
+      }
 
-							<article class="projects-tile">
-								<span class="image">
-									<img src="assets/images/projects/proj3_FSH9K/FishShocker9000.png" alt="" />
-								</span>
-								<header class="major">
-									<h3><a href="projects/projects.html" class="link">Projects</a></h3>
-								</header>
-							</article>
-					</div>
+      /* 2×2 activity grid */
+      .banner-activity-grid {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr;
+        column-gap: 1em;
+        row-gap: 0;
+        width: 100%;
+      }
 
-					<br>
+      /* Scoped act-item styles inside the banner grid only */
+      .banner-activity-grid .act-item {
+        display: flex !important;
+        align-items: baseline;
+        gap: 0.55em;
+        padding: 0.38em 0 !important;
+        border-bottom: 1px solid rgba(200,200,210,0.06) !important;
+        border-left: none !important;
+        border-right: none !important;
+        border-top: none !important;
+        background: transparent !important;
+        font-size: 0.82em;
+      }
+      .banner-activity-grid .act-item:nth-child(3),
+      .banner-activity-grid .act-item:nth-child(4) { border-bottom: none !important; }
+      .banner-activity-grid .act-item:hover { background: transparent !important; }
+      .banner-activity-grid .act-icon {
+        font-size: 0.85em;
+        color: #7eb8b0;
+        flex-shrink: 0;
+        width: 1em;
+        text-align: center;
+        font-style: normal;
+      }
+      .banner-activity-grid .act-type {
+        font-family: ui-monospace, 'Cascadia Mono', 'Courier New', monospace;
+        font-size: 0.78em;
+        color: rgba(200,200,210,0.3);
+        flex-shrink: 0;
+        width: 3.8em;
+        letter-spacing: 0.04em;
+      }
+      .banner-activity-grid .act-body {
+        flex: 1;
+        display: flex;
+        gap: 0.35em;
+        align-items: baseline;
+        min-width: 0;
+        overflow: hidden;
+      }
+      .banner-activity-grid .act-msg {
+        color: rgba(200,200,210,0.65);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        min-width: 0;
+      }
+      .banner-activity-grid .act-time {
+        font-family: ui-monospace, 'Cascadia Mono', monospace;
+        font-size: 0.76em;
+        color: rgba(200,200,210,0.22);
+        flex-shrink: 0;
+        margin-left: auto;
+        padding-left: 0.5em;
+      }
+      .banner-activity-grid .act-repo {
+        font-family: ui-monospace, 'Cascadia Mono', monospace;
+        font-size: 0.88em;
+        color: rgba(200,200,210,0.55);
+        text-decoration: none;
+        border: 0;
+        flex-shrink: 0;
+        transition: color 0.15s;
+      }
+      .banner-activity-grid .act-repo:hover { color: #7eb8b0; }
+      .banner-activity-grid .act-item.act-loading .act-msg { color: rgba(200,200,210,0.25); }
+      .banner-activity-grid .act-item.act-nowplaying .act-icon { color: #6a9e85; animation: act-pulse 2s ease infinite; }
 
-				<!-- Contact -->
-					<section class="split">
-						<!-- Email -->
-						<section>
-							<div class="contact-method">
-							<h3>
-								<span class="icon solid alt fa-envelope"></span>
-								Email
-							</h3>
-							<a href="mailto:rmranjitkar@wpi.edu">rmranjitkar@wpi.edu</a>
-							</div>
-						</section>
+      @keyframes act-pulse { 0%,100%{opacity:1} 50%{opacity:0.35} }
 
-						<!-- LinkedIn -->
-						<section>
-							<div class="contact-method">
-							<h3>
-								<span class="icon brands alt fa-linkedin-in"></span>
-								LinkedIn
-							</h3>
-							<a href="https://www.linkedin.com/in/ryanranjitkar/">https://www.linkedin.com/in/ryanranjitkar/</a>
-							</div>
-						</section>
+      /* ── Responsive ─────────────────────────────── */
+      @media (max-width: 900px) {
+        #banner > .inner { flex-direction: column !important; gap: 1.5em; padding: 1.8em 2em !important; }
+        .banner-right { flex: none; width: 100%; }
+        .banner-activity-grid { grid-template-columns: 1fr 1fr; }
+      }
+      @media (max-width: 500px) {
+        .banner-name { font-size: 2em; }
+        .banner-activity-grid { grid-template-columns: 1fr; }
+        #banner > .inner { padding: 1.5em 1.25em !important; }
+      }
 
-						<!-- GitHub -->
-						<section>
-							<div class="contact-method">
-							<h3>
-								<span class="icon brands alt fa-github"></span>
-								GitHub
-							</h3>
-							<a href="https://github.com/rmranjitkar">https://github.com/rmranjitkar</a>
-							</div>
-						</section>
-					</section>
+      /* ── Projects section ───────────────────────── */
+      .projects-section {
+        max-width: 65em;
+        margin: 1em auto 0;
+        width: calc(100% - 6em);
+        padding: 0 0 2em;
+      }
+      .bio { display: none; }
 
-		<!-- Scripts -->
-			<script src="assets/js/jquery.min.js"></script>
-			<script src="assets/js/jquery.scrolly.min.js"></script>
-			<script src="assets/js/jquery.scrollex.min.js"></script>
-			<script src="assets/js/browser.min.js"></script>
-			<script src="assets/js/breakpoints.min.js"></script>
-			<script src="assets/js/util.js"></script>
-			<script src="assets/js/main.js"></script>
+      /* ── Bio + typewriter ───────────────────────── */
+      .bio-intro {
+        font-size: 0.95em;
+        color: rgba(200,200,210,0.6);
+        line-height: 1.6;
+      }
+      .type-target {
+        color: #7eb8b0;
+        font-weight: 500;
+      }
+      .type-target::after {
+        content: '|';
+        color: #7eb8b0;
+        animation: cursor-blink 0.65s steps(1) infinite;
+        margin-left: 1px;
+      }
+      @keyframes cursor-blink {
+        0%, 100% { opacity: 1; }
+        50%       { opacity: 0; }
+      }
 
-	</body>
+      /* ── Section label (comment style) ─────────── */
+      .section-comment {
+        font-family: ui-monospace, 'Cascadia Mono', 'Fira Code', 'Courier New', monospace;
+        font-size: 0.78em;
+        color: #6a9e85;
+        letter-spacing: 0.02em;
+        margin-bottom: 0.75em;
+      }
+
+      /* ── WIP Grid 2×2 ──────────────────────────── */
+      .wip-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1em;
+        margin-bottom: 3em;
+      }
+
+      .wip-card {
+        --accent:      #7eb8b0;
+        --accent-dark: #4e9a93;
+        background: rgba(255,255,255,0.045);
+        border: 1px solid rgba(200,200,210,0.1);
+        border-left: 3px solid var(--accent);
+        border-radius: 8px;
+        padding: 1.5em 1.7em;
+        transition: transform 0.22s ease, box-shadow 0.22s ease;
+      }
+      .wip-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 24px rgba(0,0,0,0.22);
+      }
+
+      .wip-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 1em;
+        margin-bottom: 1em;
+      }
+      .wip-title-block { display: flex; flex-direction: column; gap: 0.3em; }
+      .wip-name {
+        font-size: 1em;
+        font-weight: 600;
+        color: #fff;
+        line-height: 1.3;
+      }
+      .wip-status-badge {
+        font-size: 0.68em;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        color: var(--accent);
+      }
+      .wip-planning-badge { color: rgba(200,200,210,0.35); }
+      .wip-pct {
+        font-family: ui-monospace, 'Cascadia Mono', 'Courier New', monospace;
+        font-size: 1.15em;
+        font-weight: 700;
+        color: var(--accent);
+        flex-shrink: 0;
+      }
+      .wip-planning .wip-pct { color: rgba(200,200,210,0.25); }
+
+      .wip-track {
+        height: 7px;
+        border-radius: 4px;
+        background: rgba(200,200,210,0.08);
+        background-image: repeating-linear-gradient(
+          90deg,
+          transparent 0, transparent calc(10% - 1px),
+          rgba(15,15,18,0.5) calc(10% - 1px), rgba(15,15,18,0.5) 10%
+        );
+        margin-bottom: 1.4em;
+        overflow: hidden;
+      }
+      .wip-fill {
+        height: 100%;
+        background: linear-gradient(90deg, var(--accent-dark), var(--accent));
+        border-radius: 4px;
+        width: 0;
+        transition: width 1.1s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+
+      .wip-tasks {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.8em 1.5em;
+      }
+      .task-label {
+        font-size: 0.68em;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: rgba(200,200,210,0.28);
+        font-weight: 600;
+        margin-bottom: 0.5em;
+      }
+      .wip-tasks ul { list-style: none; padding: 0; margin: 0; }
+      .wip-tasks li {
+        font-size: 0.85em;
+        color: rgba(200,200,210,0.7);
+        padding: 0.22em 0;
+        display: flex;
+        align-items: flex-start;
+        gap: 0.45em;
+        line-height: 1.4;
+      }
+      .wip-done li::before { content: '✓'; color: #7eb8b0; flex-shrink: 0; }
+      .wip-next li::before { content: '→'; color: #b09070; flex-shrink: 0; }
+
+      .planning-note {
+        font-size: 0.83em;
+        color: rgba(200,200,210,0.3);
+        font-style: italic;
+        margin-top: 0.2em;
+      }
+
+      @media (max-width: 900px) { .wip-grid  { grid-template-columns: 1fr; } }
+      @media (max-width: 600px) { .wip-tasks { grid-template-columns: 1fr; } }
+
+      /* ── Projects section h2 ────────────────────── */
+      .projects-section h2 {
+        font-size: 1.1em;
+        font-weight: 500;
+        letter-spacing: 0.08em;
+        color: rgba(200,200,210,0.45);
+        margin-bottom: 1.2em;
+      }
+
+      /* ── Filter bar ─────────────────────────────── */
+      .filter-bar {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5em;
+        margin-bottom: 2em;
+        padding-bottom: 1.5em;
+        border-bottom: 1px solid rgba(200,200,210,0.08);
+      }
+      .filter-btn {
+        background: transparent;
+        border: 1px solid rgba(200,200,210,0.15);
+        color: rgba(200,200,210,0.6);
+        font-family: "Space Grotesk", system-ui, sans-serif;
+        font-size: 0.8em;
+        font-weight: 500;
+        padding: 0.4em 1em;
+        border-radius: 2em;
+        cursor: pointer;
+        transition: background 0.2s, border-color 0.2s, color 0.2s, transform 0.12s;
+        letter-spacing: 0.02em;
+      }
+      .filter-btn:hover  { border-color: rgba(200,200,210,0.4); color: #fff; }
+      .filter-btn:active { transform: scale(0.94); }
+      .filter-btn.active {
+        background: #7eb8b0;
+        border-color: #7eb8b0;
+        color: #0f0f12;
+      }
+      .filter-count {
+        font-size: 0.75em;
+        opacity: 0.6;
+        margin-left: 0.3em;
+      }
+
+      /* ── Card hover preview ─────────────────────── */
+      .card-preview {
+        position: absolute;
+        top: 0; left: 0;
+        width: 100%;
+        height: 320px;
+        object-fit: cover;
+        opacity: 0;
+        transition: opacity 0.4s ease;
+        pointer-events: none;
+        z-index: 2;
+        border-radius: 20px 20px 0 0;
+      }
+      .card-preview.preview-visible { opacity: 1; }
+
+      /* ── Activity feed (standalone section, not banner) ── */
+      .activity-feed {
+        border: 1px solid rgba(200,200,210,0.08);
+        border-radius: 8px;
+        overflow: hidden;
+        max-width: 52em;
+      }
+      .act-item {
+        display: flex;
+        align-items: baseline;
+        gap: 0.75em;
+        padding: 0.72em 1.1em;
+        border-bottom: 1px solid rgba(200,200,210,0.05);
+        font-size: 0.85em;
+        transition: background 0.15s;
+      }
+      .act-item:last-child { border-bottom: 0; }
+      .act-item:hover { background: rgba(255,255,255,0.02); }
+      .act-item.act-hidden { display: none; }
+      .act-icon {
+        font-size: 0.9em;
+        color: #7eb8b0;
+        flex-shrink: 0;
+        width: 1.1em;
+        text-align: center;
+        font-style: normal;
+      }
+      .act-type {
+        font-family: ui-monospace, 'Cascadia Mono', 'Courier New', monospace;
+        font-size: 0.78em;
+        color: rgba(200,200,210,0.3);
+        flex-shrink: 0;
+        width: 4.2em;
+        letter-spacing: 0.04em;
+      }
+      .act-body {
+        flex: 1;
+        display: flex;
+        gap: 0.45em;
+        align-items: baseline;
+        min-width: 0;
+        flex-wrap: nowrap;
+        overflow: hidden;
+      }
+      .act-repo {
+        font-family: ui-monospace, 'Cascadia Mono', monospace;
+        font-size: 0.88em;
+        color: rgba(200,200,210,0.55);
+        text-decoration: none;
+        border: 0;
+        flex-shrink: 0;
+        transition: color 0.15s;
+      }
+      .act-repo:hover { color: #7eb8b0; }
+      .act-msg {
+        color: rgba(200,200,210,0.65);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        min-width: 0;
+      }
+      .act-time {
+        font-family: ui-monospace, 'Cascadia Mono', monospace;
+        font-size: 0.76em;
+        color: rgba(200,200,210,0.22);
+        flex-shrink: 0;
+        margin-left: auto;
+        padding-left: 0.8em;
+      }
+      .act-item.act-nowplaying .act-icon { color: #6a9e85; animation: act-pulse 2s ease infinite; }
+      .act-item.act-loading .act-msg { color: rgba(200,200,210,0.2); }
+
+      /* ── Contact reveal ─────────────────────────── */
+      .split.contact-reveal {
+        opacity: 0;
+        transform: translateY(12px);
+        transition: opacity 0.55s ease, transform 0.55s ease;
+      }
+      .split.contact-reveal.visible { opacity: 1; transform: none; }
+
+      @media (max-width: 736px) {
+        .projects-section { width: calc(100% - 3em); padding: 2em 0; }
+      }
+    </style>
+  </head>
+  <body class="is-preload">
+
+    <div id="wrapper">
+
+      <!-- Banner -->
+      <section id="banner" class="major" style="background-image: url('assets/images/pics/banner_photo.jpg'); background-size: cover; background-position: center;">
+        <div class="inner">
+
+          <!-- LEFT: name + subtitle + bio -->
+          <div class="banner-left">
+            <h1 class="banner-name">ryan ranjitkar</h1>
+            <p class="banner-sub">electrical &amp; robotics engineer</p>
+            <p class="banner-bio">ECE and Robotics at Worcester Polytechnic Institute.
+            <p class="banner-bio">I really like <span class="type-target"></span></p>
+          </div>
+
+          <!-- RIGHT: activity 2×2 grid -->
+          <div class="banner-right">
+            <p class="section-comment" style="margin-bottom:0.55em;">// activity</p>
+            <div class="banner-activity-grid">
+
+              <div class="act-item act-loading" id="act-github">
+                <i class="act-icon">⊙</i>
+                <span class="act-type">github</span>
+                <span class="act-body">
+                  <a class="act-repo" id="act-gh-repo" href="https://github.com/rmranjitkar" target="_blank"></a>
+                  <span class="act-msg" id="act-gh-msg">loading…</span>
+                </span>
+                <span class="act-time" id="act-gh-time"></span>
+              </div>
+
+              <div class="act-item act-loading" id="act-music">
+                <i class="act-icon">♫</i>
+                <span class="act-type">music</span>
+                <span class="act-body">
+                  <span class="act-msg" id="act-lfm-msg">loading…</span>
+                </span>
+                <span class="act-time" id="act-lfm-time"></span>
+              </div>
+
+              <div class="act-item act-loading" id="act-steam">
+                <i class="act-icon">⬡</i>
+                <span class="act-type">steam</span>
+                <span class="act-body">
+                  <span class="act-msg" id="act-steam-msg">loading…</span>
+                </span>
+                <span class="act-time" id="act-steam-time"></span>
+              </div>
+
+              <div class="act-item act-loading" id="act-stats">
+                <i class="act-icon">◈</i>
+                <span class="act-type">repos</span>
+                <span class="act-body">
+                  <span class="act-msg" id="act-stats-msg">loading…</span>
+                </span>
+                <span class="act-time" id="act-stats-time"></span>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- Projects -->
+      <div class="projects-section">
+
+        <!-- ── Currently Working On ──────────────────── -->
+        <div class="wip-section">
+          <p class="section-comment reveal">// currently working on</p>
+          <div class="wip-grid">
+
+            <!-- 32-bit RISC-V Processor -->
+            <div class="wip-card reveal">
+              <div class="wip-header">
+                <div class="wip-title-block">
+                  <span class="wip-name">32-bit RISC-V Processor</span>
+                  <span class="wip-status-badge">● In Progress</span>
+                </div>
+                <span class="wip-pct">0%</span>
+              </div>
+              <div class="wip-track">
+                <div class="wip-fill" data-pct="70"></div>
+              </div>
+              <div class="wip-tasks">
+                <div class="wip-done">
+                  <p class="task-label">Completed</p>
+                  <ul>
+                    <li>Pipelining</li>
+                    <li>Multi-cycle</li>
+                  </ul>
+                </div>
+                <div class="wip-next">
+                  <p class="task-label">Up Next</p>
+                  <ul>
+                    <li>Hazard Detection</li>
+                    <li>Branch Prediction</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <!-- STM32 Drone -->
+            <div class="wip-card reveal" style="--accent:#b09070;--accent-dark:#7a5a40;">
+              <div class="wip-header">
+                <div class="wip-title-block">
+                  <span class="wip-name">STM32 Drone</span>
+                  <span class="wip-status-badge">● In Progress</span>
+                </div>
+                <span class="wip-pct">0%</span>
+              </div>
+              <div class="wip-track">
+                <div class="wip-fill" data-pct="40"></div>
+              </div>
+              <div class="wip-tasks">
+                <div class="wip-done">
+                  <p class="task-label">Completed</p>
+                  <ul>
+                    <li>Flight Controller Schematic</li>
+                    <li>Bill of Materials</li>
+                  </ul>
+                </div>
+                <div class="wip-next">
+                  <p class="task-label">Up Next</p>
+                  <ul>
+                    <li>PCB Layout</li>
+                    <li>PCB Fabrication</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <!-- FPGA Drone -->
+            <div class="wip-card wip-planning reveal" style="--accent:#6a85c0;--accent-dark:#3a5590;">
+              <div class="wip-header">
+                <div class="wip-title-block">
+                  <span class="wip-name">FPGA Drone</span>
+                  <span class="wip-status-badge wip-planning-badge">◌ Planning</span>
+                </div>
+                <span class="wip-pct">0%</span>
+              </div>
+              <div class="wip-track">
+                <div class="wip-fill" data-pct="0"></div>
+              </div>
+              <p class="planning-note">In the thinking phase — design starts soon.</p>
+            </div>
+
+            <!-- FPGA Adaptive Filter -->
+            <div class="wip-card wip-planning reveal" style="--accent:#6b6898;--accent-dark:#3b3868;">
+              <div class="wip-header">
+                <div class="wip-title-block">
+                  <span class="wip-name">FPGA Adaptive Filter</span>
+                  <span class="wip-status-badge wip-planning-badge">◌ Planning</span>
+                </div>
+                <span class="wip-pct">0%</span>
+              </div>
+              <div class="wip-track">
+                <div class="wip-fill" data-pct="0"></div>
+              </div>
+              <p class="planning-note">In the thinking phase — design starts soon.</p>
+            </div>
+
+          </div>
+        </div>
+
+        <h2 class="reveal">Projects</h2>
+
+        <!-- Filter bar -->
+        <div class="filter-bar reveal delay-1">
+          <button class="filter-btn active" data-filter="all">All <span class="filter-count"></span></button>
+          <button class="filter-btn" data-filter="robotics">Robotics <span class="filter-count"></span></button>
+          <button class="filter-btn" data-filter="embedded">Embedded <span class="filter-count"></span></button>
+          <button class="filter-btn" data-filter="digital-design">Digital Design / RTL <span class="filter-count"></span></button>
+          <button class="filter-btn" data-filter="pcb">PCB Design <span class="filter-count"></span></button>
+          <button class="filter-btn" data-filter="cpp">C/C++ <span class="filter-count"></span></button>
+          <button class="filter-btn" data-filter="python">Python <span class="filter-count"></span></button>
+          <button class="filter-btn" data-filter="matlab">MATLAB <span class="filter-count"></span></button>
+        </div>
+
+        <!-- Grid -->
+        <div class="projects-grid">
+
+          <div class="project-card" data-category="robotics matlab" data-preview="assets/images/projects/proj4_RBE3001/3001VidShort.mp4">
+            <a href="projects/proj4_4DoFArm.html" class="project-link">
+              <img src="assets/images/projects/proj4_RBE3001/robotArm.jpg" alt="4-DoF Robot Arm" loading="lazy">
+              <div class="content">
+                <h3>Robotic Arm</h3>
+                <p>A 4-DOF robotic arm designed for pick-and-place</p>
+                <div class="tags"><span>MATLAB</span></div>
+              </div>
+            </a>
+            <a href="https://github.com/WPI-RBE-300n/RBE3001_A25_16" target="_blank" class="github-icon-btn" title="View on GitHub">
+              <i class="fab fa-github"></i>
+            </a>
+          </div>
+
+          <div class="project-card" data-category="embedded cpp">
+            <a href="projects/proj1_EmbeddedOscope.html" class="project-link">
+              <img src="assets/images/projects/proj1_EmbeddedOscop/escope.jpg" alt="TI-Board" loading="lazy">
+              <div class="content">
+                <h3>Embedded Oscilloscope</h3>
+                <p>An Embedded Oscilloscope programmed bare-metal and RTOS</p>
+                <div class="tags"><span>C/C++</span><span>RTOS</span><span>Embedded</span></div>
+              </div>
+            </a>
+          </div>
+
+          <div class="project-card" data-category="digital-design">
+            <a href="projects/proj6_3829Lab3.html" class="project-link">
+              <img src="assets/images/under-construction-warning-sign-vector.jpg" alt="Light Sensor Interface" loading="lazy">
+              <div class="content">
+                <h3>Light Sensor Interface</h3>
+                <p>Interfacing the PMOD ALS on the Basys3 board</p>
+                <div class="tags"><span>Verilog</span><span>FPGA</span></div>
+              </div>
+            </a>
+            <a href="https://github.com/rmranjitkarNULL/ECE3829" target="_blank" class="github-icon-btn" title="View on GitHub">
+              <i class="fab fa-github"></i>
+            </a>
+          </div>
+
+          <div class="project-card" data-category="robotics python" data-preview="assets/images/projects/proj2_turtlebot/pp.gif">
+            <a href="projects/proj2_RBE3002.html" class="project-link">
+              <img src="assets/images/projects/proj2_turtlebot/turtlebot.png" alt="Turtlebot" loading="lazy">
+              <div class="content">
+                <h3>Autonomous Mapping Robot</h3>
+                <p>A robot using SLAM to traverse a maze autonomously</p>
+                <div class="tags"><span>ROS</span><span>Python</span><span>Linux</span></div>
+              </div>
+            </a>
+            <a href="https://github.com/RBE300X-Lab/RBE3002_D25_Team05" target="_blank" class="github-icon-btn" title="View on GitHub">
+              <i class="fab fa-github"></i>
+            </a>
+          </div>
+
+          <div class="project-card" data-category="embedded pcb python cpp">
+            <a href="projects/proj3_fshkr9k.html" class="project-link">
+              <img src="assets/images/projects/proj3_FSH9K/FishShocker9000.png" alt="FishShocker9000 PCB" loading="lazy">
+              <div class="content">
+                <h3>FishShocker9000</h3>
+                <p>A custom embedded PCB designed to safely deliver electrical stimuli to Zebra fish for research</p>
+                <div class="tags"><span>C/C++</span><span>PCB</span><span>Python</span><span>Embedded</span></div>
+              </div>
+            </a>
+            <a href="https://github.com/rmranjitkarNULL/FishShocker9000" target="_blank" class="github-icon-btn" title="View on GitHub">
+              <i class="fab fa-github"></i>
+            </a>
+          </div>
+
+          <div class="project-card" data-category="robotics embedded matlab cpp" data-preview="assets/images/projects/proj5_RBE2001/2001GripperDemo.mp4">
+            <a href="projects/proj5_RBE2001.html" class="project-link">
+              <img src="assets/images/projects/proj5_RBE2001/2001RomiRender.png" alt="2-DoF Planar Manipulator" loading="lazy">
+              <div class="content">
+                <h3>2-DoF Planar Manipulator</h3>
+                <p>A 2-DoF serial manipulator designed for object transport</p>
+                <div class="tags"><span>C/C++</span><span>SolidWorks</span><span>MATLAB</span></div>
+              </div>
+            </a>
+            <a href="https://github.com/notMarque/RBE2001Group1Final" target="_blank" class="github-icon-btn" title="View on GitHub">
+              <i class="fab fa-github"></i>
+            </a>
+          </div>
+
+          <div class="project-card" data-category="robotics embedded cpp">
+            <a href="projects/proj7_RBE2002.html" class="project-link">
+              <img src="assets/images/under-construction-warning-sign-vector.jpg" alt="RBE2002 Robot" loading="lazy">
+              <div class="content">
+                <h3>Embedded Robot</h3>
+                <p>An autonomous embedded robot built for RBE 2002 course challenge</p>
+                <div class="tags"><span>C/C++</span><span>Embedded</span></div>
+              </div>
+            </a>
+            <a href="https://github.com/rmranjitkarNULL/RBE2002FINAL" target="_blank" class="github-icon-btn" title="View on GitHub">
+              <i class="fab fa-github"></i>
+            </a>
+          </div>
+
+          <div class="project-card" data-category="digital-design">
+            <a href="projects/proj6_3829Lab3.html" class="project-link">
+              <img src="assets/images/under-construction-warning-sign-vector.jpg" alt="VGA Output" loading="lazy">
+              <div class="content">
+                <h3>VGA Output</h3>
+                <p>Generating VGA signals using the Basys3 FPGA</p>
+                <div class="tags"><span>Verilog</span><span>FPGA</span></div>
+              </div>
+            </a>
+            <a href="https://github.com/rmranjitkarNULL/ECE3829" target="_blank" class="github-icon-btn" title="View on GitHub">
+              <i class="fab fa-github"></i>
+            </a>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Contact -->
+      <section class="split contact-reveal">
+        <section>
+          <div class="contact-method">
+            <h3><span class="icon solid alt fa-envelope"></span> email</h3>
+            <a href="mailto:rmranjitkar@wpi.edu">rmranjitkar@wpi.edu</a>
+          </div>
+        </section>
+        <section>
+          <div class="contact-method">
+            <h3><span class="icon brands alt fa-linkedin-in"></span> linkedin</h3>
+            <a href="https://www.linkedin.com/in/ryanranjitkar/">linkedin.com/in/ryanranjitkar</a>
+          </div>
+        </section>
+        <section>
+          <div class="contact-method">
+            <h3><span class="icon brands alt fa-github"></span> github</h3>
+            <a href="https://github.com/rmranjitkar">github.com/rmranjitkar</a>
+          </div>
+        </section>
+      </section>
+
+    </div>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        document.body.classList.remove('is-preload');
+
+        const LASTFM_USER     = 'rmranjitkar';
+        const LASTFM_KEY      = 'a9a1d649b3cabcf5600dac93702c5acb';
+        const STEAM_PROXY_URL = 'https://steep-limit-8708.rmranjitkar.workers.dev/';
+
+        function timeAgo(iso) {
+          const s = Math.floor((Date.now() - new Date(iso)) / 1000);
+          if (s < 60)   return 'just now';
+          if (s < 3600) return `${Math.floor(s/60)}m ago`;
+          if (s < 86400)return `${Math.floor(s/3600)}h ago`;
+          return `${Math.floor(s/86400)}d ago`;
+        }
+
+        function cache(key, ttlMs, fn) {
+          const hit = JSON.parse(sessionStorage.getItem(key) || 'null');
+          if (hit && Date.now() - hit.ts < ttlMs) return Promise.resolve(hit.data);
+          return fn().then(data => {
+            sessionStorage.setItem(key, JSON.stringify({ ts: Date.now(), data }));
+            return data;
+          });
+        }
+
+        async function loadGitHub() {
+          const el = document.getElementById('act-github');
+          try {
+            const data = await cache('act_gh', 5*60*1000, async () => {
+              const r = await fetch('https://api.github.com/users/rmranjitkar/events/public');
+              if (!r.ok) return null;
+              const events = await r.json();
+              const push = events.find(e => e.type === 'PushEvent');
+              if (!push) return null;
+              return {
+                repo: push.repo.name.split('/')[1],
+                url:  `https://github.com/${push.repo.name}`,
+                msg:  (push.payload.commits?.[0]?.message || 'pushed code').split('\n')[0],
+                time: push.created_at,
+              };
+            });
+            el.classList.remove('act-loading');
+            if (data) {
+              const repoEl = document.getElementById('act-gh-repo');
+              repoEl.textContent = data.repo;
+              repoEl.href = data.url;
+              document.getElementById('act-gh-msg').textContent = `— ${data.msg}`;
+              document.getElementById('act-gh-time').textContent = timeAgo(data.time);
+            } else {
+              document.getElementById('act-gh-msg').textContent = 'no recent events';
+            }
+          } catch {
+            el.classList.remove('act-loading');
+            document.getElementById('act-gh-msg').textContent = '—';
+          }
+        }
+
+        async function loadLastFm() {
+          const el = document.getElementById('act-music');
+          if (!LASTFM_USER || !LASTFM_KEY) {
+            el.classList.remove('act-loading');
+            document.getElementById('act-lfm-msg').textContent = 'not configured';
+            return;
+          }
+          try {
+            const data = await cache('act_lfm', 90*1000, async () => {
+              const url = `https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=${LASTFM_USER}&api_key=${LASTFM_KEY}&format=json&limit=1`;
+              const r = await fetch(url);
+              const j = await r.json();
+              const t = j.recenttracks?.track?.[0];
+              if (!t) return null;
+              return {
+                name:       t.name,
+                artist:     t.artist['#text'],
+                nowplaying: !!t['@attr']?.nowplaying,
+                time:       t.date ? new Date(t.date.uts * 1000).toISOString() : null,
+              };
+            });
+            el.classList.remove('act-loading');
+            if (data) {
+              if (data.nowplaying) el.classList.add('act-nowplaying');
+              document.getElementById('act-lfm-msg').textContent = `${data.name} — ${data.artist}`;
+              document.getElementById('act-lfm-time').textContent = data.nowplaying ? 'now ♫' : (data.time ? timeAgo(data.time) : '');
+            } else {
+              document.getElementById('act-lfm-msg').textContent = 'no recent scrobbles';
+            }
+          } catch {
+            el.classList.remove('act-loading');
+            document.getElementById('act-lfm-msg').textContent = '—';
+          }
+        }
+
+        async function loadSteam() {
+          const el = document.getElementById('act-steam');
+          if (!STEAM_PROXY_URL) {
+            el.classList.remove('act-loading');
+            document.getElementById('act-steam-msg').textContent = 'not configured';
+            return;
+          }
+          try {
+            const data = await cache('act_steam', 5*60*1000, async () => {
+              const r = await fetch(STEAM_PROXY_URL);
+              const j = await r.json();
+              const game = j.response?.games?.[0];
+              if (!game) return null;
+              return { name: game.name, hrs: (game.playtime_2weeks / 60).toFixed(1) };
+            });
+            el.classList.remove('act-loading');
+            if (data) {
+              document.getElementById('act-steam-msg').textContent = data.name;
+              document.getElementById('act-steam-time').textContent = `${data.hrs}h / 2wk`;
+            } else {
+              document.getElementById('act-steam-msg').textContent = 'no recent games';
+            }
+          } catch {
+            el.classList.remove('act-loading');
+            document.getElementById('act-steam-msg').textContent = '—';
+          }
+        }
+
+        async function loadGitHubStats() {
+          const el = document.getElementById('act-stats');
+          try {
+            const data = await cache('act_gh_user', 30*60*1000, async () => {
+              const r = await fetch('https://api.github.com/users/rmranjitkar');
+              if (!r.ok) return null;
+              const u = await r.json();
+              return { repos: u.public_repos, followers: u.followers };
+            });
+            el.classList.remove('act-loading');
+            if (data) {
+              document.getElementById('act-stats-msg').textContent =
+                `${data.repos} repos · ${data.followers} followers`;
+            } else {
+              document.getElementById('act-stats-msg').textContent = '—';
+            }
+          } catch {
+            el.classList.remove('act-loading');
+            document.getElementById('act-stats-msg').textContent = '—';
+          }
+        }
+
+        loadGitHub();
+        loadLastFm();
+        loadSteam();
+        loadGitHubStats();
+
+        // ── Card hover preview ────────────────────────────────────
+        document.querySelectorAll('.project-card[data-preview]').forEach(card => {
+          let timer = null;
+          let preview = null;
+
+          card.addEventListener('mouseenter', () => {
+            timer = setTimeout(() => {
+              if (!preview) {
+                const src = card.dataset.preview;
+                const isVideo = /\.(mp4|webm)$/i.test(src);
+                if (isVideo) {
+                  preview = document.createElement('video');
+                  preview.src = src;
+                  preview.autoplay = true;
+                  preview.loop = true;
+                  preview.muted = true;
+                  preview.playsInline = true;
+                } else {
+                  preview = document.createElement('img');
+                  preview.src = src;
+                }
+                preview.className = 'card-preview';
+                card.appendChild(preview);
+                preview.getBoundingClientRect();
+              }
+              preview.classList.add('preview-visible');
+              if (preview.tagName === 'VIDEO') preview.play().catch(() => {});
+            }, 500);
+          });
+
+          card.addEventListener('mouseleave', () => {
+            clearTimeout(timer);
+            if (preview) {
+              preview.classList.remove('preview-visible');
+              if (preview.tagName === 'VIDEO') { preview.pause(); preview.currentTime = 0; }
+            }
+          });
+        });
+
+        // ── Filter / cards ────────────────────────────────────────
+        const cards   = Array.from(document.querySelectorAll('.project-card'));
+        const buttons = Array.from(document.querySelectorAll('.filter-btn'));
+        let filtering = false;
+
+        buttons.forEach(btn => {
+          const f = btn.dataset.filter;
+          const n = f === 'all' ? cards.length
+            : cards.filter(c => c.dataset.category.split(' ').includes(f)).length;
+          btn.querySelector('.filter-count').textContent = n;
+        });
+
+        // ── Typewriter ────────────────────────────────────────────
+        const interests = [
+          'Chip Design', 'FPGAs', 'Real Time Embedded Systems',
+          'Digital Signal Processing', 'Image Processing', 'Robotics'
+        ];
+        const typeEl = document.querySelector('.type-target');
+        if (typeEl) {
+          let idx = 0, txt = '', deleting = false;
+          const S = { type: 68, del: 36, pause: 1900, gap: 380 };
+          (function tick() {
+            const word = interests[idx];
+            txt = deleting ? word.slice(0, txt.length - 1) : word.slice(0, txt.length + 1);
+            typeEl.textContent = txt;
+            let delay = deleting ? S.del : S.type;
+            if (!deleting && txt === word)  { delay = S.pause; deleting = true; }
+            else if (deleting && txt === '') { deleting = false; idx = (idx + 1) % interests.length; delay = S.gap; }
+            setTimeout(tick, delay);
+          })();
+        }
+
+        // ── Scroll reveal ─────────────────────────────────────────
+        const io = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (!entry.isIntersecting) return;
+            io.unobserve(entry.target);
+            entry.target.classList.add('visible');
+          });
+        }, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
+
+        document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+        const cardIo = new IntersectionObserver((entries) => {
+          const hitting = entries.filter(e => e.isIntersecting);
+          hitting.forEach((entry, i) => {
+            cardIo.unobserve(entry.target);
+            setTimeout(() => entry.target.classList.add('visible'), i * 60);
+          });
+        }, { threshold: 0.08, rootMargin: '0px 0px -20px 0px' });
+
+        cards.forEach(c => cardIo.observe(c));
+
+        // ── Progress bars ─────────────────────────────────────────
+        document.querySelectorAll('.wip-card').forEach(card => {
+          const fill  = card.querySelector('.wip-fill');
+          const pctEl = card.querySelector('.wip-pct');
+          if (!fill || !pctEl) return;
+          const target = parseInt(fill.dataset.pct, 10) || 0;
+
+          const barIo = new IntersectionObserver(([e]) => {
+            if (!e.isIntersecting) return;
+            barIo.disconnect();
+            fill.style.width = target + '%';
+            if (target > 0) {
+              let cur = 0;
+              const step = () => {
+                cur = Math.min(cur + 1, target);
+                pctEl.textContent = cur + '%';
+                if (cur < target) requestAnimationFrame(step);
+              };
+              requestAnimationFrame(step);
+            }
+          }, { threshold: 0.25 });
+
+          barIo.observe(card);
+        });
+
+        // ── Contact reveal ────────────────────────────────────────
+        const contactIo = new IntersectionObserver((entries) => {
+          entries.forEach(e => {
+            if (!e.isIntersecting) return;
+            contactIo.unobserve(e.target);
+            e.target.classList.add('visible');
+          });
+        }, { threshold: 0.1 });
+        const contact = document.querySelector('.contact-reveal');
+        if (contact) contactIo.observe(contact);
+
+        // ── Filter with animation ─────────────────────────────────
+        function matches(card, filter) {
+          return filter === 'all' || card.dataset.category.split(' ').includes(filter);
+        }
+
+        buttons.forEach(btn => {
+          btn.addEventListener('click', () => {
+            if (filtering) return;
+            const filter = btn.dataset.filter;
+            if (btn.classList.contains('active')) return;
+
+            buttons.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            const leaving  = cards.filter(c => !matches(c, filter) && !c.classList.contains('hidden'));
+            const entering = cards.filter(c =>  matches(c, filter) &&  c.classList.contains('hidden'));
+
+            if (leaving.length === 0 && entering.length === 0) return;
+
+            filtering = true;
+
+            leaving.forEach(c => c.classList.add('exiting'));
+
+            setTimeout(() => {
+              leaving.forEach(c => {
+                c.classList.remove('exiting', 'visible');
+                c.classList.add('hidden');
+              });
+
+              entering.forEach((c, i) => {
+                c.classList.remove('hidden');
+                requestAnimationFrame(() => {
+                  setTimeout(() => c.classList.add('visible'), i * 55);
+                });
+              });
+
+              filtering = false;
+            }, 180);
+          });
+        });
+
+        // ── GitHub buttons: prevent card navigation ───────────────
+        document.querySelectorAll('.github-icon-btn').forEach(btn => {
+          btn.addEventListener('click', e => e.stopPropagation());
+        });
+      });
+    </script>
+
+  </body>
 </html>

@@ -1,226 +1,199 @@
 <!DOCTYPE HTML>
 <html>
   <head>
-    <title>Autonomous Mapping Robot</title>
+    <title>Autonomous Mapping Robot — Ryan Ranjitkar</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="../assets/css/main.css" />
-    <noscript><link rel="stylesheet" href="../assets/css/noscript.css" /></noscript>
+    <style>
+      *, *::before, *::after { box-sizing: border-box; }
+      .proj-page { max-width: 65em; margin: 0 auto; width: calc(100% - 6em); padding-bottom: 4em; }
+      .proj-topbar { display: flex; justify-content: space-between; align-items: center; padding: 2em 0 1.8em; }
+      .proj-back { font-size: 0.85em; color: rgba(200,200,210,0.45); text-decoration: none; border: 0; transition: color 0.2s; }
+      .proj-back:hover { color: #7eb8b0; }
+      .proj-github { display: inline-flex; align-items: center; gap: 0.45em; font-size: 0.82em; font-weight: 500; color: rgba(200,200,210,0.55); text-decoration: none; border: 1px solid rgba(200,200,210,0.15); padding: 0.35em 0.85em; border-radius: 2em; transition: color 0.2s, border-color 0.2s; }
+      .proj-github:hover { color: #fff; border-color: rgba(200,200,210,0.4); }
+      .proj-header { margin-bottom: 2em; }
+      .proj-header h1 { font-size: 2.1em; font-weight: 600; line-height: 1.2; margin-bottom: 0.5em; color: #fff; }
+      .proj-tags { display: flex; flex-wrap: wrap; gap: 0.4em; }
+      .proj-tag { font-size: 0.75em; font-weight: 500; padding: 0.3em 0.8em; border-radius: 2em; background: rgba(126,184,176,0.1); border: 1px solid rgba(126,184,176,0.25); color: #7eb8b0; }
+      .proj-nav { position: sticky; top: 0; z-index: 100; background: rgba(15,15,18,0.88); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid rgba(200,200,210,0.07); margin: 0 calc(-1 * (100vw - 65em) / 2 - 3em); padding: 0 calc((100vw - 65em) / 2 + 3em); display: flex; gap: 0; overflow-x: auto; }
+      .proj-nav a { font-size: 0.8em; font-weight: 500; color: rgba(200,200,210,0.45); text-decoration: none; border: 0; padding: 0.85em 1.2em; white-space: nowrap; border-bottom: 2px solid transparent; transition: color 0.2s, border-color 0.2s; }
+      .proj-nav a:hover { color: rgba(200,200,210,0.85); }
+      .proj-nav a.active { color: #7eb8b0; border-bottom-color: #7eb8b0; }
+      .proj-divider { border: 0; border-top: 1px solid rgba(200,200,210,0.07); margin: 3em 0; }
+      .proj-section { display: grid; grid-template-columns: 5fr 8fr; gap: 3em; align-items: start; scroll-margin-top: 3em; padding: 3em 0; }
+      .proj-section.flip .proj-visual { order: 2; }
+      .proj-section.flip .proj-text   { order: 1; }
+      .proj-overview { scroll-margin-top: 3em; padding: 2.5em 0 0; }
+      .section-tag { font-family: ui-monospace, 'Cascadia Mono', 'Courier New', monospace; font-size: 0.72em; color: #7eb8b0; letter-spacing: 0.08em; display: block; margin-bottom: 0.5em; }
+      .proj-section h2, .proj-overview h2 { font-size: 1.55em; font-weight: 600; color: #fff; margin-bottom: 1em; line-height: 1.25; }
+      .proj-text p { font-size: 0.93em; color: rgba(200,200,210,0.7); line-height: 1.8; margin-bottom: 1em; }
+      .proj-text p:last-child { margin-bottom: 0; }
+      .proj-text strong { color: rgba(200,200,210,0.9); font-weight: 600; }
+      .proj-visual { border-radius: 8px; overflow: hidden; background: rgba(255,255,255,0.03); border: 1px solid rgba(200,200,210,0.08); }
+      .proj-visual img, .proj-visual video { width: 100%; display: block; height: auto; }
+      .proj-overview-img { margin-top: 2em; border-radius: 8px; overflow: hidden; border: 1px solid rgba(200,200,210,0.08); }
+      .proj-overview-img img { width: 100%; display: block; object-fit: cover; }
+      .proj-footer-nav { display: flex; justify-content: space-between; align-items: center; padding: 2em 0; border-top: 1px solid rgba(200,200,210,0.07); margin-top: 1em; }
+      .proj-footer-nav a { font-size: 0.85em; color: rgba(200,200,210,0.45); text-decoration: none; border: 0; transition: color 0.2s; }
+      .proj-footer-nav a:hover { color: #7eb8b0; }
+      .proj-contact { display: flex; gap: 2.5em; flex-wrap: wrap; padding: 2em 0 3em; border-top: 1px solid rgba(200,200,210,0.07); }
+      .proj-contact-item { display: flex; flex-direction: column; gap: 0.3em; }
+      .proj-contact-item .label { font-size: 0.72em; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(200,200,210,0.3); font-weight: 600; }
+      .proj-contact-item a { font-size: 0.88em; color: rgba(200,200,210,0.6); text-decoration: none; border: 0; transition: color 0.2s; }
+      .proj-contact-item a:hover { color: #7eb8b0; }
+      .reveal { opacity: 0; transform: translateY(14px); transition: opacity 0.5s ease, transform 0.5s ease; }
+      .reveal.visible { opacity: 1; transform: none; }
+      @media (max-width: 768px) {
+        .proj-page { width: calc(100% - 3em); }
+        .proj-section { grid-template-columns: 1fr; gap: 1.5em; }
+        .proj-section.flip .proj-visual, .proj-section.flip .proj-text { order: 0; }
+        .proj-nav { margin: 0 -1.5em; padding: 0 1.5em; }
+        .proj-header h1 { font-size: 1.6em; }
+      }
+    </style>
   </head>
   <body class="is-preload">
+  <div id="wrapper">
+  <div class="proj-page">
 
-    <!-- Wrapper -->
-    <div id="wrapper">
-
-      <!-- Header -->
-      <header id="header">
-        <a href="index.html" class="logo"><strong>Ryan</strong> <span>Ranjitkar</span></a>
-        <nav><a href="#menu">Menu</a></nav>
-      </header>
-
-      <!-- Menu -->
-      <nav id="menu">
-        <ul class="links">
-          <li><a href="../index.html">Home</a></li>
-          <li><a href="../aboutme.html">About Me</a></li>
-          <li><a href="projects.html">Projects</a></li>
-        </ul>
-      </nav>
-
-      <!-- Overview -->
-      <div id="main" class="alt">
-        <section id="one">
-          <div class="inner">
-            <header class="major">
-              <h1>Autonomous Mapping Robot</h1>
-            </header>
-            <p>
-              Our team of four developed an <strong>autonomous mapping robot</strong> that implemented 
-              <strong>Simultaneous Localization and Mapping (SLAM)</strong> using <strong>ROS</strong> and <strong>Python</strong>.
-              The system integrated a <strong>LIDAR sensor</strong> for real-time environmental perception, 
-              <strong>frontier-based exploration</strong> to identify unknown regions, and 
-              <strong>path planning and control algorithms</strong> to navigate safely and efficiently.
-              The robot combined <strong>AMCL-based localization</strong>, <strong>obstacle avoidance</strong>, 
-              and <strong>goal selection</strong> in a cohesive framework that leveraged 
-              <strong>A*</strong> for global path planning, <strong>pure pursuit</strong> for trajectory following,
-              and a <strong>potential fields control method</strong> for real-time steering corrections around obstacles.
-              Together, these modules enabled the robot to autonomously explore and map complex environments with 
-              minimal human intervention.
-            </p>
-          </div>
-        </section>
-      </div>
-
-      <!-- Main Content -->
-      <section id="two" class="spotlights">
-
-        <!-- System Architecture -->
-        <section>
-          <img src="../assets/images/projects/proj2_turtlebot/system_architecture.jpg" alt="System Architecture" data-position="top center" />
-          <div class="content">
-            <div class="inner">
-              <header class="major"><h3>System Architecture</h3></header>
-              <p>
-                The system was deployed on a <strong>TurtleBot3</strong> platform and organized into a modular network of 
-                <strong>ROS nodes</strong> communicating through topics and services. 
-                At the perception level, <strong>Gmapping</strong> provided real-time <strong>SLAM</strong> by fusing 
-                <strong>LiDAR scans</strong> with odometry data to construct a 2D occupancy grid. 
-                For localization, the <strong>Adaptive Monte Carlo Localization (AMCL)</strong> algorithm maintained a 
-                probabilistic pose estimate through <strong>particle filtering</strong>.
-                A custom <strong>FrontierFinder</strong> node identified unexplored regions on the map, 
-                while the <strong>PathPlanner</strong> node generated collision-free routes using the <strong>A*</strong> algorithm on an 
-                <strong>inflated configuration space (C-space)</strong>. The resulting trajectories were tracked by a 
-                <strong>PathMovement</strong> node implementing <strong>pure pursuit control</strong> to produce 
-                smooth velocity commands. This modular architecture allowed each subsystem—mapping, planning, and control—to
-                operate asynchronously yet cohesively, simplifying testing, debugging, and scalability.
-              </p>
-            </div>
-          </div>
-        </section>
-
-        <!-- Pure Pursuit -->
-        <section>
-          <img src="../assets/images/projects/proj2_turtlebot/pp.gif" alt="Pure Pursuit Control Visualization" data-position="top center" />
-          <div class="content">
-            <div class="inner">
-              <header class="major"><h3>Pure Pursuit Controller</h3></header>
-              <p>
-                To enable smooth and continuous path tracking, we implemented a <strong>pure pursuit controller</strong>.
-                Instead of moving sequentially between discrete waypoints, the robot continuously calculated a 
-                <strong>lookahead point</strong> along its global path and adjusted its steering based on the angular 
-                error between its current heading and that target point. This approach reduced oscillations, 
-                improved turning smoothness, and maintained curvature continuity. 
-                Additional safeguards such as <strong>rotation-in-place logic</strong> handled sharp turns by pausing linear motion
-                and rotating toward the new heading. Overall, the controller provided stable and predictable tracking 
-                even in narrow or obstacle-dense environments.
-              </p>
-            </div>
-          </div>
-        </section>
-
-        <!-- Frontier Exploration -->
-        <section>
-          <img src="../assets/images/under-construction-warning-sign-vector.png">          <div class="content">
-            <div class="inner">
-              <header class="major"><h3>Frontier-Based Exploration</h3></header>
-              <p>
-                To autonomously explore unknown areas, we used a <strong>frontier-based exploration</strong> algorithm.
-                The <strong>occupancy grid</strong> produced by SLAM was continuously analyzed to detect <strong>frontiers</strong>—
-                the boundary cells separating known free space from unexplored regions. 
-                These frontier points were grouped into clusters, and their <strong>centroids</strong> were computed to 
-                represent potential exploration targets. 
-                Each candidate centroid was scored using a <strong>multi-criteria function</strong> considering both 
-                frontier size and distance from the robot, ensuring efficient exploration prioritization.
-                The highest-ranking centroid was selected as the next navigation goal, balancing map coverage and travel cost.
-              </p>
-            </div>
-          </div>
-        </section>
-
-        <!-- Path Planning -->
-        <section>
-          <img src="../assets/images/under-construction-warning-sign-vector.png">          <div class="content">
-            <div class="inner">
-              <header class="major"><h3>Path Planning</h3></header>
-              <p>
-                For global navigation, we developed a custom <strong>A*</strong> path planner operating on an 
-                <strong>inflated configuration space</strong> that incorporated the robot’s physical footprint.
-                The planner used a heuristic combining <strong>Euclidean distance</strong>, 
-                <strong>distance-to-wall penalties</strong>, and <strong>angular deviation costs</strong> to generate 
-                smooth and collision-free paths. These adjustments minimized abrupt turns and prevented the robot from 
-                hugging walls too closely. The resulting trajectory was published as a <strong>nav_msgs/Path</strong> topic 
-                and tracked in real time by the <strong>pure pursuit controller</strong>, enabling seamless coordination 
-                between planning and execution.
-              </p>
-            </div>
-          </div>
-        </section>
-
-        <!-- AMCL -->
-        <section>
-          <img src="../assets/images/under-construction-warning-sign-vector.png">          <div class="content">
-            <div class="inner">
-              <header class="major"><h3>Adaptive Monte Carlo Localization</h3></header>
-              <p>
-                Localization was handled through <strong>Adaptive Monte Carlo Localization (AMCL)</strong>, 
-                a <strong>particle filter–based algorithm</strong> that continuously estimated the robot’s pose relative to the map.
-                Each particle represented a possible robot position and orientation, weighted by the likelihood derived from 
-                <strong>LiDAR scans</strong> and <strong>odometry data</strong>. 
-                The algorithm dynamically adjusted the number of particles based on uncertainty, improving computational efficiency.
-                We also enabled <strong>no-motion updates</strong> while stationary to refine the pose estimate and reduce drift
-                without requiring movement. This approach yielded highly stable localization even after long exploration sequences.
-              </p>
-            </div>
-          </div>
-        </section>
-
-        <!-- Results -->
-        <section>
-          <img src="../assets/images/under-construction-warning-sign-vector.png">          <div class="content">
-            <div class="inner">
-              <header class="major"><h3>Results and Performance</h3></header>
-              <p>
-                The system was deployed on a <strong>TurtleBot3</strong> in a structured indoor environment. 
-                The robot successfully mapped all reachable areas in approximately <strong>101 seconds</strong>, 
-                completing exploration with minimal human input. 
-                The <strong>pure pursuit controller</strong> produced smooth, stable path tracking, 
-                and the <strong>AMCL localization</strong> maintained accuracy within one robot radius of the true pose during return runs.
-                Although minor <strong>drift</strong> was observed during long traversals, overall system performance was consistent and repeatable.
-                The combination of <strong>frontier exploration</strong>, <strong>A* planning</strong>, and 
-                <strong>pure pursuit control</strong> validated a reliable and efficient pipeline for 
-                <strong>autonomous SLAM-based exploration</strong>.
-              </p>
-            </div>
-          </div>
-        </section>
-
-      </section>
-
-      <!-- View All Projects -->
-      <section id="three" class="view-all-centered">
-        <div class="inner">
-          <header class="major"><h2>View All Projects</h2></header>
-          <p>Go back and check out my other robotics and embedded systems projects.</p>
-          <ul class="actions">
-            <li><a href="projects.html" class="button next">View All</a></li>
-          </ul>
-        </div>
-      </section>
-
-      <br>
-
-      <!-- Contact -->
-      <section class="split">
-        <section>
-          <div class="contact-method">
-            <h3><span class="icon solid alt fa-envelope"></span>Email</h3>
-            <a href="mailto:rmranjitkar@wpi.edu">rmranjitkar@wpi.edu</a>
-          </div>
-        </section>
-        <section>
-          <div class="contact-method">
-            <h3><span class="icon brands alt fa-linkedin-in"></span>LinkedIn</h3>
-            <a href="https://www.linkedin.com/in/ryanranjitkar/">https://www.linkedin.com/in/ryanranjitkar/</a>
-          </div>
-        </section>
-        <section>
-          <div class="contact-method">
-            <h3><span class="icon brands alt fa-github"></span>GitHub</h3>
-            <a href="https://github.com/rmranjitkar">https://github.com/rmranjitkar</a>
-          </div>
-        </section>
-      </section>
-
+    <div class="proj-topbar reveal">
+      <a href="../index.html" class="proj-back">← projects</a>
+      <a href="https://github.com/RBE300X-Lab/RBE3002_D25_Team05" target="_blank" class="proj-github">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+        GitHub
+      </a>
     </div>
 
-    <!-- Scripts -->
-    <script src="../assets/js/jquery.min.js"></script>
-    <script src="../assets/js/jquery.scrolly.min.js"></script>
-    <script src="../assets/js/jquery.scrollex.min.js"></script>
-    <script src="../assets/js/browser.min.js"></script>
-    <script src="../assets/js/breakpoints.min.js"></script>
-    <script src="../assets/js/util.js"></script>
-    <script src="../assets/js/main.js"></script>
+    <header class="proj-header reveal">
+      <h1>Autonomous Mapping Robot</h1>
+      <div class="proj-tags">
+        <span class="proj-tag">ROS</span>
+        <span class="proj-tag">Python</span>
+        <span class="proj-tag">Linux</span>
+        <span class="proj-tag">SLAM</span>
+        <span class="proj-tag">TurtleBot3</span>
+        <span class="proj-tag">A*</span>
+      </div>
+    </header>
 
+    <nav class="proj-nav" id="proj-nav">
+      <a href="#overview" class="active">Overview</a>
+      <a href="#architecture">Architecture</a>
+      <a href="#pursuit">Pure Pursuit</a>
+      <a href="#frontier">Frontier Exploration</a>
+      <a href="#planning">Path Planning</a>
+      <a href="#results">Results</a>
+    </nav>
+
+    <div class="proj-overview reveal" id="overview">
+      <span class="section-tag">// 01</span>
+      <h2>Overview</h2>
+      <div class="proj-text">
+        <p>A four-person team developed an <strong>autonomous mapping robot</strong> implementing <strong>Simultaneous Localization and Mapping (SLAM)</strong> using <strong>ROS</strong> and <strong>Python</strong>. The system integrated a <strong>LIDAR sensor</strong> for real-time environmental perception, <strong>frontier-based exploration</strong> to identify unknown regions, and <strong>path planning and control algorithms</strong> to navigate safely and efficiently.</p>
+        <p>The robot combined <strong>AMCL-based localization</strong>, <strong>obstacle avoidance</strong>, and <strong>goal selection</strong> in a framework leveraging <strong>A*</strong> for global path planning, <strong>pure pursuit</strong> for trajectory following, and a <strong>potential fields method</strong> for real-time steering corrections.</p>
+      </div>
+      <div class="proj-overview-img">
+        <img src="../assets/images/projects/proj2_turtlebot/turtlebot.png" alt="TurtleBot3 Platform" />
+      </div>
+    </div>
+
+    <hr class="proj-divider">
+
+    <div class="proj-section reveal" id="architecture">
+      <div class="proj-visual">
+        <img src="../assets/images/projects/proj2_turtlebot/system_architecture.jpg" alt="System Architecture" />
+      </div>
+      <div class="proj-text">
+        <span class="section-tag">// 02</span>
+        <h2>System Architecture</h2>
+        <p>The system ran on a <strong>TurtleBot3</strong> platform organized as a modular network of <strong>ROS nodes</strong> communicating through topics and services. <strong>Gmapping</strong> provided real-time SLAM by fusing <strong>LiDAR scans</strong> with odometry to build a 2D occupancy grid, while <strong>AMCL</strong> maintained a probabilistic pose estimate through particle filtering.</p>
+        <p>A custom <strong>FrontierFinder</strong> node detected unexplored regions, <strong>PathPlanner</strong> generated collision-free routes via <strong>A*</strong> on an inflated C-space, and <strong>PathMovement</strong> executed trajectories using <strong>pure pursuit control</strong>. This modular design allowed each subsystem to operate asynchronously yet cohesively.</p>
+      </div>
+    </div>
+
+    <hr class="proj-divider">
+
+    <div class="proj-section flip reveal" id="pursuit">
+      <div class="proj-text">
+        <span class="section-tag">// 03</span>
+        <h2>Pure Pursuit Controller</h2>
+        <p>Instead of stepping between discrete waypoints, the robot continuously calculated a <strong>lookahead point</strong> along its global path and adjusted steering based on the angular error between heading and that target. This reduced oscillations and maintained curvature continuity.</p>
+        <p><strong>Rotation-in-place logic</strong> handled sharp turns by pausing linear motion and rotating toward the new heading, providing stable and predictable tracking even in narrow or obstacle-dense environments.</p>
+      </div>
+      <div class="proj-visual">
+        <img src="../assets/images/projects/proj2_turtlebot/pp.gif" alt="Pure Pursuit Visualization" />
+      </div>
+    </div>
+
+    <hr class="proj-divider">
+
+    <div class="proj-section reveal" id="frontier">
+      <div class="proj-visual">
+        <img src="../assets/images/under-construction-warning-sign-vector.png" alt="Frontier Exploration" />
+      </div>
+      <div class="proj-text">
+        <span class="section-tag">// 04</span>
+        <h2>Frontier-Based Exploration</h2>
+        <p>The occupancy grid from SLAM was continuously analyzed to detect <strong>frontiers</strong> — boundary cells between known free space and unexplored regions. These frontier points were clustered and their <strong>centroids</strong> computed as potential exploration targets.</p>
+        <p>Each centroid was scored using a <strong>multi-criteria function</strong> balancing frontier size and distance from the robot, ensuring efficient exploration. The highest-ranking centroid became the next navigation goal, balancing map coverage and travel cost.</p>
+      </div>
+    </div>
+
+    <hr class="proj-divider">
+
+    <div class="proj-section flip reveal" id="planning">
+      <div class="proj-text">
+        <span class="section-tag">// 05</span>
+        <h2>Path Planning &amp; Localization</h2>
+        <p>A custom <strong>A*</strong> planner operated on an inflated configuration space incorporating the robot's footprint. The heuristic combined <strong>Euclidean distance</strong>, <strong>distance-to-wall penalties</strong>, and <strong>angular deviation costs</strong> to produce smooth, collision-free paths.</p>
+        <p><strong>AMCL</strong> localization used particle filtering to continuously estimate the robot's pose. Dynamically adjusting particle count based on uncertainty improved efficiency, and <strong>no-motion updates</strong> while stationary refined pose estimates without requiring movement.</p>
+      </div>
+      <div class="proj-visual">
+        <img src="../assets/images/under-construction-warning-sign-vector.png" alt="Path Planning" />
+      </div>
+    </div>
+
+    <hr class="proj-divider">
+
+    <div class="proj-section reveal" id="results">
+      <div class="proj-visual">
+        <img src="../assets/images/under-construction-warning-sign-vector.png" alt="Results" />
+      </div>
+      <div class="proj-text">
+        <span class="section-tag">// 06</span>
+        <h2>Results &amp; Performance</h2>
+        <p>Deployed on a <strong>TurtleBot3</strong> in a structured indoor environment, the robot successfully mapped all reachable areas in approximately <strong>101 seconds</strong> with minimal human input.</p>
+        <p>The pure pursuit controller produced smooth, stable tracking, and AMCL maintained accuracy within one robot radius during return runs. The combination of <strong>frontier exploration</strong>, <strong>A* planning</strong>, and <strong>pure pursuit control</strong> validated a reliable pipeline for autonomous SLAM-based exploration.</p>
+      </div>
+    </div>
+
+    <div class="proj-footer-nav reveal">
+      <a href="../index.html">← all projects</a>
+      <a href="#overview">↑ back to top</a>
+    </div>
+
+    <div class="proj-contact reveal">
+      <div class="proj-contact-item"><span class="label">Email</span><a href="mailto:rmranjitkar@wpi.edu">rmranjitkar@wpi.edu</a></div>
+      <div class="proj-contact-item"><span class="label">LinkedIn</span><a href="https://www.linkedin.com/in/ryanranjitkar/">linkedin.com/in/ryanranjitkar</a></div>
+      <div class="proj-contact-item"><span class="label">GitHub</span><a href="https://github.com/rmranjitkar">github.com/rmranjitkar</a></div>
+    </div>
+
+  </div>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      document.body.classList.remove('is-preload');
+      const io = new IntersectionObserver((entries) => { entries.forEach(e => { if (!e.isIntersecting) return; io.unobserve(e.target); e.target.classList.add('visible'); }); }, { threshold: 0.07, rootMargin: '0px 0px -30px 0px' });
+      document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+      const sections = ['overview','architecture','pursuit','frontier','planning','results'].map(id => document.getElementById(id));
+      const navLinks = Array.from(document.querySelectorAll('.proj-nav a'));
+      const navIo = new IntersectionObserver((entries) => { entries.forEach(entry => { if (!entry.isIntersecting) return; navLinks.forEach(a => a.classList.remove('active')); const link = document.querySelector(`.proj-nav a[href="#${entry.target.id}"]`); if (link) link.classList.add('active'); }); }, { threshold: 0.35 });
+      sections.forEach(s => { if (s) navIo.observe(s); });
+    });
+  </script>
   </body>
 </html>

@@ -1,48 +1,118 @@
 <!DOCTYPE HTML>
 <html>
   <head>
-    <title>Projects</title>
+    <title>Projects — Ryan Ranjitkar</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="../assets/css/main.css" />
     <link rel="stylesheet" href="../assets/css/project_list.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-    <noscript><link rel="stylesheet" href="../assets/css/noscript.css" /></noscript>
+    <style>
+      /* Page header */
+      .page-header {
+        padding: 3em 0 0.5em;
+        max-width: 65em;
+        margin: 0 auto;
+        width: calc(100% - 6em);
+      }
+      .page-header .back-link {
+        font-size: 0.85em;
+        color: rgba(200,200,210,0.5);
+        text-decoration: none;
+        border: 0;
+        display: inline-block;
+        margin-bottom: 1em;
+        transition: color 0.2s;
+      }
+      .page-header .back-link:hover { color: #7eb8b0; }
+      .page-header h1 {
+        font-size: 2.2em;
+        font-weight: 600;
+        letter-spacing: -0.01em;
+        margin-bottom: 0.2em;
+      }
+      .page-header p {
+        color: rgba(200,200,210,0.6);
+        font-size: 0.95em;
+        margin-bottom: 0;
+      }
+
+      /* Filter bar */
+      .filter-bar {
+        max-width: 65em;
+        margin: 1.5em auto 0;
+        width: calc(100% - 6em);
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5em;
+        padding-bottom: 1.5em;
+        border-bottom: 1px solid rgba(200,200,210,0.08);
+      }
+      .filter-btn {
+        background: transparent;
+        border: 1px solid rgba(200,200,210,0.15);
+        color: rgba(200,200,210,0.6);
+        font-family: "Space Grotesk", system-ui, sans-serif;
+        font-size: 0.8em;
+        font-weight: 500;
+        padding: 0.4em 1em;
+        border-radius: 2em;
+        cursor: pointer;
+        transition: background 0.2s, border-color 0.2s, color 0.2s;
+        letter-spacing: 0.02em;
+      }
+      .filter-btn:hover {
+        border-color: rgba(200,200,210,0.4);
+        color: #fff;
+      }
+      .filter-btn.active {
+        background: #7eb8b0;
+        border-color: #7eb8b0;
+        color: #0f0f12;
+      }
+
+      /* Count badge */
+      .filter-count {
+        font-size: 0.75em;
+        opacity: 0.6;
+        margin-left: 0.3em;
+      }
+
+      /* Hidden card */
+      .project-card.hidden {
+        display: none;
+      }
+
+      @media (max-width: 736px) {
+        .page-header, .filter-bar { width: calc(100% - 3em); }
+        .page-header { padding-top: 2em; }
+      }
+    </style>
   </head>
 
   <body class="is-preload">
-    <!-- Wrapper -->
     <div id="wrapper">
 
-      <!-- Header -->
-      <header id="header" class="alt style2">
-        <a href="../index.html" class="logo"><strong>Ryan</strong> <span>Ranjitkar</span></a>
-        <nav><a href="#menu">Menu</a></nav>
-      </header>
+      <!-- Page header -->
+      <div class="page-header">
+        <a href="../index.html" class="back-link">← home</a>
+        <h1>projects</h1>
+        <p>things i've built inside and outside of school</p>
+      </div>
 
-      <!-- Menu -->
-      <nav id="menu">
-        <ul class="links">
-          <li><a href="../index.html">Home</a></li>
-          <li><a href="../aboutme.html">About Me</a></li>
-          <li><a href="projects.html">Projects</a></li>
-        </ul>
-      </nav>
-
-      <!-- Banner -->
-      <section id="banner" class="style2">
-        <div class="inner">
-          <span class="image">
-            <img src="../images/pic07.jpg" alt="" />
-          </span>
-          <header class="major">
-            <h1>Projects</h1>
-          </header>
-          <div class="content">
-            <p>Learn a bit about what projects I've done both inside and outside of school!</p>
-          </div>
-        </div>
-      </section>
+      <!-- Filter bar -->
+      <div class="filter-bar">
+        <button class="filter-btn active" data-filter="all">all <span class="filter-count"></span></button>
+        <button class="filter-btn" data-filter="robotics">robotics <span class="filter-count"></span></button>
+        <button class="filter-btn" data-filter="embedded">embedded <span class="filter-count"></span></button>
+        <button class="filter-btn" data-filter="digital-design">digital design / RTL <span class="filter-count"></span></button>
+        <button class="filter-btn" data-filter="pcb">pcb design <span class="filter-count"></span></button>
+        <button class="filter-btn" data-filter="cpp">c/c++ <span class="filter-count"></span></button>
+        <button class="filter-btn" data-filter="python">python <span class="filter-count"></span></button>
+        <button class="filter-btn" data-filter="matlab">matlab <span class="filter-count"></span></button>
+      </div>
 
       <!-- Main Content -->
       <div id="main" class="alt">
@@ -51,7 +121,7 @@
             <div class="projects-grid">
 
               <!-- RBE 3001 - 4-DoF Arm -->
-              <div class="project-card" data-tags="MATLAB">
+              <div class="project-card" data-tags="MATLAB" data-category="robotics matlab">
                 <a href="proj4_4DoFArm.html" class="project-link">
                   <img src="../assets/images/projects/proj4_RBE3001/robotArm.jpg" alt="4-DoF Robot Arm" loading="lazy">
                   <div class="content">
@@ -68,7 +138,7 @@
               </div>
 
               <!-- Embedded Oscilloscope -->
-              <div class="project-card" data-tags="C/C++ RTOS">
+              <div class="project-card" data-tags="C/C++ RTOS" data-category="embedded cpp">
                 <a href="proj1_EmbeddedOscope.html" class="project-link">
                   <img src="../assets/images/projects/proj1_EmbeddedOscop/escope.jpg" alt="TI-Board" loading="lazy">
                   <div class="content">
@@ -84,7 +154,7 @@
               </div>
 
               <!-- ECE 3829: PMOD ALS -->
-              <div class="project-card" data-tags="Verilog FPGA">
+              <div class="project-card" data-tags="Verilog FPGA" data-category="digital-design">
                 <a href="proj6_3829Lab3.html" class="project-link">
                   <img src="../assets/images/under-construction-warning-sign-vector.jpg" alt="Light Sensor Interface" loading="lazy">
                   <div class="content">
@@ -102,7 +172,7 @@
               </div>
 
               <!-- RBE 3002 - LiDAR Robot -->
-              <div class="project-card" data-tags="ROS Python Linux">
+              <div class="project-card" data-tags="ROS Python Linux" data-category="robotics python">
                 <a href="proj2_RBE3002.html" class="project-link">
                   <img src="../assets/images/projects/proj2_turtlebot/turtlebot.png" alt="Turtlebot" loading="lazy">
                   <div class="content">
@@ -121,7 +191,7 @@
               </div>
 
               <!-- FishShocker9000 -->
-              <div class="project-card" data-tags="C/C++ PCB Python Embedded">
+              <div class="project-card" data-tags="C/C++ PCB Python Embedded" data-category="embedded pcb python cpp">
                 <a href="proj3_fshkr9k.html" class="project-link">
                   <img src="../assets/images/projects/proj3_FSH9K/FishShocker9000.png" alt="FishShocker9000 PCB" loading="lazy">
                   <div class="content">
@@ -141,7 +211,7 @@
               </div>
 
               <!-- RBE 2001 -->
-              <div class="project-card" data-tags="C/C++ SolidWorks MATLAB">
+              <div class="project-card" data-tags="C/C++ SolidWorks MATLAB" data-category="robotics embedded matlab cpp">
                 <a href="proj5_RBE2001.html" class="project-link">
                   <img src="../assets/images/projects/proj5_RBE2001/2001RomiRender.png" alt="2-DoF Planar Manipulator" loading="lazy">
                   <div class="content">
@@ -160,7 +230,7 @@
               </div>
 
               <!-- RBE 2002 -->
-              <div class="project-card" data-tags="C/C++ Embedded Robot">
+              <div class="project-card" data-tags="C/C++ Embedded Robot" data-category="robotics embedded cpp">
                 <a href="proj7_RBE2002.html" class="project-link">
                   <img src="../assets/images/under-construction-warning-sign-vector.jpg" alt="RBE2002 Robot" loading="lazy">
                   <div class="content">
@@ -178,7 +248,7 @@
               </div>
 
               <!-- ECE 3829: VGA Output -->
-              <div class="project-card" data-tags="Verilog FPGA">
+              <div class="project-card" data-tags="Verilog FPGA" data-category="digital-design">
                 <a href="proj6_3829Lab3.html" class="project-link">
                   <img src="../assets/images/under-construction-warning-sign-vector.jpg" alt="VGA Output" loading="lazy">
                   <div class="content">
@@ -224,19 +294,44 @@
 
     </div>
 
-    <!-- Scripts -->
-    <script src="../assets/js/jquery.min.js"></script>
-    <script src="../assets/js/jquery.scrolly.min.js"></script>
-    <script src="../assets/js/jquery.scrollex.min.js"></script>
-    <script src="../assets/js/browser.min.js"></script>
-    <script src="../assets/js/breakpoints.min.js"></script>
-    <script src="../assets/js/util.js"></script>
-    <script src="../assets/js/main.js"></script>
-
-    <!-- Prevent GitHub click from triggering project link -->
     <script>
-      document.querySelectorAll('.github-icon-btn').forEach(btn => {
-        btn.addEventListener('click', e => e.stopPropagation());
+      document.addEventListener('DOMContentLoaded', () => {
+        document.body.classList.remove('is-preload');
+
+        const cards = Array.from(document.querySelectorAll('.project-card'));
+        const buttons = Array.from(document.querySelectorAll('.filter-btn'));
+
+        // Count cards per category and update badges
+        buttons.forEach(btn => {
+          const filter = btn.dataset.filter;
+          const count = filter === 'all'
+            ? cards.length
+            : cards.filter(c => c.dataset.category.split(' ').includes(filter)).length;
+          btn.querySelector('.filter-count').textContent = count;
+        });
+
+        // Filter logic
+        buttons.forEach(btn => {
+          btn.addEventListener('click', () => {
+            buttons.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            const filter = btn.dataset.filter;
+            cards.forEach(card => {
+              if (filter === 'all') {
+                card.classList.remove('hidden');
+              } else {
+                const cats = card.dataset.category.split(' ');
+                card.classList.toggle('hidden', !cats.includes(filter));
+              }
+            });
+          });
+        });
+
+        // GitHub buttons: prevent parent link navigation
+        document.querySelectorAll('.github-icon-btn').forEach(btn => {
+          btn.addEventListener('click', e => e.stopPropagation());
+        });
       });
     </script>
 

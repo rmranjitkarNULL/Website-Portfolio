@@ -1,195 +1,188 @@
 <!DOCTYPE HTML>
 <html>
   <head>
-    <title>2-DoF Planar Manipulator</title>
+    <title>2-DoF Planar Manipulator — Ryan Ranjitkar</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="../assets/css/main.css" />
-    <noscript><link rel="stylesheet" href="../assets/css/noscript.css" /></noscript>
+    <style>
+      *, *::before, *::after { box-sizing: border-box; }
+      .proj-page { max-width: 65em; margin: 0 auto; width: calc(100% - 6em); padding-bottom: 4em; }
+      .proj-topbar { display: flex; justify-content: space-between; align-items: center; padding: 2em 0 1.8em; }
+      .proj-back { font-size: 0.85em; color: rgba(200,200,210,0.45); text-decoration: none; border: 0; transition: color 0.2s; }
+      .proj-back:hover { color: #7eb8b0; }
+      .proj-github { display: inline-flex; align-items: center; gap: 0.45em; font-size: 0.82em; font-weight: 500; color: rgba(200,200,210,0.55); text-decoration: none; border: 1px solid rgba(200,200,210,0.15); padding: 0.35em 0.85em; border-radius: 2em; transition: color 0.2s, border-color 0.2s; }
+      .proj-github:hover { color: #fff; border-color: rgba(200,200,210,0.4); }
+      .proj-header { margin-bottom: 2em; }
+      .proj-header h1 { font-size: 2.1em; font-weight: 600; line-height: 1.2; margin-bottom: 0.5em; color: #fff; }
+      .proj-tags { display: flex; flex-wrap: wrap; gap: 0.4em; }
+      .proj-tag { font-size: 0.75em; font-weight: 500; padding: 0.3em 0.8em; border-radius: 2em; background: rgba(126,184,176,0.1); border: 1px solid rgba(126,184,176,0.25); color: #7eb8b0; }
+      .proj-nav { position: sticky; top: 0; z-index: 100; background: rgba(15,15,18,0.88); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid rgba(200,200,210,0.07); margin: 0 calc(-1 * (100vw - 65em) / 2 - 3em); padding: 0 calc((100vw - 65em) / 2 + 3em); display: flex; gap: 0; overflow-x: auto; }
+      .proj-nav a { font-size: 0.8em; font-weight: 500; color: rgba(200,200,210,0.45); text-decoration: none; border: 0; padding: 0.85em 1.2em; white-space: nowrap; border-bottom: 2px solid transparent; transition: color 0.2s, border-color 0.2s; }
+      .proj-nav a:hover { color: rgba(200,200,210,0.85); }
+      .proj-nav a.active { color: #7eb8b0; border-bottom-color: #7eb8b0; }
+      .proj-divider { border: 0; border-top: 1px solid rgba(200,200,210,0.07); margin: 3em 0; }
+      .proj-section { display: grid; grid-template-columns: 5fr 8fr; gap: 3em; align-items: start; scroll-margin-top: 3em; padding: 3em 0; }
+      .proj-section.flip .proj-visual { order: 2; }
+      .proj-section.flip .proj-text   { order: 1; }
+      .proj-overview { scroll-margin-top: 3em; padding: 2.5em 0 0; }
+      .section-tag { font-family: ui-monospace, 'Cascadia Mono', 'Courier New', monospace; font-size: 0.72em; color: #7eb8b0; letter-spacing: 0.08em; display: block; margin-bottom: 0.5em; }
+      .proj-section h2, .proj-overview h2 { font-size: 1.55em; font-weight: 600; color: #fff; margin-bottom: 1em; line-height: 1.25; }
+      .proj-text p { font-size: 0.93em; color: rgba(200,200,210,0.7); line-height: 1.8; margin-bottom: 1em; }
+      .proj-text p:last-child { margin-bottom: 0; }
+      .proj-text strong { color: rgba(200,200,210,0.9); font-weight: 600; }
+      .proj-visual { border-radius: 8px; overflow: hidden; background: rgba(255,255,255,0.03); border: 1px solid rgba(200,200,210,0.08); }
+      .proj-visual img, .proj-visual video { width: 100%; display: block; height: auto; }
+      .proj-overview-img { margin-top: 2em; border-radius: 8px; overflow: hidden; border: 1px solid rgba(200,200,210,0.08); }
+      .proj-overview-img img { width: 100%; display: block; object-fit: cover; }
+      .proj-footer-nav { display: flex; justify-content: space-between; align-items: center; padding: 2em 0; border-top: 1px solid rgba(200,200,210,0.07); margin-top: 1em; }
+      .proj-footer-nav a { font-size: 0.85em; color: rgba(200,200,210,0.45); text-decoration: none; border: 0; transition: color 0.2s; }
+      .proj-footer-nav a:hover { color: #7eb8b0; }
+      .proj-contact { display: flex; gap: 2.5em; flex-wrap: wrap; padding: 2em 0 3em; border-top: 1px solid rgba(200,200,210,0.07); }
+      .proj-contact-item { display: flex; flex-direction: column; gap: 0.3em; }
+      .proj-contact-item .label { font-size: 0.72em; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(200,200,210,0.3); font-weight: 600; }
+      .proj-contact-item a { font-size: 0.88em; color: rgba(200,200,210,0.6); text-decoration: none; border: 0; transition: color 0.2s; }
+      .proj-contact-item a:hover { color: #7eb8b0; }
+      .reveal { opacity: 0; transform: translateY(14px); transition: opacity 0.5s ease, transform 0.5s ease; }
+      .reveal.visible { opacity: 1; transform: none; }
+      @media (max-width: 768px) {
+        .proj-page { width: calc(100% - 3em); }
+        .proj-section { grid-template-columns: 1fr; gap: 1.5em; }
+        .proj-section.flip .proj-visual, .proj-section.flip .proj-text { order: 0; }
+        .proj-nav { margin: 0 -1.5em; padding: 0 1.5em; }
+        .proj-header h1 { font-size: 1.6em; }
+      }
+    </style>
   </head>
   <body class="is-preload">
+  <div id="wrapper">
+  <div class="proj-page">
 
-    <!-- Wrapper -->
-    <div id="wrapper">
-
-      <!-- Header -->
-      <header id="header">
-        <a href="../index.html" class="logo"><strong>Ryan</strong> <span>Ranjitkar</span></a>
-        <nav><a href="#menu">Menu</a></nav>
-      </header>
-
-      <!-- Menu -->
-      <nav id="menu">
-        <ul class="links">
-          <li><a href="../index.html">Home</a></li>
-          <li><a href="../aboutme.html">About Me</a></li>
-          <li><a href="projects.html">Projects</a></li>
-        </ul>
-      </nav>
-
-      <!-- Overview -->
-      <div id="main" class="alt">
-        <section id="one">
-          <div class="inner">
-            <header class="major">
-              <h1>2-DoF Planar Manipulator</h1>
-            </header>
-            <p>
-              This project involved designing, fabricating, and testing a <strong>2-DoF translational planar manipulator</strong> 
-              mounted on a <strong>Pololu Romi 32U4 mobile platform</strong> to autonomously swap boxes across a three-level shelf.
-              The system consisted entirely of <strong>custom 3D-printed ABS components</strong>—including linkages, gears, and bearing mounts—modeled 
-              and iteratively refined in <strong>SolidWorks</strong>. 
-              Each component underwent <strong>finite element analysis (FEA)</strong> to verify strength and stiffness while minimizing weight, 
-              and motion simulations validated <strong>workspace reachability</strong> and <strong>parallel end-effector motion</strong>.
-              A <strong>20:1 worm-gear reduction</strong> provided torque for actuation, while a <strong>pantograph linkage</strong> maintained gripper parallelism. 
-              Together, these design choices yielded a precise, repeatable, and mechanically efficient manipulator.
-            </p>
-          </div>
-        </section>
-      </div>
-
-      <!-- Main Sections -->
-      <div id="main">
-        <section id="two" class="spotlights">
-
-          <!-- Section 1 -->
-          <section>
-            <img src="../assets/images/projects/proj5_RBE2001/RBE200Gearbox.png" alt="Manipulator Gearbox Assembly" data-position="top center" />
-            <div class="content">
-              <div class="inner">
-                <header class="major"><h3>Design and Fabrication</h3></header>
-                <p>
-                  The manipulator was centered around a <strong>five-bar planar linkage</strong> driven by two actuators: 
-                  a <strong>DC motor with a 20:1 worm-gear stage</strong> and a <strong>servo motor with a 2:1 gear reduction</strong> 
-                  for slower, smoother motion. All links, mounts, and brackets were <strong>custom-modeled and 3D-printed in ABS</strong>, 
-                  enabling rapid prototyping and iteration. 
-                  <strong>Press-fit axles</strong> and <strong>ball bearings</strong> were used at each joint to ensure low-friction motion and precise alignment.
-                  The <strong>pantograph-style parallelogram</strong> ensured the gripper remained level throughout its workspace, 
-                  simplifying grasping tasks and improving mechanical precision. 
-                  The final design prioritized <strong>symmetry, manufacturability, and robustness</strong> while using 
-                  accessible student fabrication tools.
-                </p>
-              </div>
-            </div>
-          </section>
-
-          <!-- Section 2 -->
-          <section>
-            <video autoplay loop muted playsinline width="100%" height="auto">
-              <source src="../assets/images/projects/proj5_RBE2001/sim.mp4" type="video/mp4" />
-            </video>
-            <div class="content">
-              <div class="inner">
-                <header class="major"><h3>Analysis & Simulation</h3></header>
-                <p>
-                  The design process was <strong>analysis-driven</strong> from concept to implementation. Using 
-                  <strong>SolidWorks Simulation</strong>, <strong>finite element analysis (FEA)</strong> verified that critical links 
-                  maintained <strong>safety factors above 2.0</strong> under load. 
-                  <strong>Free-body diagrams (FBDs)</strong> and <strong>MATLAB modeling</strong> were used to calculate joint torques, 
-                  optimize actuator sizing, and refine link geometry. 
-                  Additional <strong>tipping and stability calculations</strong> ensured that the Romi platform remained balanced 
-                  even when the arm was fully extended. 
-                  Iterative refinements—such as shortening upper links and thickening bushings—improved stiffness and reduced deflection, 
-                  resulting in a more stable and efficient mechanical assembly.
-                </p>
-              </div>
-            </div>
-          </section>
-
-          <!-- Section 3 -->
-          <section>
-            <img src="../assets/images/projects/proj5_RBE2001/romiRenderNice.png" alt="Manipulator CAD Render" data-position="top center" />
-            <div class="content">
-              <div class="inner">
-                <header class="major"><h3>Control and System Integration</h3></header>
-                <p>
-                  Although the focus of the project was on mechanical design, an integrated <strong>control system</strong> 
-                  enabled synchronized actuation between the manipulator and the mobile base. 
-                  The <strong>Romi microcontroller</strong> coordinated servo and DC motor actuation through an 
-                  <strong>inverse-kinematics-based position control</strong> framework. 
-                  Motion commands were transmitted via <strong>serial communication</strong>, allowing precise incremental control 
-                  of both joint and base movement. 
-                  The software architecture emphasized <strong>reliability and simplicity</strong>, enabling smooth, 
-                  coordinated motion without overcomplicating the control logic. 
-                  The system demonstrated the synergy between careful mechanical design and efficient embedded control.
-                </p>
-              </div>
-            </div>
-          </section>
-
-          <!-- Section 4 -->
-          <section>
-            <video autoplay loop muted playsinline width="100%" height="auto">
-              <source src="../assets/images/projects/proj5_RBE2001/2001GripperDemo.mp4" type="video/mp4" />
-            </video>
-            <div class="content">
-              <div class="inner">
-                <header class="major"><h3>Testing and Performance</h3></header>
-                <p>
-                  During testing, the manipulator successfully performed all required tasks—navigating to the shelf, 
-                  grasping and swapping boxes at multiple heights, and returning to its starting position. 
-                  The structure remained stable and deformation-free under continuous operation, validating 
-                  <strong>FEA predictions</strong> and <strong>mechanical tolerances</strong>. 
-                  Measured <strong>repeatability</strong> and <strong>grasp consistency</strong> closely matched simulation results, 
-                  confirming the accuracy of the design models. 
-                  Despite early challenges such as servo overheating and voltage drops, iterative refinements to 
-                  the power delivery and linkage design produced a reliable and fully functional prototype that 
-                  met all project requirements and competition benchmarks.
-                </p>
-              </div>
-            </div>
-          </section>
-
-        </section>
-      </div>
-
-      <!-- View All Projects -->
-      <section id="three" class="view-all-centered">
-        <div class="inner">
-          <header class="major"><h2>View All Projects</h2></header>
-          <p>Go back and check out my other robotics and embedded design projects.</p>
-          <ul class="actions">
-            <li><a href="projects.html" class="button next">View All</a></li>
-          </ul>
-        </div>
-      </section>
-
-      <br/>
-
-      <!-- Contact -->
-      <section class="split">
-        <section>
-          <div class="contact-method">
-            <h3><span class="icon solid alt fa-envelope"></span>Email</h3>
-            <a href="mailto:rmranjitkar@wpi.edu">rmranjitkar@wpi.edu</a>
-          </div>
-        </section>
-
-        <section>
-          <div class="contact-method">
-            <h3><span class="icon brands alt fa-linkedin-in"></span>LinkedIn</h3>
-            <a href="https://www.linkedin.com/in/ryanranjitkar/">https://www.linkedin.com/in/ryanranjitkar/</a>
-          </div>
-        </section>
-
-        <section>
-          <div class="contact-method">
-            <h3><span class="icon brands alt fa-github"></span>GitHub</h3>
-            <a href="https://github.com/rmranjitkar">https://github.com/rmranjitkar</a>
-          </div>
-        </section>
-      </section>
-
+    <div class="proj-topbar reveal">
+      <a href="../index.html" class="proj-back">← projects</a>
+      <a href="https://github.com/notMarque/RBE2001Group1Final" target="_blank" class="proj-github">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+        GitHub
+      </a>
     </div>
 
-    <!-- Scripts -->
-    <script src="../assets/js/jquery.min.js"></script>
-    <script src="../assets/js/jquery.scrolly.min.js"></script>
-    <script src="../assets/js/jquery.scrollex.min.js"></script>
-    <script src="../assets/js/browser.min.js"></script>
-    <script src="../assets/js/breakpoints.min.js"></script>
-    <script src="../assets/js/util.js"></script>
-    <script src="../assets/js/main.js"></script>
+    <header class="proj-header reveal">
+      <h1>2-DoF Planar Manipulator</h1>
+      <div class="proj-tags">
+        <span class="proj-tag">C/C++</span>
+        <span class="proj-tag">SolidWorks</span>
+        <span class="proj-tag">MATLAB</span>
+        <span class="proj-tag">FEA</span>
+        <span class="proj-tag">Robotics</span>
+        <span class="proj-tag">Pololu Romi</span>
+      </div>
+    </header>
 
+    <nav class="proj-nav" id="proj-nav">
+      <a href="#overview" class="active">Overview</a>
+      <a href="#design">Design</a>
+      <a href="#analysis">Analysis</a>
+      <a href="#control">Control</a>
+      <a href="#results">Results</a>
+    </nav>
+
+    <div class="proj-overview reveal" id="overview">
+      <span class="section-tag">// 01</span>
+      <h2>Overview</h2>
+      <div class="proj-text">
+        <p>A <strong>2-DoF translational planar manipulator</strong> mounted on a <strong>Pololu Romi 32U4 mobile platform</strong>, designed to autonomously swap boxes across a three-level shelf. All structural components are <strong>custom 3D-printed ABS</strong> — linkages, gears, and bearing mounts — modeled and refined in <strong>SolidWorks</strong>.</p>
+        <p>A <strong>20:1 worm-gear reduction</strong> provided actuation torque, while a <strong>pantograph linkage</strong> maintained gripper parallelism throughout the workspace. Each component underwent <strong>FEA</strong> to verify strength while minimizing weight.</p>
+      </div>
+      <div class="proj-overview-img">
+        <img src="../assets/images/projects/proj5_RBE2001/2001RomiRender.png" alt="2-DoF Manipulator Render" />
+      </div>
+    </div>
+
+    <hr class="proj-divider">
+
+    <div class="proj-section reveal" id="design">
+      <div class="proj-visual">
+        <img src="../assets/images/projects/proj5_RBE2001/RBE200Gearbox.png" alt="Gearbox Assembly" />
+      </div>
+      <div class="proj-text">
+        <span class="section-tag">// 02</span>
+        <h2>Design &amp; Fabrication</h2>
+        <p>The manipulator uses a <strong>five-bar planar linkage</strong> driven by a <strong>DC motor with a 20:1 worm-gear stage</strong> and a <strong>servo motor with a 2:1 gear reduction</strong>. All links, mounts, and brackets were <strong>custom-modeled and 3D-printed in ABS</strong> for rapid prototyping and iteration.</p>
+        <p><strong>Press-fit axles</strong> and <strong>ball bearings</strong> at each joint ensure low-friction motion and precise alignment. The <strong>pantograph-style parallelogram</strong> keeps the gripper level throughout the workspace, simplifying grasping and improving mechanical precision.</p>
+      </div>
+    </div>
+
+    <hr class="proj-divider">
+
+    <div class="proj-section flip reveal" id="analysis">
+      <div class="proj-text">
+        <span class="section-tag">// 03</span>
+        <h2>Analysis &amp; Simulation</h2>
+        <p>Using <strong>SolidWorks Simulation</strong>, <strong>FEA</strong> verified that critical links maintained <strong>safety factors above 2.0</strong> under load. <strong>Free-body diagrams</strong> and <strong>MATLAB modeling</strong> calculated joint torques, optimized actuator sizing, and refined link geometry.</p>
+        <p>Additional <strong>tipping and stability calculations</strong> ensured the Romi platform remained balanced when the arm was fully extended. Iterative refinements — shortening upper links and thickening bushings — improved stiffness and reduced deflection.</p>
+      </div>
+      <div class="proj-visual">
+        <video autoplay loop muted playsinline>
+          <source src="../assets/images/projects/proj5_RBE2001/sim.mp4" type="video/mp4" />
+        </video>
+      </div>
+    </div>
+
+    <hr class="proj-divider">
+
+    <div class="proj-section reveal" id="control">
+      <div class="proj-visual">
+        <img src="../assets/images/projects/proj5_RBE2001/romiRenderNice.png" alt="Romi Platform" />
+      </div>
+      <div class="proj-text">
+        <span class="section-tag">// 04</span>
+        <h2>Control &amp; System Integration</h2>
+        <p>An integrated <strong>control system</strong> synchronized actuation between the manipulator and mobile base. The <strong>Romi microcontroller</strong> coordinated servo and DC motor actuation through an <strong>inverse-kinematics–based position control</strong> framework.</p>
+        <p>Motion commands were transmitted via <strong>serial communication</strong>, enabling precise incremental control of both joint and base movement. The software emphasized <strong>reliability and simplicity</strong>, achieving smooth coordinated motion without overcomplicating the control logic.</p>
+      </div>
+    </div>
+
+    <hr class="proj-divider">
+
+    <div class="proj-section flip reveal" id="results">
+      <div class="proj-text">
+        <span class="section-tag">// 05</span>
+        <h2>Testing &amp; Performance</h2>
+        <p>The manipulator successfully performed all required tasks — navigating to the shelf, grasping and swapping boxes at multiple heights, and returning to starting position. The structure remained stable and deformation-free under continuous operation, validating <strong>FEA predictions</strong>.</p>
+        <p>Despite early challenges including servo overheating and voltage drops, iterative refinements to power delivery and linkage design produced a reliable prototype that met all project requirements and <strong>competition benchmarks</strong>.</p>
+      </div>
+      <div class="proj-visual">
+        <video autoplay loop muted playsinline>
+          <source src="../assets/images/projects/proj5_RBE2001/2001GripperDemo.mp4" type="video/mp4" />
+        </video>
+      </div>
+    </div>
+
+    <div class="proj-footer-nav reveal">
+      <a href="../index.html">← all projects</a>
+      <a href="#overview">↑ back to top</a>
+    </div>
+
+    <div class="proj-contact reveal">
+      <div class="proj-contact-item"><span class="label">Email</span><a href="mailto:rmranjitkar@wpi.edu">rmranjitkar@wpi.edu</a></div>
+      <div class="proj-contact-item"><span class="label">LinkedIn</span><a href="https://www.linkedin.com/in/ryanranjitkar/">linkedin.com/in/ryanranjitkar</a></div>
+      <div class="proj-contact-item"><span class="label">GitHub</span><a href="https://github.com/rmranjitkar">github.com/rmranjitkar</a></div>
+    </div>
+
+  </div>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      document.body.classList.remove('is-preload');
+      const io = new IntersectionObserver((entries) => { entries.forEach(e => { if (!e.isIntersecting) return; io.unobserve(e.target); e.target.classList.add('visible'); }); }, { threshold: 0.07, rootMargin: '0px 0px -30px 0px' });
+      document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+      const sections = ['overview','design','analysis','control','results'].map(id => document.getElementById(id));
+      const navLinks = Array.from(document.querySelectorAll('.proj-nav a'));
+      const navIo = new IntersectionObserver((entries) => { entries.forEach(entry => { if (!entry.isIntersecting) return; navLinks.forEach(a => a.classList.remove('active')); const link = document.querySelector(`.proj-nav a[href="#${entry.target.id}"]`); if (link) link.classList.add('active'); }); }, { threshold: 0.35 });
+      sections.forEach(s => { if (s) navIo.observe(s); });
+    });
+  </script>
   </body>
 </html>

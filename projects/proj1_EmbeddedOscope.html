@@ -1,175 +1,447 @@
 <!DOCTYPE HTML>
 <html>
   <head>
-    <title>Embedded Real-Time Digital Oscilloscope</title>
+    <title>Embedded Oscilloscope — Ryan Ranjitkar</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="../assets/css/main.css" />
-    <noscript><link rel="stylesheet" href="../assets/css/noscript.css" /></noscript>
+    <style>
+      /* ── Reset / base ───────────────────────── */
+      *, *::before, *::after { box-sizing: border-box; }
+
+      /* ── Page wrapper ───────────────────────── */
+      .proj-page {
+        max-width: 65em;
+        margin: 0 auto;
+        width: calc(100% - 6em);
+        padding-bottom: 4em;
+      }
+
+      /* ── Back + actions bar ─────────────────── */
+      .proj-topbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 2em 0 1.8em;
+      }
+      .proj-back {
+        font-size: 0.85em;
+        color: rgba(200,200,210,0.45);
+        text-decoration: none;
+        border: 0;
+        transition: color 0.2s;
+      }
+      .proj-back:hover { color: #7eb8b0; }
+      .proj-github {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.45em;
+        font-size: 0.82em;
+        font-weight: 500;
+        color: rgba(200,200,210,0.55);
+        text-decoration: none;
+        border: 1px solid rgba(200,200,210,0.15);
+        padding: 0.35em 0.85em;
+        border-radius: 2em;
+        transition: color 0.2s, border-color 0.2s;
+      }
+      .proj-github:hover { color: #fff; border-color: rgba(200,200,210,0.4); }
+
+      /* ── Project header ─────────────────────── */
+      .proj-header { margin-bottom: 2em; }
+      .proj-header h1 {
+        font-size: 2.1em;
+        font-weight: 600;
+        line-height: 1.2;
+        margin-bottom: 0.5em;
+        color: #fff;
+      }
+      .proj-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.4em;
+      }
+      .proj-tag {
+        font-size: 0.75em;
+        font-weight: 500;
+        padding: 0.3em 0.8em;
+        border-radius: 2em;
+        background: rgba(126,184,176,0.1);
+        border: 1px solid rgba(126,184,176,0.25);
+        color: #7eb8b0;
+      }
+
+      /* ── Sticky section nav ─────────────────── */
+      .proj-nav {
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        background: rgba(15,15,18,0.88);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border-bottom: 1px solid rgba(200,200,210,0.07);
+        margin: 0 calc(-1 * (100vw - 65em) / 2 - 3em);
+        padding: 0 calc((100vw - 65em) / 2 + 3em);
+        display: flex;
+        gap: 0;
+        overflow-x: auto;
+      }
+      .proj-nav a {
+        font-size: 0.8em;
+        font-weight: 500;
+        color: rgba(200,200,210,0.45);
+        text-decoration: none;
+        border: 0;
+        padding: 0.85em 1.2em;
+        white-space: nowrap;
+        border-bottom: 2px solid transparent;
+        transition: color 0.2s, border-color 0.2s;
+      }
+      .proj-nav a:hover  { color: rgba(200,200,210,0.85); }
+      .proj-nav a.active { color: #7eb8b0; border-bottom-color: #7eb8b0; }
+
+      /* ── Divider ─────────────────────────────── */
+      .proj-divider {
+        border: 0;
+        border-top: 1px solid rgba(200,200,210,0.07);
+        margin: 3em 0;
+      }
+
+      /* ── Section layout ─────────────────────── */
+      .proj-section {
+        display: grid;
+        grid-template-columns: 5fr 8fr;
+        gap: 3em;
+        align-items: start;
+        scroll-margin-top: 3em;
+        padding: 3em 0;
+      }
+      /* Alternate: image on the right */
+      .proj-section.flip .proj-visual { order: 2; }
+      .proj-section.flip .proj-text   { order: 1; }
+
+      /* Full-width overview section */
+      .proj-overview {
+        scroll-margin-top: 3em;
+        padding: 2.5em 0 0;
+      }
+
+      /* ── Section heading ────────────────────── */
+      .section-tag {
+        font-family: ui-monospace, 'Cascadia Mono', 'Courier New', monospace;
+        font-size: 0.72em;
+        color: #7eb8b0;
+        letter-spacing: 0.08em;
+        display: block;
+        margin-bottom: 0.5em;
+      }
+      .proj-section h2,
+      .proj-overview h2 {
+        font-size: 1.55em;
+        font-weight: 600;
+        color: #fff;
+        margin-bottom: 1em;
+        line-height: 1.25;
+      }
+      .proj-text p {
+        font-size: 0.93em;
+        color: rgba(200,200,210,0.7);
+        line-height: 1.8;
+        margin-bottom: 1em;
+      }
+      .proj-text p:last-child { margin-bottom: 0; }
+      .proj-text strong { color: rgba(200,200,210,0.9); font-weight: 600; }
+
+      /* ── Visual (image / video) ─────────────── */
+      .proj-visual {
+        border-radius: 8px;
+        overflow: hidden;
+        background: rgba(255,255,255,0.03);
+        border: 1px solid rgba(200,200,210,0.08);
+      }
+      .proj-visual img,
+      .proj-visual video {
+        width: 100%;
+        display: block;
+        height: auto;
+      }
+      /* Overview image — wider, below text */
+      .proj-overview-img {
+        margin-top: 2em;
+        border-radius: 8px;
+        overflow: hidden;
+        border: 1px solid rgba(200,200,210,0.08);
+      }
+      .proj-overview-img img {
+        width: 100%;
+        display: block;
+        object-fit: cover;
+      }
+
+      /* ── Bottom nav ──────────────────────────── */
+      .proj-footer-nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 2em 0;
+        border-top: 1px solid rgba(200,200,210,0.07);
+        margin-top: 1em;
+      }
+      .proj-footer-nav a {
+        font-size: 0.85em;
+        color: rgba(200,200,210,0.45);
+        text-decoration: none;
+        border: 0;
+        transition: color 0.2s;
+      }
+      .proj-footer-nav a:hover { color: #7eb8b0; }
+
+      /* ── Contact section ─────────────────────── */
+      .proj-contact {
+        display: flex;
+        gap: 2.5em;
+        flex-wrap: wrap;
+        padding: 2em 0 3em;
+        border-top: 1px solid rgba(200,200,210,0.07);
+      }
+      .proj-contact-item { display: flex; flex-direction: column; gap: 0.3em; }
+      .proj-contact-item .label {
+        font-size: 0.72em;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: rgba(200,200,210,0.3);
+        font-weight: 600;
+      }
+      .proj-contact-item a {
+        font-size: 0.88em;
+        color: rgba(200,200,210,0.6);
+        text-decoration: none;
+        border: 0;
+        transition: color 0.2s;
+      }
+      .proj-contact-item a:hover { color: #7eb8b0; }
+
+      /* ── Scroll-reveal ───────────────────────── */
+      .reveal {
+        opacity: 0;
+        transform: translateY(14px);
+        transition: opacity 0.5s ease, transform 0.5s ease;
+      }
+      .reveal.visible { opacity: 1; transform: none; }
+
+      /* ── Responsive ──────────────────────────── */
+      @media (max-width: 768px) {
+        .proj-page { width: calc(100% - 3em); }
+        .proj-section { grid-template-columns: 1fr; gap: 1.5em; }
+        .proj-section.flip .proj-visual { order: 0; }
+        .proj-section.flip .proj-text   { order: 0; }
+        .proj-nav {
+          margin: 0 -1.5em;
+          padding: 0 1.5em;
+        }
+        .proj-header h1 { font-size: 1.6em; }
+      }
+    </style>
   </head>
   <body class="is-preload">
+  <div id="wrapper">
+  <div class="proj-page">
 
-    <!-- Wrapper -->
-    <div id="wrapper">
-
-      <!-- Header -->
-      <header id="header">
-        <a href="index.html" class="logo"><strong>Ryan</strong> <span>Ranjitkar</span></a>
-        <nav><a href="#menu">Menu</a></nav>
-      </header>
-
-      <!-- Menu -->
-      <nav id="menu">
-        <ul class="links">
-          <li><a href="../index.html">Home</a></li>
-          <li><a href="../aboutme.html">About Me</a></li>
-          <li><a href="projects.html">Projects</a></li>
-        </ul>
-      </nav>
-
-      <!-- Overview -->
-      <div id="main" class="alt">
-        <section id="one">
-          <div class="inner">
-            <header class="major">
-              <h1>Embedded Real-Time Digital Oscilloscope</h1>
-            </header>
-            <p>
-              This project involved the progressive development of a <strong>real-time digital oscilloscope and spectrum analyzer</strong>
-              on the <strong>TI EK-TM4C1294XL</strong> microcontroller platform. Across multiple design phases, the system evolved
-              from a bare-metal <strong>C/C++</strong> implementation into a <strong>TI-RTOS</strong>-based embedded instrument capable of
-              <strong>deterministic signal acquisition</strong>, <strong>multi-scale time and voltage scaling</strong>,
-              <strong>edge-trigger detection</strong>, <strong>live CPU-load monitoring</strong>, and <strong>FFT-based spectral analysis</strong>.
-              The final design integrated <strong>DMA-driven sampling</strong>, <strong>timer synchronization</strong>, and <strong>hardware interrupts (Hwi)</strong>
-              to achieve stable 1–2 Msps acquisition with minimal processor overhead.
-            </p>
-          </div>
-        </section>
-      </div>
-
-      <!-- Main Content -->
-      <div id="main">
-        <section id="two" class="spotlights">
-
-          <!-- Section 1 -->
-          <section>
-            <img src="../assets/images/projects/proj1_EmbeddedOscop/image.png" alt="Oscilloscope System Architecture" data-position="top center" />
-            <div class="content">
-              <div class="inner">
-                <header class="major"><h3>Design Approach</h3></header>
-                <p>
-                  The project began as a bare-metal <strong>C/C++ application</strong> implementing core oscilloscope functionality such as
-                  <strong>edge-trigger search</strong>, <strong>voltage scaling</strong>, and <strong>CPU-load measurement</strong>. 
-                  To improve responsiveness, <strong>FIFO buffers</strong> were added to decouple <strong>interrupt service routines (ISRs)</strong>
-                  from main-loop execution. The architecture was later migrated to <strong>TI-RTOS</strong>, where the
-                  <strong>ADC sampling routine</strong> was converted into a <strong>zero-latency Hardware Interrupt (Hwi)</strong>.
-                  Core functionality was modularized into prioritized RTOS tasks for <strong>waveform capture</strong>, 
-                  <strong>signal processing</strong>, <strong>display refresh</strong>, and <strong>user input handling</strong>.
-                  Synchronization primitives—<strong>Semaphores</strong>, <strong>Mailboxes</strong>, and <strong>Mutexes</strong>—ensured safe data sharing
-                  between concurrent tasks. Later iterations integrated a <strong>1024-point FFT</strong> using the <strong>KissFFT library</strong>,
-                  <strong>Blackman windowing</strong> for spectral resolution, and <strong>DMA-based ping-pong buffering</strong> for efficient continuous sampling.
-                  Additional enhancements included <strong>Timer0A-based frequency measurement</strong> and <strong>PWM-driven audio output</strong>,
-                  demanding precise coordination of <strong>timers</strong> and synchronized ISR updates.
-                </p>
-              </div>
-            </div>
-          </section>
-
-          <!-- Section 2 -->
-          <section>
-            <img src="../assets/images/projects/proj1_EmbeddedOscop/falling_1v_50us.png" alt="Trigger and DMA Implementation" data-position="top center" />
-            <div class="content">
-              <div class="inner">
-                <header class="major"><h3>Implementation</h3></header>
-                <p>
-                  The oscilloscope’s real-time performance was achieved through <strong>DMA buffering</strong>, adjustable <strong>time bases</strong>,
-                  and <strong>trigger-synchronized sampling</strong> at 1–2 Msps. Under <strong>TI-RTOS scheduling</strong>, the
-                  <strong>Waveform Task</strong> guaranteed deterministic sampling, while the <strong>Processing Task</strong> handled 
-                  waveform scaling and <strong>FFT computation</strong>. The <strong>Display Task</strong> continuously updated the LCD with 
-                  time-domain plots, frequency grids, and <strong>CPU load indicators</strong>, while the <strong>User Input Task</strong>
-                  managed pushbutton events through Mailboxes.
-                  Transitioning from ISR-driven to <strong>DMA-based sampling</strong> reduced CPU utilization from approximately
-                  <strong>73 %</strong> to <strong>15 %</strong> at 1 Msps, and <strong>30 %</strong> at 2 Msps, leaving substantial headroom for real-time computation.
-                  Frequency-domain visualization was implemented by converting FFT magnitudes to a <strong>dB-scale spectrum</strong>,
-                  with users able to toggle between time- and frequency-domain modes. Other interactive features included
-                  <strong>rising/falling edge triggering</strong>, <strong>dynamic voltage scaling</strong>, and <strong>real-time frequency readout</strong>
-                  for embedded signal analysis.
-                </p>
-              </div>
-            </div>
-          </section>
-
-          <!-- Section 3 -->
-          <section>
-            <img src="../assets/images/projects/proj1_EmbeddedOscop/20us_rising_1v_waveform.png" alt="Final Oscilloscope Output" data-position="top center" />
-            <div class="content">
-              <div class="inner">
-                <header class="major"><h3>Results and Performance</h3></header>
-                <p>
-                  The completed platform functioned as a dual-mode <strong>oscilloscope and spectrum analyzer</strong> with
-                  <strong>real-time audio generation</strong>, all while maintaining deterministic timing. 
-                  Sampling remained stable across all voltage and time scales with <strong>no dropped frames</strong> or 
-                  <strong>missed triggers</strong>. The system delivered high-fidelity time- and frequency-domain displays,
-                  operating within tight RTOS deadlines. 
-                  Measured performance showed sustained 2 Msps throughput with <strong>15–30 % CPU utilization</strong> under DMA,
-                  validating the efficiency of the <strong>task-based RTOS architecture</strong>. 
-                  This project reinforced core principles in <strong>real-time scheduling</strong>,
-                  <strong>signal processing</strong>, <strong>DMA optimization</strong>, and <strong>hardware/software co-design</strong>—
-                  demonstrating how low-level embedded control and RTOS concurrency can yield a scalable, professional-grade 
-                  instrumentation tool.
-                </p>
-              </div>
-            </div>
-          </section>
-
-        </section>
-      </div>
-
-      <!-- View All Projects -->
-      <section id="three" class="view-all-centered">
-        <div class="inner">
-          <header class="major"><h2>View All Projects</h2></header>
-          <p>Explore my other projects in embedded systems, robotics, and real-time control.</p>
-          <ul class="actions">
-            <li><a href="projects.html" class="button next">View All</a></li>
-          </ul>
-        </div>
-      </section>
-
-      <br />
-
-      <!-- Contact -->
-      <section class="split">
-        <section>
-          <div class="contact-method">
-            <h3><span class="icon solid alt fa-envelope"></span>Email</h3>
-            <a href="mailto:rmranjitkar@wpi.edu">rmranjitkar@wpi.edu</a>
-          </div>
-        </section>
-        <section>
-          <div class="contact-method">
-            <h3><span class="icon brands alt fa-linkedin-in"></span>LinkedIn</h3>
-            <a href="https://www.linkedin.com/in/ryanranjitkar/">https://www.linkedin.com/in/ryanranjitkar/</a>
-          </div>
-        </section>
-        <section>
-          <div class="contact-method">
-            <h3><span class="icon brands alt fa-github"></span>GitHub</h3>
-            <a href="https://github.com/rmranjitkar">https://github.com/rmranjitkar</a>
-          </div>
-        </section>
-      </section>
-
+    <!-- Top bar -->
+    <div class="proj-topbar reveal">
+      <a href="../index.html" class="proj-back">← projects</a>
+      <a href="https://github.com/rmranjitkar" target="_blank" class="proj-github">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
+        </svg>
+        GitHub
+      </a>
     </div>
 
-    <!-- Scripts -->
-    <script src="../assets/js/jquery.min.js"></script>
-    <script src="../assets/js/jquery.scrolly.min.js"></script>
-    <script src="../assets/js/jquery.scrollex.min.js"></script>
-    <script src="../assets/js/browser.min.js"></script>
-    <script src="../assets/js/breakpoints.min.js"></script>
-    <script src="../assets/js/util.js"></script>
-    <script src="../assets/js/main.js"></script>
+    <!-- Project header -->
+    <header class="proj-header reveal">
+      <h1>Embedded Real-Time Digital Oscilloscope</h1>
+      <div class="proj-tags">
+        <span class="proj-tag">C/C++</span>
+        <span class="proj-tag">RTOS</span>
+        <span class="proj-tag">Embedded</span>
+        <span class="proj-tag">TI EK-TM4C1294XL</span>
+        <span class="proj-tag">DMA</span>
+        <span class="proj-tag">FFT</span>
+      </div>
+    </header>
+
+    <!-- Sticky in-page nav -->
+    <nav class="proj-nav" id="proj-nav">
+      <a href="#overview"    class="active">Overview</a>
+      <a href="#design">Design Approach</a>
+      <a href="#impl">Implementation</a>
+      <a href="#results">Results</a>
+    </nav>
+
+    <!-- ── Overview ─────────────────────────────── -->
+    <div class="proj-overview reveal" id="overview">
+      <span class="section-tag">// 01</span>
+      <h2>Overview</h2>
+      <div class="proj-text">
+        <p>
+          A progressive real-time digital oscilloscope and spectrum analyzer built on the
+          <strong>TI EK-TM4C1294XL</strong> microcontroller. The system evolved from a bare-metal
+          <strong>C/C++</strong> implementation into a full <strong>TI-RTOS</strong>-based instrument
+          capable of <strong>deterministic signal acquisition</strong>, multi-scale time and voltage
+          scaling, edge-trigger detection, live CPU-load monitoring, and <strong>FFT-based spectral
+          analysis</strong>.
+        </p>
+        <p>
+          The final design integrated <strong>DMA-driven sampling</strong>, timer synchronization,
+          and hardware interrupts to achieve stable <strong>1–2 Msps acquisition</strong> with
+          minimal processor overhead.
+        </p>
+      </div>
+      <div class="proj-overview-img">
+        <img src="../assets/images/projects/proj1_EmbeddedOscop/escope.jpg" alt="Embedded Oscilloscope" />
+      </div>
+    </div>
+
+    <hr class="proj-divider">
+
+    <!-- ── Design Approach ──────────────────────── -->
+    <div class="proj-section reveal" id="design">
+      <div class="proj-visual">
+        <img src="../assets/images/projects/proj1_EmbeddedOscop/image.png" alt="System Architecture" />
+      </div>
+      <div class="proj-text">
+        <span class="section-tag">// 02</span>
+        <h2>Design Approach</h2>
+        <p>
+          The project started as a bare-metal application implementing core oscilloscope functions —
+          <strong>edge-trigger search</strong>, <strong>voltage scaling</strong>, and
+          <strong>CPU-load measurement</strong>. FIFO buffers decoupled ISRs from main-loop
+          execution for better responsiveness.
+        </p>
+        <p>
+          The architecture migrated to <strong>TI-RTOS</strong>, converting the ADC sampling
+          routine into a zero-latency Hardware Interrupt (Hwi). Core functionality was split into
+          prioritized tasks for <strong>waveform capture</strong>, <strong>signal
+          processing</strong>, <strong>display refresh</strong>, and <strong>user input</strong>.
+          Semaphores, Mailboxes, and Mutexes ensured safe data sharing across tasks.
+        </p>
+        <p>
+          Later iterations added a <strong>1024-point FFT</strong> via KissFFT, Blackman windowing,
+          and <strong>DMA-based ping-pong buffering</strong> for continuous sampling.
+        </p>
+      </div>
+    </div>
+
+    <hr class="proj-divider">
+
+    <!-- ── Implementation ───────────────────────── -->
+    <div class="proj-section flip reveal" id="impl">
+      <div class="proj-text">
+        <span class="section-tag">// 03</span>
+        <h2>Implementation</h2>
+        <p>
+          Real-time performance was achieved through <strong>DMA buffering</strong>, adjustable
+          time bases, and trigger-synchronized sampling at <strong>1–2 Msps</strong>. Under
+          TI-RTOS scheduling, the Waveform Task guaranteed deterministic sampling while the
+          Processing Task handled waveform scaling and FFT computation.
+        </p>
+        <p>
+          Switching from ISR-driven to <strong>DMA-based sampling</strong> dropped CPU utilization
+          from ~<strong>73%</strong> to <strong>15%</strong> at 1 Msps, and <strong>30%</strong>
+          at 2 Msps — leaving substantial headroom for real-time computation.
+        </p>
+        <p>
+          FFT magnitudes were mapped to a <strong>dB-scale spectrum</strong> with toggleable
+          time/frequency-domain views, rising/falling edge triggering, and dynamic voltage scaling.
+        </p>
+      </div>
+      <div class="proj-visual">
+        <img src="../assets/images/projects/proj1_EmbeddedOscop/falling_1v_50us.png" alt="Trigger and DMA" />
+      </div>
+    </div>
+
+    <hr class="proj-divider">
+
+    <!-- ── Results ───────────────────────────────── -->
+    <div class="proj-section reveal" id="results">
+      <div class="proj-visual">
+        <img src="../assets/images/projects/proj1_EmbeddedOscop/20us_rising_1v_waveform.png" alt="Oscilloscope Output" />
+      </div>
+      <div class="proj-text">
+        <span class="section-tag">// 04</span>
+        <h2>Results &amp; Performance</h2>
+        <p>
+          The completed platform operated as a dual-mode <strong>oscilloscope and spectrum
+          analyzer</strong> with real-time audio generation, maintaining deterministic timing
+          throughout. Sampling was stable across all voltage and time scales with
+          <strong>no dropped frames</strong> or missed triggers.
+        </p>
+        <p>
+          Sustained <strong>2 Msps throughput at 15–30% CPU utilization</strong> under DMA
+          validated the task-based RTOS architecture. The system delivered high-fidelity time-
+          and frequency-domain displays within tight RTOS deadlines.
+        </p>
+      </div>
+    </div>
+
+    <!-- Footer nav -->
+    <div class="proj-footer-nav reveal">
+      <a href="../index.html">← all projects</a>
+      <a href="#overview">↑ back to top</a>
+    </div>
+
+    <!-- Contact -->
+    <div class="proj-contact reveal">
+      <div class="proj-contact-item">
+        <span class="label">Email</span>
+        <a href="mailto:rmranjitkar@wpi.edu">rmranjitkar@wpi.edu</a>
+      </div>
+      <div class="proj-contact-item">
+        <span class="label">LinkedIn</span>
+        <a href="https://www.linkedin.com/in/ryanranjitkar/">linkedin.com/in/ryanranjitkar</a>
+      </div>
+      <div class="proj-contact-item">
+        <span class="label">GitHub</span>
+        <a href="https://github.com/rmranjitkar">github.com/rmranjitkar</a>
+      </div>
+    </div>
+
+  </div><!-- /.proj-page -->
+  </div><!-- /#wrapper -->
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      document.body.classList.remove('is-preload');
+
+      // ── Scroll-reveal ────────────────────────────────────────
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+          if (!e.isIntersecting) return;
+          io.unobserve(e.target);
+          e.target.classList.add('visible');
+        });
+      }, { threshold: 0.07, rootMargin: '0px 0px -30px 0px' });
+      document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+      // ── Active nav highlight on scroll ───────────────────────
+      const sections = ['overview', 'design', 'impl', 'results'].map(id => document.getElementById(id));
+      const navLinks = Array.from(document.querySelectorAll('.proj-nav a'));
+
+      const navIo = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (!entry.isIntersecting) return;
+          navLinks.forEach(a => a.classList.remove('active'));
+          const link = document.querySelector(`.proj-nav a[href="#${entry.target.id}"]`);
+          if (link) link.classList.add('active');
+        });
+      }, { threshold: 0.35 });
+
+      sections.forEach(s => { if (s) navIo.observe(s); });
+    });
+  </script>
 
   </body>
 </html>
