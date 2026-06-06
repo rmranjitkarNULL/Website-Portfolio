@@ -133,9 +133,9 @@
 
       /* Card A: Now Playing */
       .bc-now-playing { --bc-accent: #7eb8b0; }
-      .bc-music-body { display: flex; gap: 0.6em; align-items: flex-start; flex: 1; min-height: 0; }
+      .bc-music-body { display: flex; gap: 0.6em; align-items: stretch; flex: 1; min-height: 0; }
       .bc-album-art {
-        width: 52px; height: 56px; border-radius: 4px; background: rgba(200,200,210,0.05);
+        aspect-ratio: 1/1; align-self: stretch; border-radius: 4px; background: rgba(200,200,210,0.05);
         flex-shrink: 0; display: flex; align-items: center; justify-content: center; overflow: hidden;
       }
       .bc-album-art img { width: 100%; height: 100%; object-fit: cover; border-radius: 4px; display: block; }
@@ -144,10 +144,6 @@
       .bc-track  { font-size: 0.92em; font-weight: 500; color: rgba(200,200,210,0.85); margin: 0; line-height: 1.3; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
       .bc-artist { font-size: 0.80em; color: rgba(200,200,210,0.50); margin: 0; line-height: 1.3; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
       .bc-album  { font-size: 0.74em; color: rgba(200,200,210,0.28); margin: 0; line-height: 1.3; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-      .bc-progress-track { height: 3px; background: rgba(200,200,210,0.06); border-radius: 2px; overflow: hidden; flex-shrink: 0; }
-      .bc-progress-fill  { height: 100%; background: #7eb8b0; width: 0; border-radius: 2px; transition: width 0.5s ease; }
-      .bc-progress-scan  { animation: bc-scan 200s linear forwards; }
-      @keyframes bc-scan { 0%{width:0%} 100%{width:100%} }
       .bc-eq { display: none; align-items: flex-end; gap: 2px; height: 13px; }
       .bc-eq.active { display: flex; }
       .bc-eq span { width: 3px; background: #7eb8b0; border-radius: 1px; animation: bc-bar 0.8s ease infinite; }
@@ -160,11 +156,21 @@
 
       /* Card B: Steam */
       .bc-steam { --bc-accent: #b09070; }
-      .bc-stat-rows { display: flex; flex-direction: column; flex: 1; }
+      .bc-stat-rows { display: flex; flex-direction: column; }
       .bc-stat-row { display: flex; justify-content: space-between; align-items: center; padding: 0.28em 0; border-bottom: 1px solid rgba(200,200,210,0.05); font-size: 0.88em; }
       .bc-stat-row:last-child { border-bottom: none; }
       .bc-stat-label { color: rgba(200,200,210,0.28); font-size: 0.80em; letter-spacing: 0.04em; }
       .bc-stat-val   { color: rgba(200,200,210,0.70); font-size: 0.86em; text-align: right; max-width: 65%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+      .bc-steam-body { display: flex; gap: 0.6em; align-items: stretch; flex: 1; min-height: 0; }
+      .bc-steam-logo-wrap { aspect-ratio: 2/3; align-self: stretch; border-radius: 4px; overflow: hidden; flex-shrink: 0; background: rgba(200,200,210,0.05); }
+      .bc-steam-logo { width: 100%; height: 100%; object-fit: cover; border-radius: 4px; display: block; }
+      .bc-steam-body .bc-stat-rows { flex: 1; min-width: 0; justify-content: center; }
+      .bc-steam .bc-stat-label { font-size: 0.70em; }
+      .bc-steam .bc-stat-val   { font-size: 0.76em; }
+
+      /* Clickable cards */
+      a.bc-card { text-decoration: none; color: inherit; cursor: pointer; transition: border-left-color 0.2s, background 0.2s; }
+      a.bc-card:hover { background: rgba(10,12,10,0.95); border-left-color: var(--bc-accent, #7eb8b0); }
 
       /* Card C: GitHub */
       .bc-github { --bc-accent: #6a85c0; }
@@ -543,7 +549,7 @@
             <div class="banner-cards-grid">
 
               <!-- Card A: Now Playing -->
-              <div class="bc-card bc-now-playing">
+              <a href="https://www.last.fm/user/rmranjitkar" target="_blank" rel="noopener" class="bc-card bc-now-playing">
                 <div class="bc-header">
                   <span class="bc-label">now playing</span>
                   <span class="bc-eq" id="bc-eq"><span></span><span></span><span></span><span></span><span></span></span>
@@ -559,35 +565,37 @@
                     <p class="bc-album"  id="bc-album">—</p>
                   </div>
                 </div>
-                <div class="bc-progress-track">
-                  <div class="bc-progress-fill" id="bc-progress"></div>
-                </div>
-              </div>
+              </a>
 
               <!-- Card B: Steam -->
-              <div class="bc-card bc-steam">
+              <a id="bc-steam-card" href="https://store.steampowered.com" target="_blank" rel="noopener" class="bc-card bc-steam">
                 <div class="bc-header">
                   <span class="bc-label">steam</span>
                   <span class="bc-label-icon">⬡</span>
                 </div>
-                <div class="bc-stat-rows">
-                  <div class="bc-stat-row">
-                    <span class="bc-stat-label">game</span>
-                    <span class="bc-stat-val" id="bc-steam-game">loading…</span>
+                <div class="bc-steam-body">
+                  <div class="bc-steam-logo-wrap">
+                    <img id="bc-steam-logo" class="bc-steam-logo" src="" alt="" style="display:none">
                   </div>
-                  <div class="bc-stat-row">
-                    <span class="bc-stat-label">last 2 weeks</span>
-                    <span class="bc-stat-val" id="bc-steam-hrs">—</span>
-                  </div>
-                  <div class="bc-stat-row">
-                    <span class="bc-stat-label">status</span>
-                    <span class="bc-stat-val" id="bc-steam-status">—</span>
+                  <div class="bc-stat-rows">
+                    <div class="bc-stat-row">
+                      <span class="bc-stat-label">game</span>
+                      <span class="bc-stat-val" id="bc-steam-game">loading…</span>
+                    </div>
+                    <div class="bc-stat-row">
+                      <span class="bc-stat-label">last 2 weeks</span>
+                      <span class="bc-stat-val" id="bc-steam-hrs">—</span>
+                    </div>
+                    <div class="bc-stat-row">
+                      <span class="bc-stat-label">all time</span>
+                      <span class="bc-stat-val" id="bc-steam-total">—</span>
+                    </div>
                   </div>
                 </div>
-              </div>
+              </a>
 
               <!-- Card C: GitHub -->
-              <div class="bc-card bc-github">
+              <a href="https://github.com/rmranjitkarNULL" target="_blank" rel="noopener" class="bc-card bc-github">
                 <div class="bc-gh-header">
                   <img src="https://github.com/rmranjitkarNULL.png" class="bc-gh-avatar" alt="avatar" onerror="this.style.display='none'">
                   <div class="bc-gh-info">
@@ -604,7 +612,7 @@
                   <span class="bc-gh-repo-name"  id="bc-gh-cmt-repo">—</span>
                   <span class="bc-gh-commit-msg" id="bc-gh-cmt-msg">—</span>
                 </div>
-              </div>
+              </a>
 
               <!-- Card D: RISC-V Emulator -->
               <div class="bc-card bc-riscv">
@@ -901,11 +909,12 @@
           return `${Math.floor(s/86400)}d ago`;
         }
 
+        const _cache = {};
         function cache(key, ttlMs, fn) {
-          const hit = JSON.parse(sessionStorage.getItem(key) || 'null');
+          const hit = _cache[key];
           if (hit && Date.now() - hit.ts < ttlMs) return Promise.resolve(hit.data);
           return fn().then(data => {
-            sessionStorage.setItem(key, JSON.stringify({ ts: Date.now(), data }));
+            _cache[key] = { ts: Date.now(), data };
             return data;
           });
         }
@@ -916,7 +925,8 @@
               const r = await fetch('https://api.github.com/users/rmranjitkarNULL/events/public');
               if (!r.ok) return null;
               const events = await r.json();
-              const push = events.find(e => e.type === 'PushEvent');
+              const push = events.find(e => e.type === 'PushEvent' && e.payload.commits?.length > 0)
+                        || events.find(e => e.type === 'PushEvent');
 
               const now = Date.now(), dayMs = 86400000;
               const heatmap = Array(21).fill(0);
@@ -927,10 +937,26 @@
                 if (age < 1) pulse = true;
               });
 
+              let msg = push ? (push.payload.commits?.[0]?.message || '').split('\n')[0] : null;
+              if (push && !msg) {
+                try {
+                  const sha = push.payload.after;
+                  const commitUrl = sha
+                    ? `https://api.github.com/repos/${push.repo.name}/commits/${sha}`
+                    : `https://api.github.com/repos/${push.repo.name}/commits?per_page=1`;
+                  const cr = await fetch(commitUrl);
+                  if (cr.ok) {
+                    const cd = await cr.json();
+                    const c = Array.isArray(cd) ? cd[0] : cd;
+                    msg = c?.commit?.message?.split('\n')[0] || null;
+                  }
+                } catch { /* noop */ }
+              }
+
               return {
                 repo:    push ? push.repo.name.split('/')[1] : null,
                 url:     push ? `https://github.com/${push.repo.name}` : 'https://github.com/rmranjitkarNULL',
-                msg:     push ? (push.payload.commits?.[0]?.message || 'pushed code').split('\n')[0] : null,
+                msg,
                 time:    push ? push.created_at : null,
                 heatmap: [...heatmap].reverse(),
                 pulse,
@@ -961,7 +987,7 @@
         async function loadLastFm() {
           if (!LASTFM_USER || !LASTFM_KEY) return;
           try {
-            const data = await cache('act_lfm2', 90*1000, async () => {
+            const data = await cache('act_lfm2', 25*1000, async () => {
               const url = `https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=${LASTFM_USER}&api_key=${LASTFM_KEY}&format=json&limit=1`;
               const r = await fetch(url);
               const j = await r.json();
@@ -984,23 +1010,16 @@
               const artEl    = document.getElementById('bc-album-art');
               const eqEl     = document.getElementById('bc-eq');
               const iconEl   = document.getElementById('bc-music-icon');
-              const progEl   = document.getElementById('bc-progress');
+              const cardEl   = document.querySelector('.bc-now-playing');
               if (trackEl)  trackEl.textContent  = data.name;
               if (artistEl) artistEl.textContent = data.artist;
               if (albumEl)  albumEl.textContent  = data.album;
+              if (cardEl)   cardEl.href = `https://www.last.fm/music/${encodeURIComponent(data.artist)}/_/${encodeURIComponent(data.name)}`;
               if (artEl && data.image) {
                 artEl.innerHTML = `<img src="${data.image}" alt="" onerror="this.parentElement.innerHTML='<span class=bc-art-placeholder>♫</span>'">`;
               }
               if (eqEl)   eqEl.classList.toggle('active', !!data.nowplaying);
               if (iconEl) iconEl.style.display = data.nowplaying ? 'none' : '';
-              if (progEl) {
-                if (data.nowplaying) {
-                  progEl.classList.add('bc-progress-scan');
-                } else {
-                  progEl.classList.remove('bc-progress-scan');
-                  progEl.style.width = '0';
-                }
-              }
             } else {
               const trackEl = document.getElementById('bc-track');
               if (trackEl) trackEl.textContent = 'not playing';
@@ -1016,16 +1035,24 @@
               const j = await r.json();
               const game = j.response?.games?.[0];
               if (!game) return null;
-              return { name: game.name, hrs: (game.playtime_2weeks / 60).toFixed(1) };
+              return { name: game.name, hrs: (game.playtime_2weeks / 60).toFixed(1), total: (game.playtime_forever / 60).toFixed(0), appid: game.appid };
             });
             if (data) {
               // Card B
-              const gameEl   = document.getElementById('bc-steam-game');
-              const hrsEl    = document.getElementById('bc-steam-hrs');
-              const statusEl = document.getElementById('bc-steam-status');
-              if (gameEl)   gameEl.textContent   = data.name;
-              if (hrsEl)    hrsEl.textContent    = `${data.hrs}h`;
-              if (statusEl) statusEl.textContent = 'recently played';
+              const gameEl  = document.getElementById('bc-steam-game');
+              const hrsEl   = document.getElementById('bc-steam-hrs');
+              const totalEl = document.getElementById('bc-steam-total');
+              const logoEl  = document.getElementById('bc-steam-logo');
+              const cardEl  = document.getElementById('bc-steam-card');
+              if (gameEl)   gameEl.textContent  = data.name;
+              if (hrsEl)    hrsEl.textContent   = `${data.hrs}h`;
+              if (totalEl)  totalEl.textContent = `${data.total}h`;
+              if (cardEl && data.appid) cardEl.href = `https://store.steampowered.com/app/${data.appid}/`;
+              if (logoEl && data.appid) {
+                logoEl.src = `https://cdn.cloudflare.steamstatic.com/steam/apps/${data.appid}/library_600x900.jpg`;
+                logoEl.style.display = '';
+                logoEl.onerror = () => { logoEl.style.display = 'none'; };
+              }
             } else {
               const gameEl = document.getElementById('bc-steam-game');
               if (gameEl) gameEl.textContent = 'no recent games';
@@ -1055,6 +1082,8 @@
         loadLastFm();
         loadSteam();
         loadGitHubStats();
+
+        setInterval(loadLastFm, 30 * 1000);
 
         // ── Card hover preview ────────────────────────────────────
         document.querySelectorAll('.project-card[data-preview]').forEach(card => {
