@@ -987,21 +987,18 @@
         async function loadLastFm() {
           if (!LASTFM_USER || !LASTFM_KEY) return;
           try {
-            const data = await cache('act_lfm2', 25*1000, async () => {
-              const url = `https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=${LASTFM_USER}&api_key=${LASTFM_KEY}&format=json&limit=1`;
-              const r = await fetch(url);
-              const j = await r.json();
-              const t = j.recenttracks?.track?.[0];
-              if (!t) return null;
-              return {
-                name:       t.name,
-                artist:     t.artist['#text'],
-                album:      t.album?.['#text'] || '',
-                image:      t.image?.[3]?.['#text'] || t.image?.[2]?.['#text'] || '',
-                nowplaying: !!t['@attr']?.nowplaying,
-                time:       t.date ? new Date(t.date.uts * 1000).toISOString() : null,
-              };
-            });
+            const url = `https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=${LASTFM_USER}&api_key=${LASTFM_KEY}&format=json&limit=1`;
+            const r = await fetch(url, { cache: 'no-store' });
+            const j = await r.json();
+            const t = j.recenttracks?.track?.[0];
+            const data = !t ? null : {
+              name:       t.name,
+              artist:     t.artist['#text'],
+              album:      t.album?.['#text'] || '',
+              image:      t.image?.[3]?.['#text'] || t.image?.[2]?.['#text'] || '',
+              nowplaying: !!t['@attr']?.nowplaying,
+              time:       t.date ? new Date(t.date.uts * 1000).toISOString() : null,
+            };
             if (data) {
               // Card A
               const trackEl  = document.getElementById('bc-track');
