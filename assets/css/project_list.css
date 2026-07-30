@@ -19,7 +19,7 @@
 
 /* Card styling */
 .project-card {
-  background: #111115;
+  background: #1e1e1e;
   border-radius: 20px;
   overflow: hidden;
   transition: transform 0.25s ease, box-shadow 0.25s ease;
@@ -75,7 +75,9 @@
 }
 
 .tags span:hover {
-  background-color: #44484b;
+  background-color: #c14a4d;
+  border-color: #e2686b;
+  color: #ffffff;
 }
 
 /* Reduce top spacing between banner and project grid */
